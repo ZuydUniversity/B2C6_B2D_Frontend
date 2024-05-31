@@ -1,5 +1,5 @@
 
-import { AlarmClockOff, ArrowDownNarrowWide, ArrowUpNarrowWide, LucideIcon } from "lucide-react";
+import { AlarmClockOff, Clock3, ShieldHalf, ArrowDownNarrowWide, ArrowUpNarrowWide, LucideIcon } from "lucide-react";
 
 interface IInfoCard {
     title:string;
@@ -12,13 +12,13 @@ const infoCards: IInfoCard[] = [
     {
         title: "Increased Sales",
         bodyText: " Insightful's predictive analytics identify high-value prospects for targeted pitches, boosting conversion rates and sales by up to 20%.",
-        icon: ArrowUpNarrowWide,
+        icon: Clock3,
         id: 1
     },
     {
         title: "No Time Wasted",
         bodyText: "Insightful automates personalized content creation, freeing up sales reps' time for revenue-focused activities and increased productivity.",
-        icon: AlarmClockOff,
+        icon: ShieldHalf,
         id: 2
     },
     {

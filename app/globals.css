@@ -31,3 +31,11 @@ body {
     text-wrap: balance;
   }
 }
+
+
+/* Tailwind CSS is meestal geconfigureerd in een project. Voeg deze regel toe aan je CSS-bestand */
+.hover-text-blue-600:hover {
+  color: #2563eb; /* Dit is de hex-waarde voor bg-blue-600 */
+}
+
+
