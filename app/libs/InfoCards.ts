@@ -10,20 +10,20 @@ interface IInfoCard {
 
 const infoCards: IInfoCard[] = [
     {
-        title: "Increased Sales",
-        bodyText: " Insightful's predictive analytics identify high-value prospects for targeted pitches, boosting conversion rates and sales by up to 20%.",
+        title: "Binnen de Tijd",
+        bodyText: "Onze projectgroep staat bekend om haar efficiëntie en vermogen om deadlines te halen. Dankzij een goed georganiseerd en gemotiveerd team plannen we effectief, stellen we prioriteiten en werken we samen om doelen op tijd te bereiken.",
         icon: Clock3,
         id: 1
     },
     {
-        title: "No Time Wasted",
-        bodyText: "Insightful automates personalized content creation, freeing up sales reps' time for revenue-focused activities and increased productivity.",
+        title: "Multidisciplinair Team",
+        bodyText: "Met ons multidisciplinaire team kunnen we complexe uitdagingen aanpakken en innovatieve oplossingen creëren. Door verschillende disciplines te combineren, realiseren we synergie en buitengewone resultaten.",
         icon: ShieldHalf,
         id: 2
     },
     {
-        title: "Decreased Churn",
-        bodyText: " Insightful's AI lead engagement and renewal tools reduce customer churn by up to 30% through consistent outreach and retention opportunities.",
+        title: "Sterke Communicatie",
+        bodyText: "Heldere communicatie is de basis van ons succes. We waarderen open communicatie binnen ons team en met externe stakeholders. Effectieve communicatie helpt ons verwachtingen af te stemmen, problemen snel op te lossen en elkaar te ondersteunen, wat leidt tot een succesvol project.",
         icon: ArrowDownNarrowWide,
         id: 3
     },
