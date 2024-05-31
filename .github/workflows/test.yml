@@ -1,9 +1,10 @@
-name: Test and Build
+name: Test and Build (Groep 5)
 
 on:
   push:
     branches:
       - 'groep_5_b2d'
+      - 'groep_5_b2d_test'
 
 jobs:
   test:
