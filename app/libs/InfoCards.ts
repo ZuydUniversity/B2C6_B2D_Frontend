@@ -1,5 +1,5 @@
 
-import { AlarmClockOff, Clock3, ShieldHalf, ArrowDownNarrowWide, ArrowUpNarrowWide, LucideIcon } from "lucide-react";
+import { AlarmClockOff, Clock3, ShieldHalf, Speech, ArrowDownNarrowWide, ArrowUpNarrowWide, LucideIcon } from "lucide-react";
 
 interface IInfoCard {
     title:string;
@@ -24,7 +24,7 @@ const infoCards: IInfoCard[] = [
     {
         title: "Sterke Communicatie",
         bodyText: "Communicatie is de basis van ons succes. We waarderen open communicatie binnen ons team en met  stakeholders. Effectieve communicatie helpt ons verwachtingen af te stemmen en problemen snel op te lossen, wat leidt tot een succesvol project.",
-        icon: ArrowDownNarrowWide,
+        icon: Speech,
         id: 3
     },
 ]
