@@ -1,5 +1,7 @@
-"use client";
+"use client"; // Geeft aan dat dit een client-side component is
 
+
+// Importeer de benodigde modules en componenten
 import Spline from '@splinetool/react-spline'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -8,6 +10,7 @@ import { CheckCheck, LucideIcon } from 'lucide-react'
 import { ReactElement } from 'react'
 import pricingCards from './libs/PricingCards'
 
+// Definieer de hoofdcomponent Home
 export default function Home() {
   return (
     <main className='flex min-h-screen h-fit flex-col items-center justify-center relative'>
@@ -49,12 +52,14 @@ export default function Home() {
   )
 }
 
+// Interface definitie voor InfoCard props
 interface IInfoCardProps {
-  title:string;
-  Icon:LucideIcon;
-  children:ReactElement<any,any>
+  title:string; // Titel van de InfoCard
+  Icon:LucideIcon; // Icoon van de InfoCard
+  children:ReactElement<any,any> // Inhoud van de InfoCard
 }
 
+// Definieer de InfoCard component
 function InfoCard({title,Icon,children}:IInfoCardProps) {
   return (
     <div className='w-full h-80 rounded flex flex-col justify-around items-center p-8 bg-gray-900 rounded bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-20'>
@@ -70,7 +75,7 @@ function InfoCard({title,Icon,children}:IInfoCardProps) {
 }
 
 
-
+// Definieer de Navbar component
 function Navbar() {
   return (
     <div className='w-full h-16 backdrop-filter backdrop-blur-xl bg-opacity-20 border-b flex items-center justify-center'>
