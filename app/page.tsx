@@ -28,8 +28,13 @@ const Home = () => {
     }, []);
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500 p-8">
-            <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 text-center">
+        <main className="flex min-h-screen flex-col items-center justify-center p-8" style={{
+            backgroundImage: 'linear-gradient(to right, rgba(59, 130, 246, 0.4), rgba(139, 92, 246, 0.4)), url("https://www.shutterstock.com/shutterstock/videos/1101144295/thumb/1.jpg?ip=x480")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+        }}>
+            <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 text-center bg-opacity-75">
                 <h1 className="text-5xl font-bold mb-6 text-gray-800">Hello World!</h1>
                 <h2 className="text-3xl font-semibold mb-4 text-gray-600">Groep 5 pagina</h2>
                 <p className="text-xl text-gray-500">{joke}</p>
