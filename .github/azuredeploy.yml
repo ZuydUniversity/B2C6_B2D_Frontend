@@ -1,38 +1,36 @@
-name: Build and Deploy to Azure
+name: Test and Deploy (Groep 5)
 
 on:
   push:
     branches:
-      - main
+      - 'groep_5_b2d'
+      - 'groep_5_b2d_test'
 
 jobs:
-  build-and-deploy:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 14
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install dependencies
-      run: npm install
+      - name: Build program
+        run: npm run build
 
-    - name: Build application
-      run: npm run build
+      - name: Run tests
+        run: npm test
 
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+         creds: ${{secrets.AZURE_CRED_GR5}}
 
-    - name: Deploy to Azure
-      uses: azure/appservice-actions@v2
-      with:
-        app-name: my-app-name
-        slot-name: production
-        package-path: .
-        deployment-method: zip
+      - name: Deploy to Azure
+        uses: azure/appservice-actions@v2
+        with:
+         app-name: Groep5.2
+         slot-name: production
+         package-path: .
+         deployment-method: zip

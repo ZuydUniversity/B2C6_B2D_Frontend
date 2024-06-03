@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\.github",
     "\\app",
-    "\\app\\api"
+    "\\__tests__"
   ],
   "PreviewInSolutionExplorer": false
 }
