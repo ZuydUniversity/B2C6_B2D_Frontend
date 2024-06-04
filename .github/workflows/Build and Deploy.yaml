@@ -7,17 +7,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Install Node.js
+
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '20'
-      
-      - name: Install Dependencies
+
+      - name: Install dependencies
         run: npm install
-      
-      - name: Build NEXT.js App
+
+      - name: Build Next.js app
         run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nextjs-build
+          path: .next
