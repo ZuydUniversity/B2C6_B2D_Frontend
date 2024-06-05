@@ -61,12 +61,19 @@ jobs:
           echo -e "Host 52.166.135.125\n\tStrictHostKeyChecking no" > $HOME/.ssh/config
 
       - name: Deploy to Server
+        env:
+          SERVER_PASSWORD: Welkomwelkom123!
         run: |
-          sshpass -p Welkomwelkom123! /usr/bin/rsync -avz --delete .next/ groep1@52.166.135.125:/FrontEnd/.next
-          sshpass -p Welkomwelkom123! /usr/bin/rsync -avz --delete public/ groep1@52.166.135.125:/FrontEnd/public
-          sshpass -p Welkomwelkom123! /usr/bin/rsync -avz --delete package.json groep1@52.166.135.125:/FrontEnd/package.json
-          sshpass -p Welkomwelkom123! ssh -o StrictHostKeyChecking=no groep1@52.166.135.125 "cd /FrontEnd/ && npm install"
-    
+          sshpass -p $SERVER_PASSWORD scp -r .next/ groep1@52.166.135.125:/FrontEnd/.next
+          sshpass -p $SERVER_PASSWORD scp -r public/ groep1@52.166.135.125:/FrontEnd/public
+          sshpass -p $SERVER_PASSWORD scp package.json groep1@52.166.135.125:/FrontEnd/package.json
+          
+      - name: SSH into Server and run npm install
+        env:
+          SERVER_PASSWORD: Welkomwelkom123!
+        run: |
+          sshpass -p $SERVER_PASSWORD ssh groep1@52.166.135.125 "cd /FrontEnd/ && npm install"
+  
       - name: Restart Application
         run: |
-          sshpass -p Welkomwelkom123! ssh groep1@52.166.135.125 "cd FrontEnd && npm run start -- -p 80"
+          ssh groep1@52.166.135.125 "cd FrontEnd && npm run start -- -p 80"
