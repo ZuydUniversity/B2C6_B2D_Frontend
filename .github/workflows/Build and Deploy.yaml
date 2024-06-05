@@ -75,7 +75,7 @@ jobs:
       - name: Deploy to Server
         run: |
           sudo apt-get install rsync
-          sshpass -p ${{env.SERVER_PASSWORD}} rsync -rvz -e 'ssh -o StrictHostKeyChecking=no' --progress ${{env.SERVER_USER}}@${{env.HOST}}:/FrontEnd /FrontEnd
+          sshpass -p ${{env.SERVER_PASSWORD}} rsync -rvz -e 'ssh -o StrictHostKeyChecking=no' --progress /FrontEnd ${{env.SERVER_USER}}@${{env.HOST}}:/FrontEnd
           #sshpass -p ${{env.SERVER_PASSWORD}} ssh -o StrictHostKeyChecking=no ${{env.SERVER_USER}}@${{env.HOST}} "sudo mkdir -p FrontEnd"
           
           
