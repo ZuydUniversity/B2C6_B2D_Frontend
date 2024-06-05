@@ -52,11 +52,16 @@ jobs:
           path: FrontEnd
       
       - name: Install Node.js on Server
-        run: |
-            sshpass -p ${{env.SERVER_PASSWORD}} ssh ${{env.SERVER_USER}}@${{env.HOST}} "
-              curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-              sudo apt-get install -y nodejs
-            "
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{env.HOST}}
+          username: ${{env.SERVER_USER}}
+          password: ${{env.SERVER_PASSWORD}}
+          script: |
+            npm -v &&  npm install npm@latest -g && npm -v
+            sudo npm cache clean -f && sudo npm install -g n && sudo n stable
+          
+
       - name: Deploy to Server
         uses: garygrossgarten/github-action-scp@release
         with:
