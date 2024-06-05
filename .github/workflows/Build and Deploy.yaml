@@ -56,7 +56,9 @@ jobs:
         run: sudo apt-get install -y sshpass
 
       - name: Configure SSH
-        run: echo -e "Host 52.166.135.125\n\tStrictHostKeyChecking no" > ~/.ssh/config
+        run: |
+          mkdir -p $HOME/.ssh
+          echo -e "Host 52.166.135.125\n\tStrictHostKeyChecking no" > $HOME/.ssh/config
 
       - name: Deploy to Server
         run: |
