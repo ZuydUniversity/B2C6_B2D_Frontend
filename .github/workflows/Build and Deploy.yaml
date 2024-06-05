@@ -65,9 +65,9 @@ jobs:
           SERVER_PASSWORD: Welkomwelkom123!
         run: |
           sshpass -p $SERVER_PASSWORD ssh groep1@52.166.135.125 "mkdir -p FrontEnd"
-          sshpass -p $SERVER_PASSWORD scp -r .next/ groep1@52.166.135.125:/FrontEnd/.next
-          sshpass -p $SERVER_PASSWORD scp -r public/ groep1@52.166.135.125:/FrontEnd/public
-          sshpass -p $SERVER_PASSWORD scp package.json groep1@52.166.135.125:/FrontEnd/package.json
+          sshpass -p $SERVER_PASSWORD scp -r .next/ groep1@52.166.135.125:./FrontEnd/.next
+          sshpass -p $SERVER_PASSWORD scp -r public/ groep1@52.166.135.125:./FrontEnd/public
+          sshpass -p $SERVER_PASSWORD scp package.json groep1@52.166.135.125:./FrontEnd/package.json
           
       - name: SSH into Server and run npm install
         env:
