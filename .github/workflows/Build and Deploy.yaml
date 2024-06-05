@@ -62,7 +62,7 @@ jobs:
 
       - name: Copy build artifacts to server
         env:
-          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+          SERVER_PASSWORD: Welkomwelkom123!
         run: |
           sudo scp -r .next/ groep1@52.166.135.125:~/.next
           sudo scp -r public/ groep1@52.166.135.125:~/public
@@ -70,7 +70,7 @@ jobs:
   
       - name: SSH into Server and move files to FrontEnd directory
         env:
-          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+          SERVER_PASSWORD: Welkomwelkom123!
         run: |
           sshpass -p $SERVER_PASSWORD ssh groep1@52.166.135.125 "mv ~/.next /FrontEnd/.next && mv ~/public /FrontEnd/public && mv ~/package.json /FrontEnd/package.json"
           
