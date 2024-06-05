@@ -67,17 +67,12 @@ jobs:
           username: ${{env.SERVER_USER}}
           password: ${{env.SERVER_PASSWORD}}
           script: |
-            echo "Installing npm"
-            sudo npm -v && sudo npm install npm@latest -g && sudo npm -v
-            echo "Done Installing npm"
-            echo "Installing Node"
-            sudo npm cache clean -f && sudo npm install -g n && sudo n stable
-            echo "Done Installing Node"
+            sudo apt update
+            sudo apt install curl -y
+            curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - 
+            sudo apt-get install -y nodejs
             cd FrontEnd && sudo npm install
-          
-
-      
-          
+        
       # - name: SSH into Server and run npm install
       #   run: |
       #     sshpass -p ${{env.SERVER_PASSWORD}} ssh ${{env.SERVER_USER}}@${{env.HOST}} "cd FrontEnd && npm install" 
