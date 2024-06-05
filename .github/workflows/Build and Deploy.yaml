@@ -76,7 +76,7 @@ jobs:
         run: |
           sudo apt-get install rsync
           sshpass -p ${{env.SERVER_PASSWORD}} rsync -rvz -e 'ssh -o StrictHostKeyChecking=no' --progress ${{env.SERVER_USER}}@${{env.HOST}}:/FrontEnd /FrontEnd
-          sshpass -p ${{env.SERVER_PASSWORD}} ssh -o StrictHostKeyChecking=no ${{env.SERVER_USER}}@${{env.HOST}} "sudo mkdir -p FrontEnd"
+          #sshpass -p ${{env.SERVER_PASSWORD}} ssh -o StrictHostKeyChecking=no ${{env.SERVER_USER}}@${{env.HOST}} "sudo mkdir -p FrontEnd"
           
           
       # - name: SSH into Server and run npm install
