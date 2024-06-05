@@ -1,8 +1,9 @@
 name: Build and Deploy NEXT.js App
+
 on:
   push:
     branches:
-      - "geen"
+      - "groep_1_B2D_Said_Amghar"
 
 jobs:
   build:
@@ -28,7 +29,7 @@ jobs:
         with:
           name: nextjs-build
           path: .next
-  
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -51,13 +52,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
       - name: Deploy to Server
         run: |
-          rsync -avz --delete .next/ groep1@52.166.135.125:/path/to/your/app/.next
-          rsync -avz --delete public/ groep1@52.166.135.125:/path/to/your/app/public
-          rsync -avz --delete package.json groep1@52.166.135.125:/path/to/your/app/package.json
-          ssh groep1@52.166.135.125 "cd /path/to/your/app && npm install"
+          sshpass -p Welkomwelkom123! rsync -avz --delete .next/ groep1@52.166.135.125:/FrontEnd/.next
+          sshpass -p Welkomwelkom123! rsync -avz --delete public/ groep1@52.166.135.125:/FrontEnd/public
+          sshpass -p Welkomwelkom123! rsync -avz --delete package.json groep1@52.166.135.125:/FrontEnd/package.json
+          sshpass -p Welkomwelkom123! ssh groep1@52.166.135.125 "cd /FrontEnd/ && npm install"
 
       - name: Restart Application
         run: |
-          ssh groep1@52.166.135.125 "pm2 restart my-nextjs-app || pm2 start npm --name 'my-nextjs-app' -- run start"
+          sshpass -p Welkomwelkom123! ssh groep1@52.166.135.125 "cd FrontEnd && npm run start -- -p 80"
