@@ -62,10 +62,10 @@ jobs:
       # - name: Install dependencies
       #   run: npm install
 
-      - name: Install sshpass & rsync
-        run: |
-          sudo apt-get install -y sshpass
-          sudo apt-get install rsync
+      # - name: Install sshpass & rsync
+      #   run: |
+      #     sudo apt-get install -y sshpass
+      #     sudo apt-get install rsync
 
       # - name: Configure SSH
       #   run: |
@@ -73,12 +73,13 @@ jobs:
       #     echo -e "Host 52.166.135.125\n\tStrictHostKeyChecking no" > $HOME/.ssh/config
 
       - name: Deploy to Server
-        run: |
-          sudo apt-get install rsync
-          sshpass -p ${{env.SERVER_PASSWORD}} ssh -o StrictHostKeyChecking=no ${{env.SERVER_USER}}@${{env.HOST}} "sudo mkdir -p FrontEnd"
-          ls
-          sshpass -p ${{env.SERVER_PASSWORD}} rsync -rvz -e 'ssh -o StrictHostKeyChecking=no' --progress --rsync-path="sudo -u ${{env.SERVER_USER}} rsync" FrontEnd/ ${{env.SERVER_USER}}@${{env.HOST}}:/FrontEnd 
-          
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: FrontEnd
+          remote: FrontEnd
+          host: ${{env.HOST}}
+          username: ${{env.SERVER_USER}}
+          password: ${{env.SERVER_PASSWORD}}
           
       # - name: SSH into Server and run npm install
       #   env:
