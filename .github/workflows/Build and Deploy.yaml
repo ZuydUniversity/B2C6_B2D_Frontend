@@ -69,8 +69,9 @@ jobs:
         env:
           SERVER_PASSWORD: Welkomwelkom123!
         run: |
+          ls
           sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no groep1@52.166.135.125 "sudo mkdir -p Frontend"
-          sshpass -p $SERVER_PASSWORD sudo scp -o StrictHostKeyChecking=no -r FrontEnd groep1@52.166.135.125:/FrontEnd
+          
           
       # - name: SSH into Server and run npm install
       #   env:
