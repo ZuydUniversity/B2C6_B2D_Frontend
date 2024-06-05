@@ -45,33 +45,18 @@ jobs:
     needs: build
 
     steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v2
-
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: FrontEnd
           path: FrontEnd
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-
-      # - name: Install dependencies
-      #   run: npm install
-
-      # - name: Install sshpass & rsync
-      #   run: |
-      #     sudo apt-get install -y sshpass
-      #     sudo apt-get install rsync
-
-      # - name: Configure SSH
-      #   run: |
-      #     mkdir -p $HOME/.ssh
-      #     echo -e "Host 52.166.135.125\n\tStrictHostKeyChecking no" > $HOME/.ssh/config
-
+      
+      - name: Install Node.js on Server
+        run: |
+            sshpass -p ${{env.SERVER_PASSWORD}} ssh ${{env.SERVER_USER}}@${{env.HOST}} "
+              curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+            "
       - name: Deploy to Server
         uses: garygrossgarten/github-action-scp@release
         with:
@@ -83,7 +68,7 @@ jobs:
           
       - name: SSH into Server and run npm install
         run: |
-          sshpass -p ${{env.SERVER_PASSWORD}} ssh ${{env.SERVER_USER}}@${{env.HOST}} "cd /FrontEnd/ && npm install"
+          sshpass -p ${{env.SERVER_PASSWORD}} ssh ${{env.SERVER_USER}}@${{env.HOST}} "cd FrontEnd && npm install" 
   
       # - name: Restart Application
       #   run: |
