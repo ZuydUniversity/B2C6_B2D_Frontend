@@ -62,8 +62,10 @@ jobs:
       # - name: Install dependencies
       #   run: npm install
 
-      - name: Install sshpass
-        run: sudo apt-get install -y sshpass
+      - name: Install sshpass & rsync
+        run: |
+          sudo apt-get install -y sshpass
+          sudo apt-get install rsync -y
 
       # - name: Configure SSH
       #   run: |
@@ -72,7 +74,6 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          sudo apt-get install rsync -y
           sshpass -p ${{env.SERVER_PASSWORD}} rsync -rvz -e 'ssh -o StrictHostKeyChecking=no' --progress ${{env.SERVER_USER}}@${{env.HOST}}:/FrontEnd /FrontEnd
           sshpass -p ${{env.SERVER_PASSWORD}} ssh -o StrictHostKeyChecking=no ${{env.SERVER_USER}}@${{env.HOST}} "sudo mkdir -p FrontEnd"
           
