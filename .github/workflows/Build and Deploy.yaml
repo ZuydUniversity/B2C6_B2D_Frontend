@@ -71,7 +71,7 @@ jobs:
             sudo apt install curl -y
             curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - 
             sudo apt-get install -y nodejs
-            cd FrontEnd && sudo npm install
+            cd FrontEnd && sudo npm install 
         
       # - name: SSH into Server and run npm install
       #   run: |
