@@ -65,16 +65,16 @@ jobs:
           SERVER_PASSWORD: Welkomwelkom123!
         run: |
           sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no groep1@52.166.135.125 "sudo mkdir -p /FrontEnd/.next /FrontEnd/public"
-          sudo sshpass -p $SERVER_PASSWORD scp -r .next/ groep1@52.166.135.125:/FrontEnd/.next
-          sudo sshpass -p $SERVER_PASSWORD scp -r public/ groep1@52.166.135.125:/FrontEnd/public
-          sudo sshpass -p $SERVER_PASSWORD scp package.json groep1@52.166.135.125:/FrontEnd/package.json
+      #     sudo sshpass -p $SERVER_PASSWORD scp -r .next/ groep1@52.166.135.125:/FrontEnd/.next
+      #     sudo sshpass -p $SERVER_PASSWORD scp -r public/ groep1@52.166.135.125:/FrontEnd/public
+      #     sudo sshpass -p $SERVER_PASSWORD scp package.json groep1@52.166.135.125:/FrontEnd/package.json
           
-      - name: SSH into Server and run npm install
-        env:
-          SERVER_PASSWORD: Welkomwelkom123!
-        run: |
-          sshpass -p $SERVER_PASSWORD ssh groep1@52.166.135.125 "cd /FrontEnd/ && npm install"
+      # - name: SSH into Server and run npm install
+      #   env:
+      #     SERVER_PASSWORD: Welkomwelkom123!
+      #   run: |
+      #     sshpass -p $SERVER_PASSWORD ssh groep1@52.166.135.125 "cd /FrontEnd/ && npm install"
   
-      - name: Restart Application
-        run: |
-          ssh groep1@52.166.135.125 "cd FrontEnd && npm run start -- -p 80"
+      # - name: Restart Application
+      #   run: |
+      #     ssh groep1@52.166.135.125 "cd FrontEnd && npm run start -- -p 80"
