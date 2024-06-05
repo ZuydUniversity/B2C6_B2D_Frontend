@@ -71,7 +71,7 @@ jobs:
         run: |
           ls
           cd FrontEnd
-          ls
+          ls -a
           sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no groep1@52.166.135.125 "sudo mkdir -p Frontend"
           
           
