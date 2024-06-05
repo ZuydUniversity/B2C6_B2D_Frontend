@@ -57,9 +57,9 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          sshpass -p Welkomwelkom123! rsync -avz --delete .next/ groep1@52.166.135.125:/FrontEnd/.next
-          sshpass -p Welkomwelkom123! rsync -avz --delete public/ groep1@52.166.135.125:/FrontEnd/public
-          sshpass -p Welkomwelkom123! rsync -avz --delete package.json groep1@52.166.135.125:/FrontEnd/package.json
+          sshpass -p Welkomwelkom123! -o StrictHostKeyChecking=no rsync -avz --delete .next/ groep1@52.166.135.125:/FrontEnd/.next
+          sshpass -p Welkomwelkom123! -o StrictHostKeyChecking=no rsync -avz --delete public/ groep1@52.166.135.125:/FrontEnd/public
+          sshpass -p Welkomwelkom123! -o StrictHostKeyChecking=no rsync -avz --delete package.json groep1@52.166.135.125:/FrontEnd/package.json
           sshpass -p Welkomwelkom123! ssh -o StrictHostKeyChecking=no groep1@52.166.135.125 "cd /FrontEnd/ && npm install"
 
       - name: Restart Application
