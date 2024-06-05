@@ -36,7 +36,7 @@ const Home = () => {
         }}>
             <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 text-center bg-opacity-75">
                 <h1 className="text-5xl font-bold mb-6 text-gray-800">Hello World!</h1>
-                <h2 className="text-3xl font-semibold mb-4 text-gray-600">Groep 5 pagina.</h2>
+                <h2 className="text-3xl font-semibold mb-4 text-gray-600">Groep 5 pagina</h2>
                 <p className="text-xl text-gray-500">{joke}</p>
             </div>
         </main>
