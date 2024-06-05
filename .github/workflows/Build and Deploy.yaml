@@ -55,17 +55,22 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
 
+      - name: Configure SSH
+        run: |
+          mkdir -p $HOME/.ssh
+          echo -e "Host 52.166.135.125\n\tStrictHostKeyChecking no" > $HOME/.ssh/config
+
       - name: Copy build artifacts to server
         env:
-          SERVER_PASSWORD: Welkomwelkom123!
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
         run: |
           scp -r .next/ groep1@52.166.135.125:~/.next
           scp -r public/ groep1@52.166.135.125:~/public
           scp package.json groep1@52.166.135.125:~/package.json
-
+  
       - name: SSH into Server and move files to FrontEnd directory
         env:
-          SERVER_PASSWORD: Welkomwelkom123!
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
         run: |
           sshpass -p $SERVER_PASSWORD ssh groep1@52.166.135.125 "mv ~/.next /FrontEnd/.next && mv ~/public /FrontEnd/public && mv ~/package.json /FrontEnd/package.json"
           
