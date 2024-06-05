@@ -64,9 +64,9 @@ jobs:
         env:
           SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
         run: |
-          scp -r .next/ groep1@52.166.135.125:~/.next
-          scp -r public/ groep1@52.166.135.125:~/public
-          scp package.json groep1@52.166.135.125:~/package.json
+          sudo scp -r .next/ groep1@52.166.135.125:~/.next
+          sudo scp -r public/ groep1@52.166.135.125:~/public
+          sudo scp package.json groep1@52.166.135.125:~/package.json
   
       - name: SSH into Server and move files to FrontEnd directory
         env:
