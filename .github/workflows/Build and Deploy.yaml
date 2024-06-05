@@ -65,7 +65,7 @@ jobs:
           SERVER_PASSWORD: Welkomwelkom123!
         run: |
           sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no groep1@52.166.135.125 "sudo mkdir -p Frontend/.next && sudo mkdir -p Frontend/public"
-          sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no scp -r .next/ groep1@52.166.135.125:/FrontEnd/.next
+          sshpass -p $SERVER_PASSWORD scp -o StrictHostKeyChecking=no -r .next/ groep1@52.166.135.125:/FrontEnd/.next
       #     sudo sshpass -p $SERVER_PASSWORD scp -r public/ groep1@52.166.135.125:/FrontEnd/public
       #     sudo sshpass -p $SERVER_PASSWORD scp package.json groep1@52.166.135.125:/FrontEnd/package.json
           
