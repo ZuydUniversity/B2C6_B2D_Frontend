@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\.github",
-    "\\app",
-    "\\__tests__"
+    "\\.github\\workflows",
+    "\\app"
   ],
+  "SelectedNode": "\\.github\\workflows\\slack-notify.yml",
   "PreviewInSolutionExplorer": false
 }
