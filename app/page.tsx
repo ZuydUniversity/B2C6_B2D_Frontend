@@ -1,6 +1,6 @@
-"use client"; // Add this line at the top
+"use client";
 import { useState, useEffect } from 'react';
-import { Zorgverlener } from './models/Zorgverlener '; // Het pad naar je Zorgverlener interface
+import { Zorgverlener } from './models/Zorgverlener ';
 
 const ZorgverlenersPage = () => {
   const [zorgverleners, setZorgverleners] = useState<Zorgverlener[]>([]);
