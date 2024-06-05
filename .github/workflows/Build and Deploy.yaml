@@ -51,17 +51,6 @@ jobs:
           name: FrontEnd
           path: FrontEnd
       
-      - name: Install Node.js on Server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{env.HOST}}
-          username: ${{env.SERVER_USER}}
-          password: ${{env.SERVER_PASSWORD}}
-          script: |
-            npm -v &&  npm install npm@latest -g && npm -v
-            sudo npm cache clean -f && sudo npm install -g n && sudo n stable
-          
-
       - name: Deploy to Server
         uses: garygrossgarten/github-action-scp@release
         with:
@@ -70,10 +59,24 @@ jobs:
           host: ${{env.HOST}}
           username: ${{env.SERVER_USER}}
           password: ${{env.SERVER_PASSWORD}}
+
+      - name: Install Node.js and dependenties
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{env.HOST}}
+          username: ${{env.SERVER_USER}}
+          password: ${{env.SERVER_PASSWORD}}
+          script: |
+            sudo npm -v && sudo npm install npm@latest -g && sudo npm -v
+            sudo npm cache clean -f && sudo npm install -g n && sudo n stable
+            cd FrontEnd && sudo npm install
           
-      - name: SSH into Server and run npm install
-        run: |
-          sshpass -p ${{env.SERVER_PASSWORD}} ssh ${{env.SERVER_USER}}@${{env.HOST}} "cd FrontEnd && npm install" 
+
+      
+          
+      # - name: SSH into Server and run npm install
+      #   run: |
+      #     sshpass -p ${{env.SERVER_PASSWORD}} ssh ${{env.SERVER_USER}}@${{env.HOST}} "cd FrontEnd && npm install" 
   
       # - name: Restart Application
       #   run: |
