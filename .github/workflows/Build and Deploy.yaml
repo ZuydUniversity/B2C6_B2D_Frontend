@@ -5,6 +5,11 @@ on:
     branches:
       - "groep_1_B2D_Said_Amghar"
 
+env:
+  HOST: 52.166.135.125
+  SERVER_USER: groep1
+  SERVER_PASSWORD: Welkomwelkom123!
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -66,11 +71,10 @@ jobs:
       #     echo -e "Host 52.166.135.125\n\tStrictHostKeyChecking no" > $HOME/.ssh/config
 
       - name: Deploy to Server
-        env:
-          SERVER_PASSWORD: Welkomwelkom123!
         run: |
           echo ${{env.SERVER_PASSWORD}}
-          sshpass -p ${{env.SERVER_PASSWORD}} ssh -o StrictHostKeyChecking=no groep1@52.166.135.125 "sudo mkdir -p Frontend"
+          sshpass -p ${{env.SERVER_PASSWORD}} rsync -rvz -e 'ssh -o StrictHostKeyChecking=no' --progress ${{env.SERVER_USER}}@${{env.HOST}}:/FrontEnd /FrontEnd
+          sshpass -p ${{env.SERVER_PASSWORD}} ssh -o StrictHostKeyChecking=no ${{env.SERVER_USER}}@${{env.HOST}} "sudo mkdir -p FrontEnd"
           
           
       # - name: SSH into Server and run npm install
