@@ -67,8 +67,12 @@ jobs:
           username: ${{env.SERVER_USER}}
           password: ${{env.SERVER_PASSWORD}}
           script: |
+            echo "Installing npm"
             sudo npm -v && sudo npm install npm@latest -g && sudo npm -v
+            echo "Done Installing npm"
+            echo "Installing Node"
             sudo npm cache clean -f && sudo npm install -g n && sudo n stable
+            echo "Done Installing Node"
             cd FrontEnd && sudo npm install
           
 
