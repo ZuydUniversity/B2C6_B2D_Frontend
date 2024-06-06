@@ -8,7 +8,7 @@ const ZorgverlenersPage = () => {
   useEffect(() => {
     const fetchZorgverleners = async () => {
       try {
-        const response = await fetch('http://52.166.135.125:8000/zorgverleners');
+        const response = await fetch('http://127.0.0.1:8000/zorgverleners');
         if (!response.ok) {
           throw new Error('Failed to fetch zorgverleners');
         }
