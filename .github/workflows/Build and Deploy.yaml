@@ -75,5 +75,4 @@ jobs:
   
       - name: Restart Application
         run: |
-          sudo apt-get install sshpass -y
           sshpass -p ${{env.SERVER_PASSWORD}} ssh ${{env.SERVER_USER}}@${{env.HOST}} "cd FrontEnd && sudo npm run start -- -p 80"
