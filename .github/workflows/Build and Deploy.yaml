@@ -70,7 +70,7 @@ jobs:
           username: ${{env.SERVER_USER}}
           password: ${{env.SERVER_PASSWORD}}
           script: |
-            sudo rm -r FrontEnd
+            sudo rm -rf FrontEnd
             
       - name: Deploy to Server
         uses: garygrossgarten/github-action-scp@release
@@ -81,7 +81,7 @@ jobs:
           username: ${{env.SERVER_USER}}
           password: ${{env.SERVER_PASSWORD}}
 
-      - name: Install Node.js and dependenties
+      - name: Install dependenties
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{env.HOST}}
@@ -102,6 +102,7 @@ jobs:
           username: ${{env.SERVER_USER}}
           password: ${{env.SERVER_PASSWORD}}
           script: |
+            ( cd API ; nohup sudo uvicorn main:app --host 0.0.0.0 --port 8000 >api.log 2>&1 </dev/null & )
             ( cd FrontEnd ; nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & )
-            ls
+            
           
