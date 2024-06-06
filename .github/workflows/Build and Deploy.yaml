@@ -103,5 +103,6 @@ jobs:
           password: ${{env.SERVER_PASSWORD}}
           script: |
             cd FrontEnd
-            nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & 
+            nohup sudo npm run start -- -p 80 --prefix /FrontEnd >frontend.log 2>&1 </dev/null &
+
           
