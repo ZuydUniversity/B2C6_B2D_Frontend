@@ -50,6 +50,19 @@ jobs:
           name: FrontEnd
           path: FrontEnd
       
+      - name: Reboot Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{env.HOST}}
+          username: ${{env.SERVER_USER}}
+          password: ${{env.SERVER_PASSWORD}}
+          script: |
+            sudo reboot
+            exit
+
+      - name: Wait for server to reboot
+        run: sleep 20
+
       - name: Clean Old Artefact
         uses: appleboy/ssh-action@v1.0.3
         with:
