@@ -75,4 +75,5 @@ jobs:
   
       - name: Restart Application
         run: |
-          ssh groep1@52.166.135.125 "cd FrontEnd && sudo npm run start -- -p 80"
+          sudo apt-get install sshpass
+          sshpass -p ${{env.SERVER_PASSWORD}} ssh ${{env.SERVER_USER}}@${{env.HOST}} "cd FrontEnd && sudo npm run start -- -p 80"
