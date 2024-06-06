@@ -75,4 +75,5 @@ jobs:
   
       - name: Restart Application
         run: |
-          sshpass -p ${{env.SERVER_PASSWORD}} ssh ${{env.SERVER_USER}}@${{env.HOST}} "cd FrontEnd && sudo npm run start -- -p 80"
+          sshpass -p ${{env.SERVER_PASSWORD}} ssh ${{env.SERVER_USER}}@${{env.HOST}} "cd FrontEnd && nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null &"
+          
