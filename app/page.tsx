@@ -26,6 +26,7 @@ const ZorgverlenersPage = () => {
     <div>
       <h1>Zorgverleners</h1>
       <p>Dit is een CI/CD test </p>
+      <p>Dit is een CI/CD test 2</p>
       <ul>
         {Array.isArray(zorgverleners) && zorgverleners.length > 0 ? (
           zorgverleners.map((zorgverlener) => (
