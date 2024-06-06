@@ -57,7 +57,6 @@ jobs:
           username: ${{env.SERVER_USER}}
           password: ${{env.SERVER_PASSWORD}}
           script: |
-            sudo kill -9 $(ps aux | grep "npm run start" | awk '{print $2}' | head -n 1)
             sudo rm -r FrontEnd
             
       - name: Deploy to Server
@@ -91,5 +90,6 @@ jobs:
           password: ${{env.SERVER_PASSWORD}}
           script: |
             cd FrontEnd
+            sudo kill -9 $(ps aux | grep "npm run start" | awk '{print $2}' | head -n 1)
             nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null &
           
