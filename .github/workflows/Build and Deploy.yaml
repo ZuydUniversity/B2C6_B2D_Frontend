@@ -33,7 +33,7 @@ jobs:
         run: | 
           mkdir FrontEnd
           cp -r .next public package.json FrontEnd/
-          
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -81,5 +81,7 @@ jobs:
           password: ${{env.SERVER_PASSWORD}}
           script: |
             cd FrontEnd
+            sudo kill -9 $(ps aux | grep "npm run start" | awk '{print $2}' | head -n 1)
+            sleep 2
             nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null &
           
