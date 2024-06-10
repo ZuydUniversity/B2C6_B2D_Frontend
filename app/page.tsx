@@ -1,34 +1,33 @@
 'use client'
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import api from "./api";
-import Image from 'next/image'; // Import Image from next/image
+import Image from 'next/image';
 import DateTimePicker from 'react-datetime-picker';
 
-// Custom hook to ensure component runs only on the client side
-const useClient = (effect:() => void) => {
+const useClient = (effect: () => void) => {
   useEffect(() => {
     effect();
   }, []);
 };
 
 const Home = () => {
-  const [appointments, setAppointments] = React.useState<any[]>([]);
-  const [formData, setFormData] = React.useState({
+  const [appointments, setAppointments] = useState<any[]>([]);
+  const [formData, setFormData] = useState({
     name: "",
     description: "",
     location: "",
     department: "",
     date: new Date()
   });
+  const [editData, setEditData] = useState<any | null>(null);
 
-  // Run the effect only on the client side
   useClient(() => {
-    const fetchAppointment = async () => {
+    const fetchAppointments = async () => {
       const response = await api.get("/appointments/");
       setAppointments(response.data);
     };
 
-    fetchAppointment();
+    fetchAppointments();
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +52,63 @@ const Home = () => {
     });
   };
 
+  const handleEditClick = (appointment: any) => {
+    setEditData({
+      id: appointment.id,
+      name: appointment.name,
+      description: appointment.description,
+      location: appointment.location,
+      department: appointment.department,
+      date: new Date(appointment.date)  
+    });
+  };
 
+  const handleDelete = async (id: string) => {
+    try {
+      await api.delete(`/appointments/${id}`);
+      const updatedAppointments = appointments.filter((appointment) => appointment.id !== id);
+      setAppointments(updatedAppointments);
+    } catch (error: any) {
+      console.error("Delete failed:", error);
+      if (error.response) {
+        console.error("Error response data:", error.response.data);
+        console.error("Error response status:", error.response.status);
+        console.error("Error response headers:", error.response.headers);
+      } else if (error.request) {
+        console.error("Request made but no response received:", error.request);
+      } else {
+        console.error("Error message:", error.message);
+      }
+    }
+  };
+  
+  const handleUpdateInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    setEditData({
+      ...editData,
+      [event.target.name]: value,
+    });
+  };
+
+  const handleUpdateSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (editData) {
+      console.log("Submitting update with data:", editData); 
+      try {
+        const response = await api.put(`/appointments/${editData.id}`, editData);
+        console.log("Update response:", response);
+        const getResponse = await api.get("/appointments/");
+        setAppointments(getResponse.data);
+        setEditData(null);
+      } catch (error: any) {
+        console.error("Update failed:", error);
+      }
+    }
+  };
+  
+
+  
+  
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -77,7 +132,7 @@ const Home = () => {
           </a>
         </div>
       </div>
-  
+
       <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
         <Image
           className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
@@ -88,7 +143,7 @@ const Home = () => {
           priority
         />
       </div>
-  
+
       <div>
         <form onSubmit={handleFormSubmit}>
           <div className='mb-3 mt-3'>
@@ -104,7 +159,7 @@ const Home = () => {
               value={formData.name}
             />
           </div>
-  
+
           <div className='mb-3'>
             <label htmlFor='description' className='form-label mb-1'>
               Description 
@@ -118,7 +173,7 @@ const Home = () => {
               value={formData.description}
             />
           </div>
-  
+
           <div className='mb-3'>
             <label htmlFor='location' className='form-label mb-1'>
               Location 
@@ -132,7 +187,7 @@ const Home = () => {
               value={formData.location}
             />
           </div>
-  
+
           <div className='mb-3'>
             <label htmlFor='department' className='form-label mb-1'>
               Department 
@@ -146,7 +201,7 @@ const Home = () => {
               value={formData.department}
             />
           </div>
-  
+
           <div className='mb-3'>
             <label htmlFor='date' className='form-label mb-1'>
               Date 
@@ -157,10 +212,85 @@ const Home = () => {
               className='form-control'
             />
           </div>
-  
+
           <button type='submit' className='btn btn-primary'>Create</button>
         </form>
-        <table className ='table table-striped table-bordered table-hover'>
+
+        {editData && (
+          <form onSubmit={handleUpdateSubmit}>
+            <h3>Update Appointment</h3>
+            <div className='mb-3'>
+              <label htmlFor='editName' className='form-label mb-1'>
+                Name 
+              </label>
+              <input
+                type='text'
+                className='form-control'
+                id='editName'
+                name='name'
+                onChange={handleUpdateInputChange}
+                value={editData.name}
+              />
+            </div>
+
+            <div className='mb-3'>
+              <label htmlFor='editDescription' className='form-label mb-1'>
+                Description 
+              </label>
+              <input
+                type='text'
+                className='form-control'
+                id='editDescription'
+                name='description'
+                onChange={handleUpdateInputChange}
+                value={editData.description}
+              />
+            </div>
+
+            <div className='mb-3'>
+              <label htmlFor='editLocation' className='form-label mb-1'>
+                Location 
+              </label>
+              <input
+                type='text'
+                className='form-control'
+                id='editLocation'
+                name='location'
+                onChange={handleUpdateInputChange}
+                value={editData.location}
+              />
+            </div>
+
+            <div className='mb-3'>
+              <label htmlFor='editDepartment' className='form-label mb-1'>
+                Department 
+              </label>
+              <input
+                type='text'
+                className='form-control'
+                id='editDepartment'
+                name='department'
+                onChange={handleUpdateInputChange}
+                value={editData.department}
+              />
+            </div>
+
+            <div className='mb-3'>
+              <label htmlFor='editDate' className='form-label mb-1'>
+                Date 
+              </label>
+              <DateTimePicker
+                onChange={(value) => setEditData({ ...editData, date: value || new Date() })}
+                value={editData.date}
+                className='form-control'
+              />
+            </div>
+
+            <button type='submit' className='btn btn-primary'>Update</button>
+          </form>
+        )}
+
+        <table className='table table-striped table-bordered table-hover'>
           <thead>
             <tr>
               <th>Name</th>
@@ -168,22 +298,31 @@ const Home = () => {
               <th>Location</th>
               <th>Department</th>
               <th>Date</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {appointments.map((appointment, index) => (
-              <tr key={appointment.id}>
-                <td>{appointment.name}</td>
-                <td>{appointment.description}</td>
-                <td>{appointment.location}</td>
-                <td>{appointment.department}</td>
-                <td>{appointment.date}</td>
-              </tr>
-            ))}
+          {appointments.map((appointment) => (
+  <tr key={appointment.id}>
+    <td>{appointment.name}</td>
+    <td>{appointment.description}</td>
+    <td>{appointment.location}</td>
+    <td>{appointment.department}</td>
+    <td>{appointment.date}</td>
+    <td>
+      <button onClick={() => handleEditClick(appointment)} className='btn btn-warning mr-2'>
+        Edit
+      </button>
+      <button onClick={() => handleDelete(appointment.id)} className='btn btn-danger'>
+        Delete
+      </button>
+    </td>
+  </tr>
+))}
           </tbody>
         </table>
       </div>
-  
+
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
@@ -195,4 +334,5 @@ const Home = () => {
     </main>
   );
 }
+
 export default Home;
