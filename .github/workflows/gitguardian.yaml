@@ -2,11 +2,6 @@ name: GitGuardian scan
 
 on: [push, pull_request]
 
-env:
-    HOST: 52.166.135.125
-    SERVER_USER: groep1
-    SERVER_PASSWORD: Welkomwelkom123!
-
 jobs:
   scanning:
     name: GitGuardian scan
