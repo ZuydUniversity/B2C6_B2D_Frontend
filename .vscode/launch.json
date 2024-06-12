@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "chrome",
+            "name": "http://52.232.64.59",
+            "request": "launch",
+            "url": "http://52.232.64.59"
+        }
+    ]
+}
