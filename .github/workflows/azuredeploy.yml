@@ -61,7 +61,6 @@ jobs:
           AZURE_VM_PASSWORD: ${{ secrets.AZURE_VM_PASSWORD }}
           APPLICATION_PATH: /home/$AZURE_VM_USERNAME/nextjs
         run: |
-          echo "Deploying to Azure VM..."
           sshpass -p $AZURE_VM_PASSWORD ssh $AZURE_VM_USERNAME@$AZURE_VM_IP <<EOF
             cd $APPLICATION_PATH
             git init
