@@ -56,12 +56,11 @@ jobs:
 
       - name: Deploy to Azure VM
         env:
-          AZURE_VM_IP: ${{ secrets.AZURE_VM_IP }}
-          AZURE_VM_USERNAME: ${{ secrets.AZURE_VM_USERNAME }}
-          AZURE_VM_PASSWORD: ${{ secrets.AZURE_VM_PASSWORD }}
-          APPLICATION_PATH: /home/$AZURE_VM_USERNAME/nextjs
+          AZURE_VM_IP: ${{ secrets.AZURE_VM_GROEP5_IP }}
+          AZURE_VM_USERNAME: ${{ secrets.AZURE_VM_GROEP5_USERNAME }}
+          AZURE_VM_PASSWORD: ${{ secrets.AZURE_VM_GROEP5_PASSWORD }}
         run: |
-          sshpass -p azurepass ssh -tt azureuser@51.144.74.229 << 'EOF'
+          sshpass -p $AZURE_VM_PASSWORD ssh -tt $AZURE_VM_USERNAME@$AZURE_VM_IP << 'EOF'
             set -e
             cd /home/azureuser/nextjs
             git init
