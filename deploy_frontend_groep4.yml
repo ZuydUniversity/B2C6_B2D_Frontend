@@ -3,7 +3,11 @@ name: Frontend CI
 on:
   push:
     branches:
-      - groep_4_B2D
+      - "geen"
+
+concurrency:
+ group: groep_4_B2D
+ cancel-in-progress: false
 
 jobs:
   build-frontend:
