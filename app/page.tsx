@@ -7,7 +7,7 @@ import DateTimePicker from 'react-datetime-picker';
 const useClient = (effect: () => void) => {
   useEffect(() => {
     effect();
-  }, []);
+  }, [effect]);
 };
 
 const Home = () => {
@@ -20,6 +20,8 @@ const Home = () => {
     date: new Date()
   });
   const [editData, setEditData] = useState<any | null>(null);
+  const [isDateTimePickerOpen, setIsDateTimePickerOpen] = useState(false);
+  const [isEditDateTimePickerOpen, setIsEditDateTimePickerOpen] = useState(false);
 
   useClient(() => {
     const fetchAppointments = async () => {
@@ -105,231 +107,227 @@ const Home = () => {
       }
     }
   };
-  
 
-  
-  
+  const handleDateChange = (date: Date | null) => {
+    setFormData({ ...formData, date: date || new Date() });
+    setIsDateTimePickerOpen(false); 
+  };
+
+  const handleEditDateChange = (date: Date | null) => {
+    if (editData) {
+      setEditData({ ...editData, date: date || new Date() });
+      setIsEditDateTimePickerOpen(false); 
+    }
+  };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-50">
+      <div className="w-full max-w-5xl">
+        <div className="flex justify-center mb-10">
+          <Image
+            src="/next.svg"
+            alt="Next.js Logo"
+            width={180}
+            height={37}
+            priority
+          />
         </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div>
-        <form onSubmit={handleFormSubmit}>
-          <div className='mb-3 mt-3'>
-            <label htmlFor='name' className='form-label mb-1'>
-              Name 
+        <form onSubmit={handleFormSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div className="mb-4">
+            <label htmlFor='name' className='block text-gray-700 text-sm font-bold mb-2'>
+              Name
             </label>
             <input
               type='text'
-              className='form-control'
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
               id='name'
               name='name'
               onChange={handleInputChange}
               value={formData.name}
             />
           </div>
-
-          <div className='mb-3'>
-            <label htmlFor='description' className='form-label mb-1'>
-              Description 
+          <div className="mb-4">
+            <label htmlFor='description' className='block text-gray-700 text-sm font-bold mb-2'>
+              Description
             </label>
             <input
               type='text'
-              className='form-control'
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
               id='description'
               name='description'
               onChange={handleInputChange}
               value={formData.description}
             />
           </div>
-
-          <div className='mb-3'>
-            <label htmlFor='location' className='form-label mb-1'>
-              Location 
+          <div className="mb-4">
+            <label htmlFor='location' className='block text-gray-700 text-sm font-bold mb-2'>
+              Location
             </label>
             <input
               type='text'
-              className='form-control'
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
               id='location'
               name='location'
               onChange={handleInputChange}
               value={formData.location}
             />
           </div>
-
-          <div className='mb-3'>
-            <label htmlFor='department' className='form-label mb-1'>
-              Department 
+          <div className="mb-4">
+            <label htmlFor='department' className='block text-gray-700 text-sm font-bold mb-2'>
+              Department
             </label>
             <input
               type='text'
-              className='form-control'
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
               id='department'
               name='department'
               onChange={handleInputChange}
               value={formData.department}
             />
           </div>
-
-          <div className='mb-3'>
-            <label htmlFor='date' className='form-label mb-1'>
-              Date 
+          <div className="mb-4">
+            <label htmlFor='date' className='block text-gray-700 text-sm font-bold mb-2'>
+              Date
             </label>
-            <DateTimePicker
-              onChange={(value) => setFormData({ ...formData, date: value || new Date() })}
-              value={formData.date}
-              className='form-control'
-            />
+            <div className='relative'>
+              <input
+                type='text'
+                readOnly
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                value={formData.date.toLocaleString()}
+                onClick={() => setIsDateTimePickerOpen(true)}
+              />
+              {isDateTimePickerOpen && (
+                <div className='absolute z-10'>
+                  <DateTimePicker
+                    onChange={handleDateChange}
+                    value={formData.date}
+                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                  />
+                </div>
+              )}
+            </div>
           </div>
-
-          <button type='submit' className='btn btn-primary'>Create</button>
+          <div className="flex justify-end">
+            <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Create</button>
+          </div>
         </form>
 
         {editData && (
-          <form onSubmit={handleUpdateSubmit}>
-            <h3>Update Appointment</h3>
-            <div className='mb-3'>
-              <label htmlFor='editName' className='form-label mb-1'>
-                Name 
+          <form onSubmit={handleUpdateSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h3 className="text-lg font-bold mb-4">Update Appointment</h3>
+            <div className="mb-4">
+              <label htmlFor='editName' className='block text-gray-700 text-sm font-bold mb-2'>
+                Name
               </label>
               <input
                 type='text'
-                className='form-control'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 id='editName'
                 name='name'
                 onChange={handleUpdateInputChange}
                 value={editData.name}
               />
             </div>
-
-            <div className='mb-3'>
-              <label htmlFor='editDescription' className='form-label mb-1'>
-                Description 
+            <div className="mb-4">
+              <label htmlFor='editDescription' className='block text-gray-700 text-sm font-bold mb-2'>
+                Description
               </label>
               <input
                 type='text'
-                className='form-control'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 id='editDescription'
                 name='description'
                 onChange={handleUpdateInputChange}
                 value={editData.description}
               />
             </div>
-
-            <div className='mb-3'>
-              <label htmlFor='editLocation' className='form-label mb-1'>
-                Location 
+            <div className="mb-4">
+              <label htmlFor='editLocation' className='block text-gray-700 text-sm font-bold mb-2'>
+                Location
               </label>
               <input
                 type='text'
-                className='form-control'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 id='editLocation'
                 name='location'
                 onChange={handleUpdateInputChange}
                 value={editData.location}
               />
             </div>
-
-            <div className='mb-3'>
-              <label htmlFor='editDepartment' className='form-label mb-1'>
-                Department 
+            <div className="mb-4">
+              <label htmlFor='editDepartment' className='block text-gray-700 text-sm font-bold mb-2'>
+                Department
               </label>
               <input
                 type='text'
-                className='form-control'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 id='editDepartment'
                 name='department'
                 onChange={handleUpdateInputChange}
                 value={editData.department}
               />
             </div>
-
-            <div className='mb-3'>
-              <label htmlFor='editDate' className='form-label mb-1'>
-                Date 
+            <div className="mb-4">
+              <label htmlFor='editDate' className='block text-gray-700 text-sm font-bold mb-2'>
+                Date
               </label>
-              <DateTimePicker
-                onChange={(value) => setEditData({ ...editData, date: value || new Date() })}
-                value={editData.date}
-                className='form-control'
-              />
+              <div className='relative'>
+                <input
+                  type='text'
+                  readOnly
+                  className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                  value={editData.date.toLocaleString()}
+                  onClick={() => setIsEditDateTimePickerOpen(true)}
+                />
+                {isEditDateTimePickerOpen && (
+                  <div className='absolute z-10'>
+                    <DateTimePicker
+                      onChange={handleEditDateChange}
+                      value={editData.date}
+                      className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-
-            <button type='submit' className='btn btn-primary'>Update</button>
+            <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Update</button>
           </form>
         )}
 
-        <table className='table table-striped table-bordered table-hover'>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Location</th>
-              <th>Department</th>
-              <th>Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-          {appointments.map((appointment) => (
-  <tr key={appointment.id}>
-    <td>{appointment.name}</td>
-    <td>{appointment.description}</td>
-    <td>{appointment.location}</td>
-    <td>{appointment.department}</td>
-    <td>{appointment.date}</td>
-    <td>
-      <button onClick={() => handleEditClick(appointment)} className='btn btn-warning mr-2'>
-        Edit
-      </button>
-      <button onClick={() => handleDelete(appointment.id)} className='btn btn-danger'>
-        Delete
-      </button>
-    </td>
-  </tr>
-))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        ></a>
+        <div className="mt-10"> {/* Add margin to move the table down */}
+          <table className='min-w-full leading-normal shadow rounded-lg overflow-hidden'>
+            <thead>
+              <tr>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Name</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Description</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Location</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Department</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Date</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {appointments.map((appointment) => (
+                <tr key={appointment.id} className='bg-white border-b'>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{appointment.name}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{appointment.description}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{appointment.location}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{appointment.department}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{appointment.date}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>
+                    <button onClick={() => handleEditClick(appointment)} className='bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2'>
+                      Edit
+                    </button>
+                    <button onClick={() => handleDelete(appointment.id)} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </main>
   );
