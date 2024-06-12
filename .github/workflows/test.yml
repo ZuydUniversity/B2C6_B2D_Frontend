@@ -7,9 +7,9 @@ on:
       - 'groep_5_b2d_test'
 
 env:
-  HOST: ${{ secrets.AZURE_VM_GROEP5_IP }}
-  SERVER_USER: ${{ secrets.AZURE_VM_GROEP5_USERNAME }}
-  SERVER_PASSWORD: ${{ secrets.AZURE_VM_GROEP5_PASSWORD }}
+  HOST: 51.144.74.229
+  SERVER_USER: azureuser
+  SERVER_PASSWORD: azurepass
 
 jobs:
   test:
@@ -83,7 +83,7 @@ jobs:
           username: ${{ env.SERVER_USER }}
           password: ${{ env.SERVER_PASSWORD }}
           script: |
-            echo "${{ env.SERVER_PASSWORD }}" | sudo -S reboot
+            sudo reboot
             exit
       
       - name: Wait for server to reboot
