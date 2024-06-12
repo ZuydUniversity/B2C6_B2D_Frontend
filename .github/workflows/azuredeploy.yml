@@ -61,7 +61,7 @@ jobs:
           AZURE_VM_PASSWORD: ${{ secrets.AZURE_VM_PASSWORD }}
           APPLICATION_PATH: /home/$AZURE_VM_USERNAME/nextjs
         run: |
-          sshpass -p azurepass ssh -tt azureuser@51.144.74.229 << EOF
+          sshpass -p azurepass ssh -tt azureuser@51.144.74.229 << 'EOF'
             set -e
             cd /home/azureuser/nextjs
             git init
