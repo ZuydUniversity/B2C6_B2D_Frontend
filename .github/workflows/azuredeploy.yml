@@ -54,12 +54,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_GROEP5_CREDENTIALS }}
 
-      - name: Install Git, Node.js, and PM2
-        run: |
-          sudo apt update
-          sudo apt install -y git nodejs npm
-          sudo npm install -g pm2
-
       - name: Deploy to Azure VM
         env:
           AZURE_VM_IP: ${{ secrets.AZURE_VM_IP }}
