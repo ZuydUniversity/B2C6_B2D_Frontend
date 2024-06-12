@@ -3,7 +3,7 @@ name: Frontend CI
 on:
   push:
     branches:
-      - "groep_4_B2D"
+      - groep_4_B2D
 
 jobs:
   build-frontend:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with: 
+         ref: groep_4_B2D
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
