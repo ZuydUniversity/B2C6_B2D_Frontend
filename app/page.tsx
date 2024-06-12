@@ -9,9 +9,34 @@ import infoCards from './libs/InfoCards'
 import { CheckCheck, LucideIcon } from 'lucide-react'
 import { ReactElement } from 'react'
 import pricingCards from './libs/PricingCards'
+import { useState } from 'react';
 
-// Definieer de hoofdcomponent Home
+import { Report } from "./Models/Report";
+
 export default function Home() {
+  const [reports, setReports] = useState<Report[]>([]);
+
+  async function fetchReports() {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/Report', { //check if link is right
+            cache: 'no-store' // Zorg ervoor dat fetch altijd de nieuwste data ophaalt
+        });
+        if (!response.ok) {
+            throw new Error('Failed to fetch results');
+        }
+        const reports = await response.json();
+        return reports;
+    } catch (error) {
+        console.error('Error fetching results:', error);
+        return [];
+    }
+  }
+
+  const handleContactButtonClick = async () => {
+    const fetchedReports = await fetchReports();
+    setReports(fetchedReports);
+  };
+
   return (
     <main className='flex min-h-screen h-fit flex-col items-center justify-center relative'>
       <Navbar />
@@ -23,15 +48,12 @@ export default function Home() {
           </div>
           <p className='max-w-md text-sm md:text-base text-zinc-500'>Wij zijn een enthousiaste groep van HBO-ICT studenten aan Zuyd Hogeschool. Onze projectgroep, Synergy, staat voor de kracht van samenwerking, waar diverse talenten en ideeën samenkomen om iets groots te creëren.</p>
           <div className='w-full flex items-center justify-center md:justify-start gap-4'>
-          <button className='w-48 h-12 text-sm sm:text-base rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-colors'>Zie Project</button>
-            <button className='w-48 h-12 text-sm sm:text-base rounded hover:bg-white hover:text-white hover:bg-opacity-5 transition-colors'>Contact</button>
+            <button className='w-48 h-12 text-sm sm:text-base rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-colors'>Zie Project</button>
+            <button className='w-48 h-12 text-sm sm:text-base rounded hover:bg-white hover:text-white hover:bg-opacity-5 transition-colors' onClick={handleContactButtonClick}>Contact</button>
           </div>
         </div>
-
-      
-
-</header>
-<section id="about" className="h-fit min-h-screen w-full flex relative items-center justify-center p-8">
+      </header>
+      <section id="about" className="h-fit min-h-screen w-full flex relative items-center justify-center p-8">
         <div className='absolute -z-10 h-full w-full overflow-hidden'>
           <Image src="/whirl.svg" fill className="absolute object-cover w-full overflow-visible sm:rotate-90" alt="Background Whirl"/>
         </div>
@@ -47,7 +69,7 @@ export default function Home() {
             })}
           </div>
         </div>
-</section>
+      </section>
     </main>
   )
 }
