@@ -3,11 +3,7 @@ name: Frontend CI
 on:
   push:
     branches:
-      - "geen"
-
-concurrency:
- group: groep_4_B2D
- cancel-in-progress: false
+      - "groep_4_B2D"
 
 jobs:
   build-frontend:
@@ -75,12 +71,13 @@ jobs:
            username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
            password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
            script: |
-            ( cd Frontend ; nohup sudo npm run dev -- -p 80 >frontend.log 2>&1 </dev/null & )
+            ( cd Frontend ; nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & )
               
       - name: Notify Slack on Success
         if: success()
         run: |
           curl -X POST -H 'Content-type: application/json' --data '{"text":"Frontend build succeeded :tada:"}' ${{ secrets.SLACK_URL_GROEP4 }}
+          
       - name: Notify Slack on Failure
         if: failure()
         run: |
