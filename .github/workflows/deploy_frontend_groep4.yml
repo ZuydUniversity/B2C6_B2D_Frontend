@@ -28,7 +28,6 @@ jobs:
         run: | 
           mkdir Frontend
           cp -r app .next public package.json Frontend/
-          ls -al Frontend
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -51,15 +50,6 @@ jobs:
            username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
            password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
 
-      - name: Check files on VM
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
-           script: |
-            ls -al Frontend
-
       - name: Install dependencies on VM
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -69,21 +59,10 @@ jobs:
            script: |
             sudo apt update
             sudo apt install curl -y
-            sudo apt install lsof -y 
             curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - 
             sudo apt-get install -y nodejs
             cd Frontend
             sudo npm install
-            ls -al
-
-      - name: Stop existing frontend process
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
-           script: |
-            sudo fuser -k 80/tcp || true
 
       - name: Start frontend
         uses: appleboy/ssh-action@v1.0.3
@@ -92,10 +71,7 @@ jobs:
            username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
            password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
            script: |
-            ( cd Frontend ; nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & )
-            sleep 10
-            if sudo lsof -i:80; then echo "Frontend started successfully"; else echo "Failed to start frontend"; exit 1; fi
-            tail -n 50 frontend.log
+            ( cd Frontend ; nohup sudo npm run dev -- -p 8080 >frontend.log 2>&1 </dev/null & )
               
       #- name: Notify Slack on Success
        # if: success()
