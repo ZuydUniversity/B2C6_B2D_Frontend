@@ -59,9 +59,9 @@ jobs:
         with:
            local: Frontend
            remote: Frontend
-           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+           host: 20.160.204.199
+           username: azureusergroep4
+           password: uYi2frPCOQVscCg
 
       - name: Install dependencies on VM
         uses: appleboy/ssh-action@v1.0.3
