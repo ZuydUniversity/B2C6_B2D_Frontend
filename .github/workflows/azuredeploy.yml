@@ -61,14 +61,16 @@ jobs:
           AZURE_VM_PASSWORD: ${{ secrets.AZURE_VM_PASSWORD }}
           APPLICATION_PATH: /home/$AZURE_VM_USERNAME/nextjs
         run: |
-          sshpass -p azurepass ssh -t azureuser@51.144.74.229
-          cd /home/azureuser/nextjs
-          git init
-          git remote add origin https://github.com/ZuydUniversity/B2C6_B2D_Frontend
-          git pull origin groep_5_b2d_test
-          npm install
-          npm run build
-          pm2 restart all || pm2 start npm --name "nextjs-app" -- start
+          sshpass -p azurepass ssh -tt azureuser@51.144.74.229 << EOF
+            set -e
+            cd /home/azureuser/nextjs
+            git init
+            git remote add origin https://github.com/ZuydUniversity/B2C6_B2D_Frontend
+            git pull origin groep_5_b2d_test
+            npm install
+            npm run build
+            pm2 restart all || pm2 start npm --name "nextjs-app" -- start
+          EOF
 
       - name: Share IP Address
         run: echo "Application deployed to http://${{ secrets.AZURE_VM_GROEP5_IP }}" > deployment_info.txt
