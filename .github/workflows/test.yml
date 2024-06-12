@@ -83,7 +83,7 @@ jobs:
           username: ${{ env.SERVER_USER }}
           password: ${{ env.SERVER_PASSWORD }}
           script: |
-            sudo reboot
+            echo "${{ env.SERVER_PASSWORD }}" | sudo -S reboot
             exit
       
       - name: Wait for server to reboot
@@ -144,3 +144,4 @@ jobs:
           SLACK_USERNAME: Github (Frontend)
           SLACK_WEBHOOK: ${{ secrets.GROEP_5_SLACK_WEBHOOK }}
           SLACK_FOOTER: "http://${{ secrets.AZURE_VM_GROEP5_IP }}"
+    
