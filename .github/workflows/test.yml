@@ -81,9 +81,9 @@ jobs:
         with:
           host: ${{ env.HOST }}
           username: ${{ env.SERVER_USER }}
-          password: ${{ env.SERVER_PASSWORD }}
+          password: ${{ env.SERVER_PASSWORD }}p
           script: |
-            sudo -s reboot
+            sudo reboot
             exit
       
       - name: Wait for server to reboot
