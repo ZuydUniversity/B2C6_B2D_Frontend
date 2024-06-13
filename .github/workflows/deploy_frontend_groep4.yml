@@ -27,8 +27,8 @@ jobs:
       - name: Build artifacts
         run: | 
           mkdir Frontend
-          cp -r app .next public package.json Frontend/
-      
+          cp -r .next public package.json Frontend/
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -41,21 +41,34 @@ jobs:
           name: Frontend
           path: Frontend
 
+      - name: Reboot Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 98.71.218.67
+          username: groep4user
+          password: WelkomWelkom123!
+          script: |
+            sudo reboot
+            exit
+
+      - name: Wait for server to reboot
+        run: sleep 20
+
       - name: Deploy to ubuntu server
         uses: garygrossgarten/github-action-scp@release
         with:
            local: Frontend
            remote: Frontend
-           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
-
+           host: 98.71.218.67
+           username: groep4user
+           password: WelkomWelkom123!
+           
       - name: Install dependencies on VM
         uses: appleboy/ssh-action@v1.0.3
         with:
-           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+           host: 98.71.218.67
+           username: groep4user
+           password: WelkomWelkom123!
            script: |
             sudo apt update
             sudo apt install curl -y
@@ -63,15 +76,15 @@ jobs:
             sudo apt-get install -y nodejs
             cd Frontend
             sudo npm install
-            
+
       - name: Start frontend
         uses: appleboy/ssh-action@v1.0.3
         with:
-           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+           host: 98.71.218.67
+           username: groep4user
+           password: WelkomWelkom123!
            script: |
-            ( cd Frontend ; nohup sudo npm run dev -- -p 80 >frontend.log 2>&1 </dev/null & )
+            ( cd Frontend ; nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & )
               
       #- name: Notify Slack on Success
        # if: success()
