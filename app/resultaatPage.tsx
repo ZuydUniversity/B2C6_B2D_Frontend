@@ -3,7 +3,7 @@ import { Resultaat } from "./Models/Resultaat";
 
 async function fetchResultaten(): Promise<Resultaat[]> {
     try {
-        const response = await fetch('http://127.0.0.1:8000/Resultaten', { //check if link is right
+        const response = await fetch(`${process.env.BACKEND_BASE_URL}/Resultaten`, { //check if link is right
             cache: 'no-store' // Zorg ervoor dat fetch altijd de nieuwste data ophaalt
         });
         if (!response.ok) {
@@ -19,12 +19,12 @@ async function fetchResultaten(): Promise<Resultaat[]> {
 
 async function fetchResultaatById(uuid: UUID): Promise<Resultaat|undefined> {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/resultaat/${uuid}`, {
+        const response = await fetch(`${process.env.BACKEND_BASE_URL}/resultaat/${uuid}`, {
             cache: 'no-store'
         });
 
         if (!response.ok)
-            throw new Error('Failed to fetch results');
+            throw new Error('Failed to fetch results');  // jmp to catcher
 
         const JSON_CONTENT = await response.json();
 
