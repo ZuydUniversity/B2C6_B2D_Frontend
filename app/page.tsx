@@ -1,7 +1,6 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import api from "./api";
-import Image from 'next/image';
 import DateTimePicker from 'react-datetime-picker';
 
 const useClient = (effect: () => void) => {
@@ -124,13 +123,7 @@ const Home = () => {
     <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-50">
       <div className="w-full max-w-5xl">
         <div className="flex justify-center mb-10">
-          <Image
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
+          <h1 className="text-4xl font-bold">Appointment</h1>
         </div>
         <form onSubmit={handleFormSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
