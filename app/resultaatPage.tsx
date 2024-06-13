@@ -1,3 +1,4 @@
+import { UUID } from "crypto";
 import { Resultaat } from "./Models/Resultaat";
 
 async function fetchResultaten(): Promise<Resultaat[]> {
@@ -13,5 +14,23 @@ async function fetchResultaten(): Promise<Resultaat[]> {
     } catch (error) {
         console.error('Error fetching results:', error);
         return [];
+    }
+}
+
+async function fetchResultaatById(uuid: UUID): Promise<Resultaat|undefined> {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/resultaat/${uuid}`, {
+            cache: 'no-store'
+        });
+
+        if (!response.ok)
+            throw new Error('Failed to fetch results');
+
+        const JSON_CONTENT = await response.json();
+
+        return JSON_CONTENT;
+    } catch (error) {
+        console.error('Error fetching results:', error);
+        return;
     }
 }
