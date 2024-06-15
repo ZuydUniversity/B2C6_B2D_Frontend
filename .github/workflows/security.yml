@@ -1,10 +1,11 @@
 name: Security Tests
 
 on:
-  push:
+  workflow_run:
+    workflows: ['Test, Build (Groep 5)']
+    types: [completed]
     branches:
-      - 'groep_5_b2d'
-      - 'groep_5_b2d_test'
+        - 'groep_5_b2d_test'
 
 jobs:
   security-tests:
@@ -28,16 +29,38 @@ jobs:
     - name: Run ESLint
       run: npx eslint . --ext .js,.jsx,.ts,.tsx
 
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/node@v1.5.0
+      with:
+        command: test
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
     - name: Build Docker image
-      run: docker build -t myapp:latest .
+      run: docker build -t rzpg/groep5b2d:latest .
 
-    - name: Scan Docker image with Trivy
-      uses: aquasecurity/trivy-action@master
+    - name: Display Docker logs
+      run: docker logs rzpg/groep5b2d:latest
+
+    - name: Log in to Docker Hub
+      run: echo ${{ secrets.DOCKER_GROEP5_PASSWORD }} | docker login -u ${{ secrets.DOCKER_GROEP5_USERNAME }} --password-stdin
+
+    - name: Push Docker image to Docker Hub
+      run: docker push rzpg/groep5b2d:latest
+
+    - name: SSH to Azure VM and deploy
+      uses: appleboy/ssh-action@v0.1.5
       with:
-        image-ref: 'myapp:latest'
+        host: ${{ secrets.AZURE_VM_GROEP5_IP }}
+        username: ${{ secrets.AZURE_VM_GROEP5_USERNAME }}
+        key: ${{ secrets.AZURE_VM_SSH_KEY_GROEP5 }}
+        port: 22
+        script: |
+          docker pull rzpg/groep5b2d:latest
+          docker stop groep5b2d || true
+          docker rm groep5b2d || true
+          docker run -d --name groep5b2d -p 80:3000 rzpg/groep5b2d:latest
 
   slackNotification:
     needs: security-tests
