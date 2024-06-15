@@ -13,7 +13,7 @@ IMPORTANT: During installation, you must make sure "Automatically install the ne
 - Press the green "Code" button > Open with Visual Studio
 - Copy the `.gitignore` file from the [Source Repository](https://github.com/ZuydUniversity/B2C6_B2D_Frontend) and paste the contents within the `.gitignore` file within your code workspace in Visual Studio.
 - Commit this change by pressing Git > Commit or Stash in the top left of Visual Studio.
-- Push the change to this branch.. It's possible an error regarding `FileContentIndex` is raised. To fix this, right click this folder under the Commit tab on the right, and click "Ignore these local files". Thenn try again. Once no errors are raised, click Fetch, then Pull. Now your code is synced.
+- Try to Push the change to this branch. It's possible an error regarding `FileContentIndex` is raised. To fix this, right click this folder under the Commit tab on the right, and click "Ignore these local files". Thenn try again. Once no errors are raised, click Fetch, then Pull. Now your code is synced.
 - Right click the main folder in the Visual Studio project (B2C6_B2D_Frontend), and click "Open in Terminal"
 - type "npm install" and press enter, wait till everything is installed.
 - type "npm run dev" and press enter, this should start running the server locally.
