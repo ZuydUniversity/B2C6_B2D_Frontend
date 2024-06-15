@@ -8,7 +8,9 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+RUN ls -la && node -v && npm -v
+
+RUN npm run build --loglevel verbose
 
 ENV NODE_ENV production
 
