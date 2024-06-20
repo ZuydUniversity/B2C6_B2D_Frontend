@@ -46,16 +46,16 @@ jobs:
         with:
            local: Frontend
            remote: Frontend
-           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+           host: 20.160.97.126
+           username: groep4user
+           password: WelkomWelkom123!
            
       - name: Install dependencies on VM
         uses: appleboy/ssh-action@v1.0.3
         with:
-           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+           host: 20.160.97.126
+           username: groep4user
+           password: WelkomWelkom123!
            script: |
             sudo apt install curl -y
             curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - 
@@ -66,9 +66,9 @@ jobs:
       - name: Start frontend
         uses: appleboy/ssh-action@v1.0.3
         with:
-           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+           host: 20.160.97.126
+           username: groep4user
+           password: WelkomWelkom123!
            script: |
             ( cd Frontend ; nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & )
               
