@@ -97,6 +97,7 @@ jobs:
            username: groep4user
            password: WelkomWelkom123!
            script: |
+            ( cd Backend ; nohup sudo uvicorn main:app --host 0.0.0.0 --port 8000 >backend.log 2>&1 </dev/null & )
             ( cd Frontend ; nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & )
               
       - name: Notify Slack on Success
