@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    #### Acties op Github Runnner
       - name: Checkout code
         uses: actions/checkout@v2
         
@@ -41,10 +42,22 @@ jobs:
           name: Frontend
           path: Frontend
 
+#### Acties op VM
+      - name: Clean Old Artefact
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+         host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
+         username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
+         password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+         script: |
+          sudo rm -rf Frontend
+
       - name: Deploy to ubuntu server
         uses: garygrossgarten/github-action-scp@release
         with:
+#### Runner
            local: Frontend
+#### Azure VM
            remote: Frontend
            host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
            username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
