@@ -41,8 +41,21 @@ jobs:
         with:
           name: Frontend
           path: Frontend
+
+  #### Acties op VM
+      - name: Reboot Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+           host: 20.160.97.126
+           username: groep4user
+           password: WelkomWelkom123!
+           script: |
+            sudo reboot
+            exit
+
+      - name: Wait for server to reboot
+        run: sleep 20
           
-#### Acties op VM
       - name: Clean Old Artefact
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -76,19 +89,6 @@ jobs:
             sudo apt-get install -y nodejs
             cd Frontend
             sudo npm install
-
-      - name: Reboot Server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-           host: 20.160.97.126
-           username: groep4user
-           password: WelkomWelkom123!
-           script: |
-            sudo reboot
-            exit
-
-      - name: Wait for server to reboot
-        run: sleep 20
 
       - name: Start frontend
         uses: appleboy/ssh-action@v1.0.3
