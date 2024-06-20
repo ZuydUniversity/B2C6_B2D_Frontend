@@ -57,11 +57,11 @@ jobs:
            username: groep4user
            password: WelkomWelkom123!
            script: |
+            sudo apt update
             sudo apt install curl -y
-            sudo apt get update -y
             curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - 
             sudo apt-get install -y nodejs
-            cd Frontend
+            cd FrontEnd
             sudo npm install
 
       - name: Start frontend
