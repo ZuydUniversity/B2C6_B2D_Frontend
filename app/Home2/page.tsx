@@ -1,8 +1,8 @@
 import { UUID } from "crypto";
 import { Resultaat } from "../Models/Resultaat";
-export default function Resultaat() {
-    
-    return<h1>test home </h1>
+export default function Home2()
+{
+    return <h1>welkome on home page2</h1>
     async function fetchResultaten(): Promise<Resultaat[]> {
         try {
             const response = await fetch('http://127.0.0.1:8000/Resultaten', { //check if link is right
@@ -37,3 +37,4 @@ export default function Resultaat() {
         }
     }
 }
+  
