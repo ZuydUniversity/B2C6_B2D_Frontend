@@ -1,5 +1,5 @@
 // app/page.tsx
-import { Zorgverlener } from "./models/Zorgverlener "; // Zorg ervoor dat je pad correct is
+import { Zorgverlener } from "../models/Zorgverlener "; // Zorg ervoor dat je pad correct is
 
 async function fetchZorgverleners(): Promise<Zorgverlener[]> {
   try {
@@ -17,7 +17,7 @@ async function fetchZorgverleners(): Promise<Zorgverlener[]> {
   }
 }
 
-const ZorgverlenersPage = async () => {
+const Home = async () => {
   const zorgverleners: Zorgverlener[] = await fetchZorgverleners();
 
   return (
@@ -27,7 +27,7 @@ const ZorgverlenersPage = async () => {
         {Array.isArray(zorgverleners) && zorgverleners.length > 0 ? (
           zorgverleners.map((zorgverlener) => (
             <li key={zorgverlener.id}>
-              <strong>Naam:</strong> {zorgverlener.naam} {zorgverlener.achternaam}<br />
+              <strong>Naam:</strong> {zorgverlener.name} {zorgverlener.achternaam}<br />
               <strong>Email:</strong> {zorgverlener.email}<br />
             </li>
           ))
@@ -39,5 +39,5 @@ const ZorgverlenersPage = async () => {
   );
 };
 
-export default ZorgverlenersPage;
+export default Home;
 

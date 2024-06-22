@@ -1,6 +1,6 @@
 export interface Zorgverlener {
     id: number;
-    naam: string;
+    name: string;
     achternaam: string;
     email: string
     wachtwoord: string
