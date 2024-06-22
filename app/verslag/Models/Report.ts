@@ -1,4 +1,4 @@
-export interface Report 
+export interface Verslag 
 {
    id: number;
    date: string;
