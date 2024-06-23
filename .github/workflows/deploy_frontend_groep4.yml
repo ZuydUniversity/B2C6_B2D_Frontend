@@ -41,20 +41,15 @@ jobs:
           name: Frontend
           path: Frontend
 
-      - name: Clean SSH Connections
-        run: |
-          sudo pkill ssh || true
-
       - name: Deploy to ubuntu server
-        uses: appleboy/scp-action@master
+        uses: garygrossgarten/github-action-scp@release
         with:
-           source: "Frontend"
-           target: "Frontend"
+           local: Frontend
+           remote: Frontend
            host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
            username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
            password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
-           timeout: 120
-
+           
       - name: Install dependencies on VM
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -79,12 +74,12 @@ jobs:
            script: |
             ( cd Frontend ; nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & )
               
-      - name: Notify Slack on Success
-        if: success()
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Frontend build succeeded :tada:"}' ${{ secrets.GROEP_4_SLACK_WEBHOOK }}
+     # - name: Notify Slack on Success
+      #  if: success()
+       # run: |
+        #  curl -X POST -H 'Content-type: application/json' --data '{"text":"Frontend build succeeded :tada:"}' ${{ secrets.GROEP_4_SLACK_WEBHOOK }}
           
-      - name: Notify Slack on Failure
-        if: failure()
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Frontend build failed :x:"}' ${{ secrets.GROEP_4_SLACK_WEBHOOK }}
+      #- name: Notify Slack on Failure
+       # if: failure()
+       # run: |
+#          curl -X POST -H 'Content-type: application/json' --data '{"text":"Frontend build failed :x:"}' ${{ secrets.GROEP_4_SLACK_WEBHOOK }}
