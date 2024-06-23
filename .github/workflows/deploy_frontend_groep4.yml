@@ -28,7 +28,7 @@ jobs:
         run: | 
           mkdir Frontend
           cp -r .next public package.json Frontend/
-
+          
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -41,15 +41,6 @@ jobs:
           name: Frontend
           path: Frontend
 
-    #  - name: Clean Old Artefact
-     #   uses: appleboy/ssh-action@v1.0.3
-      #  with:
-       #    host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-        #   username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-         #  password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
-          # script: |
-           # sudo rm -rf Frontend
- 
       - name: Deploy to ubuntu server
         uses: garygrossgarten/github-action-scp@release
         with:
@@ -67,12 +58,13 @@ jobs:
            password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
            script: |
             sudo apt update
-            sudo apt install curl -y
-            curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
-            sudo apt-get install -y nodejs
+            if ! node -v | grep "v20."; then
+              curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
+              sudo apt-get install -y nodejs
+            fi
             cd Frontend
             sudo npm install
-
+            
       - name: Start frontend
         uses: appleboy/ssh-action@v1.0.3
         with:
