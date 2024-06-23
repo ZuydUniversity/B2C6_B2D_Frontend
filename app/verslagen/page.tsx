@@ -13,7 +13,9 @@ interface Verslag {
 }
 
 const VerslagenPage = async() => {
-  const res = await fetch('http://127.0.0.1:8000/verslag')
+    const res = await fetch('http://127.0.0.1:8000/verslag', {
+        cache: "no-store"
+    })
   const verslag: Verslag[] = await res.json();
   return (
     <div>

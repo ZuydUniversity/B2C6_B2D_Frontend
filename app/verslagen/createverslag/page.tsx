@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import Link from 'next/link';
 import { Button } from '@nextui-org/react';
 import { Textarea } from '@nextui-org/react';
+import { link } from 'fs';
 
 const CreateVerslagPage: React.FC = () => {
   const dateRef = useRef<HTMLInputElement>(null);
@@ -118,7 +119,7 @@ const CreateVerslagPage: React.FC = () => {
 
         <div>
           <br />
-          <Button type="submit" style={{ backgroundColor: 'lightgreen' }}>
+            <Button type="submit" style={{ backgroundColor: 'lightgreen' }} >
             Verslag aanmaken
           </Button>
         </div>
