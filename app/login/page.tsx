@@ -1,4 +1,6 @@
+import LoginButton from "@/components/LoginButton";
 import styles from "./page.module.css";
+
 
 const LoginPage = async () => {
   return (
@@ -12,7 +14,7 @@ const LoginPage = async () => {
           <input style={{ backgroundImage: "url(/icon_login.png)" }} className="" type="text" placeholder="Je login of e-mailadres" />
           <input style={{ backgroundImage: "url(/icon_password.png)" }} className="" type="text" placeholder="Wachtwoord"/>
           <a href="">Wachtwoord vergeven?</a>
-          <button>Login</button>
+          <LoginButton/>
         </form>
         <p className={styles.sponsorTextHeader}>Mede mogelijk gemaakt door</p>
         <div className={styles.loginFooter}>
