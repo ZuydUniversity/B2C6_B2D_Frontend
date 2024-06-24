@@ -1,0 +1,98 @@
+.loginPage {
+    display: flex;
+    flex-direction: row;
+    height: 100vh; /* Zorgt ervoor dat de pagina binnen de viewport past */
+    margin: 0;
+    align-items: stretch;
+    padding: 2rem;
+  }
+  
+  .loginContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    overflow: hidden; /* Verberg eventuele overloop */
+  }
+  
+  .imageContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Verberg eventuele overloop */
+  }
+  
+  .imageContainer img {
+    height: 100%;
+    width: auto;
+  }
+  
+  .loginHeader {
+    display: flex;
+    padding: 1rem;
+  }
+  
+  .loginHeader h1 {
+    display: flex;
+    font-size: xx-large;
+    font-weight: 700;
+    border-bottom: 2px solid rgb(0, 0, 45);
+    padding-right: 3rem;
+    color: rgb(0, 0, 45);
+  }
+  
+  .loginForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    max-height: 60%; /* Max hoogte instellen om overloop te voorkomen */
+  }
+
+  .loginForm a{
+    color: rgb(131, 148, 181);
+  }
+  
+  .loginForm input {
+    margin: 1rem;
+    margin-left: 0;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid rgb(130, 145, 205);
+    background-color: rgb(216, 234, 255);
+    padding-left: 60px;
+    background-size: 50px;
+    background-repeat: no-repeat;
+    background-position: left;
+    background-position: 5px;
+  }
+  
+  .loginForm button {
+    color: white;
+    background-color: rgb(30, 36, 213);
+    align-self: flex-end;
+    margin: 1rem;
+    padding: 3rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 18px;
+  }
+  
+  .loginFooter {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-grow: 1;
+  }
+  
+  .loginFooter img {
+    flex: 1;
+    max-width: 30%;
+    height: auto;
+  }
+  
+  .sponsorTextHeader {
+    color: rgb(131, 148, 181);
+    border-bottom: 2px solid rgb(131, 148, 181);
+  }
+  
