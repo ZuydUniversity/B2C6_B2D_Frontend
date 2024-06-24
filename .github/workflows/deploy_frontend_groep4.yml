@@ -27,7 +27,7 @@ jobs:
       - name: Build artifacts
         run: | 
           mkdir Frontend
-          cp -r .next public package.json Frontend/
+          cp -r .next public package.json package-lock.json Frontend/
           
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -50,7 +50,7 @@ jobs:
            username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
            password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
            
-      - name: Install dependencies on VM
+      - name: Update dependencies on VM
         uses: appleboy/ssh-action@v1.0.3
         with:
            host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
@@ -60,7 +60,7 @@ jobs:
             sudo apt update
             sudo apt install curl -y
             cd Frontend
-            sudo npm install
+            sudo npm ci
             
       - name: Start frontend
         uses: appleboy/ssh-action@v1.0.3
@@ -71,12 +71,12 @@ jobs:
            script: |
             ( cd Frontend ; nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & )
               
-   #   - name: Notify Slack on Success
-    #    if: success()
-     #   run: |
-      #    curl -X POST -H 'Content-type: application/json' --data '{"text":"Frontend build succeeded :tada:"}' ${{ secrets.GROEP_4_SLACK_WEBHOOK }}
+      - name: Notify Slack on Success
+        if: success()
+        run: |
+         curl -X POST -H 'Content-type: application/json' --data '{"text":"Frontend build succeeded :tada:"}' ${{ secrets.GROEP_4_SLACK_WEBHOOK }}
           
-     # - name: Notify Slack on Failure
-      #  if: failure()
-       # run: |
-        #  curl -X POST -H 'Content-type: application/json' --data '{"text":"Frontend build failed :x:"}' ${{ secrets.GROEP_4_SLACK_WEBHOOK }}
+      - name: Notify Slack on Failure
+        if: failure()
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Frontend build failed :x:"}' ${{ secrets.GROEP_4_SLACK_WEBHOOK }}
