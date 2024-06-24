@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link';
-import { Verslag } from '../Models/Verslag'; // Pas het pad aan naar waar je types.ts bestand zich bevindt
+import { Verslag } from '../Models/Verslag'; 
 
 const VerslagenPage = async () => {
     try {
