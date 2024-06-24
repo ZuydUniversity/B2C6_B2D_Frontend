@@ -18,6 +18,8 @@ const CreateVerslagPage: React.FC = () => {
     const healthComplaintsValue = healthComplaintsRef.current!.value;
     const medicalHistoryValue = medicalHistoryRef.current!.value;
     const diagnoseValue = diagnoseRef.current!.value;
+    const zorgverlener_id = null;
+    const patient_id = null
 
     try {
       const response = await fetch('http://127.0.0.1:8000/verslag', {
@@ -30,6 +32,8 @@ const CreateVerslagPage: React.FC = () => {
           healthcomplaints: healthComplaintsValue,
           medicalhistory: medicalHistoryValue,
           diagnose: diagnoseValue,
+          zorgverlener_id: null,
+          patient_id: null
         }),
       });
 
