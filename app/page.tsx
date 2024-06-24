@@ -1,10 +1,8 @@
+import { redirect } from 'next/navigation'
 
-const Home = async () => {
-  return (
-    <div>
-      <h1>Home</h1>
-    </div>
-  );
+
+const LandingPage = async () => {
+  redirect('/dashboard')
 };
 
-export default Home;
+export default LandingPage;
