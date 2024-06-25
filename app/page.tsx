@@ -367,7 +367,7 @@ const Home = () => {
             <h3 className="text-lg font-bold mb-4">Update patient</h3>
             <div className="mb-4">
               <label htmlFor='editName' className='block text-gray-700 text-sm font-bold mb-2'>
-                Name
+                Name111
               </label>
               <input
                 type='text'
