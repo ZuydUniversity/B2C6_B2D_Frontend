@@ -145,7 +145,7 @@
 //             </li>
 //           ))
 //         ) : (
-//           <li>Geen patiënten gevonden!</li>
+//           <li>Geen patienten gevonden!</li>
 //         )}
 //       </ul>
 //     </div>
@@ -157,7 +157,6 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import api from "./api";
-//import DateTimePicker from 'react-datetime-picker';
 
 const useClient = (effect: () => void) => {
   useEffect(() => {
@@ -166,25 +165,28 @@ const useClient = (effect: () => void) => {
 };
 
 const Home = () => {
-  const [patiënts, setpatiënts] = useState<any[]>([]);
+  const [patients, setpatients] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     name: "",
-    description: "",
-    location: "",
-    department: "",
-    date: new Date()
+    surname: "",
+    age: "",
+    gender: "",
+    address: "",
+    city: "",
+    email: "",
+    diagnosis:"",
+    medication: "",
+    phonenumber: ""
   });
   const [editData, setEditData] = useState<any | null>(null);
-  const [isDateTimePickerOpen, setIsDateTimePickerOpen] = useState(false);
-  const [isEditDateTimePickerOpen, setIsEditDateTimePickerOpen] = useState(false);
+
 
   useClient(() => {
-    const fetchpatiënts = async () => {
-      const response = await api.get("/patiënts/");
-      setpatiënts(response.data);
+    const fetchpatients = async () => {
+      const response = await api.get("/patients/");
+      setpatients(response.data);
     };
-
-    fetchpatiënts();
+    fetchpatients();
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -197,15 +199,20 @@ const Home = () => {
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await api.post("/patiënts/", formData);
-    const response = await api.get("/patiënts/");
-    setpatiënts(response.data);
+    await api.post("/patients/", formData);
+    const response = await api.get("/patients/");
+    setpatients(response.data);
     setFormData({
       name: "",
-      description: "",
-      location: "",
-      department: "",
-      date: new Date()
+      surname: "",
+      age: "",
+      gender: "",
+      address: "",
+      city: "",
+      email: "",
+      diagnosis: "", 
+      medication: "",
+      phonenumber: ""
     });
   };
 
@@ -213,18 +220,23 @@ const Home = () => {
     setEditData({
       id: patient.id,
       name: patient.name,
-      description: patient.description,
-      location: patient.location,
-      department: patient.department,
-      date: new Date(patient.date)  
+      surname: patient.surname,
+      age: patient.age,
+      gender: patient.gender,
+      address: patient.address,
+      city: patient.city,
+      email: patient.email,
+      diagnosis: patient.diagnosis,
+      medication: patient.medication,
+      phonenumber: patient.phonenumber
     });
   };
 
   const handleDelete = async (id: string) => {
     try {
-      await api.delete(`/patiënts/${id}`);
-      const updatedpatiënts = patiënts.filter((patient) => patient.id !== id);
-      setpatiënts(updatedpatiënts);
+      await api.delete(`/patients/${id}`);
+      const updatedpatients = patients.filter((patient) => patient.id !== id);
+      setpatients(updatedpatients);
     } catch (error: any) {
       console.error("Delete failed:", error);
       if (error.response) {
@@ -252,10 +264,10 @@ const Home = () => {
     if (editData) {
       console.log("Submitting update with data:", editData); 
       try {
-        const response = await api.put(`/patiënts/${editData.id}`, editData);
+        const response = await api.put(`/patients/${editData.id}`, editData);
         console.log("Update response:", response);
-        const getResponse = await api.get("/patiënts/");
-        setpatiënts(getResponse.data);
+        const getResponse = await api.get("/patients/");
+        setpatients(getResponse.data);
         setEditData(null);
       } catch (error: any) {
         console.error("Update failed:", error);
@@ -263,25 +275,14 @@ const Home = () => {
     }
   };
 
-  const handleDateChange = (date: Date | null) => {
-    setFormData({ ...formData, date: date || new Date() });
-    setIsDateTimePickerOpen(false); 
-  };
-
-  const handleEditDateChange = (date: Date | null) => {
-    if (editData) {
-      setEditData({ ...editData, date: date || new Date() });
-      setIsEditDateTimePickerOpen(false); 
-    }
-  };
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-50">
       <div className="w-full max-w-5xl">
         <div className="flex justify-center mb-10">
-          <h1 className="text-4xl font-bold">patient</h1>
+          <h1 className="text-4xl font-bold text-black">Patient</h1>
         </div>
         <form onSubmit={handleFormSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          
           <div className="mb-4">
             <label htmlFor='name' className='block text-gray-700 text-sm font-bold mb-2'>
               Name
@@ -293,81 +294,146 @@ const Home = () => {
               name='name'
               onChange={handleInputChange}
               value={formData.name}
-            />
+              />
           </div>
+          
           <div className="mb-4">
-            <label htmlFor='description' className='block text-gray-700 text-sm font-bold mb-2'>
-              Description
-            </label>
-            <input
-              type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='description'
-              name='description'
-              onChange={handleInputChange}
-              value={formData.description}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor='location' className='block text-gray-700 text-sm font-bold mb-2'>
-              Location
-            </label>
-            <input
-              type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='location'
-              name='location'
-              onChange={handleInputChange}
-              value={formData.location}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor='department' className='block text-gray-700 text-sm font-bold mb-2'>
-              Department
-            </label>
-            <input
-              type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='department'
-              name='department'
-              onChange={handleInputChange}
-              value={formData.department}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor='date' className='block text-gray-700 text-sm font-bold mb-2'>
-              Date
-            </label>
-            <div className='relative'>
+              <label htmlFor='surname' className='block text-gray-700 text-sm font-bold mb-2'>
+                Surname
+              </label>
               <input
                 type='text'
-                readOnly
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                value={formData.date.toLocaleString()}
-                onClick={() => setIsDateTimePickerOpen(true)}
-              />
-              {isDateTimePickerOpen && (
-                <div className='absolute z-10'>
-                  {/* <DateTimePicker
-                    onChange={handleDateChange}
-                    value={formData.date}
-                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                  /> */}
-                </div>
-              )}
-            </div>
+                id='surname'
+                name='surname'
+                onChange={handleInputChange}
+                value={formData.surname}
+                />
           </div>
+
+          <div className="mb-4">
+            <label htmlFor='age' className='block text-gray-700 text-sm font-bold mb-2'>
+              Age
+            </label>
+            <input
+              type='text'
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='age'
+              name='age'
+              onChange={handleInputChange}
+              value={formData.age}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor='gender' className='block text-gray-700 text-sm font-bold mb-2'>
+              Gender
+            </label>
+            <input
+              type='text'
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='gender'
+              name='gender'
+              onChange={handleInputChange}
+              value={formData.gender}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor='address' className='block text-gray-700 text-sm font-bold mb-2'>
+              Address
+            </label>
+            <input
+              type='text'
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='address'
+              name='address'
+              onChange={handleInputChange}
+              value={formData.address}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor='city' className='block text-gray-700 text-sm font-bold mb-2'>
+              City
+            </label>
+            <input
+              type='text'
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='city'
+              name='city'
+              onChange={handleInputChange}
+              value={formData.city}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor='email' className='block text-gray-700 text-sm font-bold mb-2'>
+              Email
+            </label>
+            <input
+              type='text'
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='email'
+              name='email'
+              onChange={handleInputChange}
+              value={formData.email}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor='diagnosis' className='block text-gray-700 text-sm font-bold mb-2'>
+              Diagnosis
+            </label>
+            <input
+              type='text'
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='diagnosis'
+              name='diagnosis'
+              onChange={handleInputChange}
+              value={formData.diagnosis}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor='medication' className='block text-gray-700 text-sm font-bold mb-2'>
+              Medication
+            </label>
+            <input
+              type='text'
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='medication'
+              name='medication'
+              onChange={handleInputChange}
+              value={formData.medication}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor='phonenumber' className='block text-gray-700 text-sm font-bold mb-2'>
+              Phonenumber
+            </label>
+            <input
+              type='text'
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='phonenumber'
+              name='phonenumber'
+              onChange={handleInputChange}
+              value={formData.phonenumber}
+            />
+          </div>
+
           <div className="flex justify-end">
-            <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Create</button>
+            <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Create Patient</button>
           </div>
         </form>
 
         {editData && (
           <form onSubmit={handleUpdateSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <h3 className="text-lg font-bold mb-4">Update patient</h3>
+            <h3 className="text-lg font-bold mb-4">Update Patient</h3>
             <div className="mb-4">
               <label htmlFor='editName' className='block text-gray-700 text-sm font-bold mb-2'>
-                Name111
+                Name
               </label>
               <input
                 type='text'
@@ -378,68 +444,136 @@ const Home = () => {
                 value={editData.name}
               />
             </div>
+
             <div className="mb-4">
-              <label htmlFor='editDescription' className='block text-gray-700 text-sm font-bold mb-2'>
-                Description
+              <label htmlFor='editSurname' className='block text-gray-700 text-sm font-bold mb-2'>
+                Surname
               </label>
               <input
                 type='text'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                id='editDescription'
-                name='description'
+                id='editSurname'
+                name='surname'
                 onChange={handleUpdateInputChange}
-                value={editData.description}
+                value={editData.surname}
               />
             </div>
+
             <div className="mb-4">
-              <label htmlFor='editLocation' className='block text-gray-700 text-sm font-bold mb-2'>
-                Location
+              <label htmlFor='editAge' className='block text-gray-700 text-sm font-bold mb-2'>
+                Age
               </label>
               <input
                 type='text'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                id='editLocation'
-                name='location'
+                id='editAge'
+                name='age'
                 onChange={handleUpdateInputChange}
-                value={editData.location}
+                value={editData.age}
               />
             </div>
+
             <div className="mb-4">
-              <label htmlFor='editDepartment' className='block text-gray-700 text-sm font-bold mb-2'>
-                Department
+              <label htmlFor='editGender' className='block text-gray-700 text-sm font-bold mb-2'>
+                Gender
               </label>
               <input
                 type='text'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                id='editDepartment'
-                name='department'
+                id='editGender'
+                name='gender'
                 onChange={handleUpdateInputChange}
-                value={editData.department}
+                value={editData.gender}
               />
             </div>
+
             <div className="mb-4">
-              <label htmlFor='editDate' className='block text-gray-700 text-sm font-bold mb-2'>
-                Date
+              <label htmlFor='editAddress' className='block text-gray-700 text-sm font-bold mb-2'>
+                Address
               </label>
-              <div className='relative'>
-                <input
-                  type='text'
-                  readOnly
-                  className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                  value={editData.date.toLocaleString()}
-                  onClick={() => setIsEditDateTimePickerOpen(true)}
-                />
-                {isEditDateTimePickerOpen && (
-                  <div className='absolute z-10'>
-                    {/* <DateTimePicker
-                      onChange={handleEditDateChange}
-                      value={editData.date}
-                      className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                    /> */}
-                  </div>
-                )}
-              </div>
+              <input
+                type='text'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                id='editAddress'
+                name='address'
+                onChange={handleUpdateInputChange}
+                value={editData.address}
+              />
             </div>
+
+
+
+            <div className="mb-4">
+              <label htmlFor='editCity' className='block text-gray-700 text-sm font-bold mb-2'>
+                City
+              </label>
+              <input
+                type='text'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                id='editCity'
+                name='city'
+                onChange={handleUpdateInputChange}
+                value={editData.city}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor='editEmail' className='block text-gray-700 text-sm font-bold mb-2'>
+                Email
+              </label>
+              <input
+                type='text'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                id='editEmail'
+                name='email'
+                onChange={handleUpdateInputChange}
+                value={editData.email}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor='editDiagnosis' className='block text-gray-700 text-sm font-bold mb-2'>
+                Diagnosis
+              </label>
+              <input
+                type='text'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                id='editDiagnosis'
+                name='diagnosis'
+                onChange={handleUpdateInputChange}
+                value={editData.diagnosis}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor='editMedication' className='block text-gray-700 text-sm font-bold mb-2'>
+                Medication
+              </label>
+              <input
+                type='text'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                id='editMedication'
+                name='medication'
+                onChange={handleUpdateInputChange}
+                value={editData.medication}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor='editPhonenumber' className='block text-gray-700 text-sm font-bold mb-2'>
+                Phonenumber
+              </label>
+              <input
+                type='text'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                id='editPhonenumber'
+                name='phonenumber'
+                onChange={handleUpdateInputChange}
+                value={editData.phonenumber}
+              />
+            </div>    
+            
+           
             <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Update</button>
           </form>
         )}
@@ -449,21 +583,30 @@ const Home = () => {
             <thead>
               <tr>
                 <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Name</th>
-                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Description</th>
-                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Location</th>
-                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Department</th>
-                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Date</th>
-                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Actions</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Surname</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Age</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Gender</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Address</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>City</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Email</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Diagnosis</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Medication</th>
+                <th className='px-5 py-3 bg-gray-200 text-gray-600 text-left text-sm uppercase font-bold'>Phonenumber</th>
               </tr>
             </thead>
             <tbody>
-              {patiënts.map((patient) => (
+              {patients.map((patient) => (
                 <tr key={patient.id} className='bg-white border-b'>
-                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.name}</td>
-                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.description}</td>
-                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.location}</td>
-                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.department}</td>
-                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.date}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.Name}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.Surname}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.Age}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.Gender}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.Address}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.City}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.Email}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.Diagnosis}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.Medication}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{patient.Phonenumber}</td>
                   <td className='px-5 py-5 border-gray-200 text-sm'>
                     <button onClick={() => handleEditClick(patient)} className='bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2'>
                       Edit
