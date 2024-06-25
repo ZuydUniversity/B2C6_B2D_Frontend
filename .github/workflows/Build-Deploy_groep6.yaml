@@ -67,8 +67,10 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{env.HOST}}
-          username: ${{env.SERVER_USER}}
-          password: ${{env.SERVER_PASSWORD}}
+          # username: ${{env.SERVER_USER}}
+          username: groep6
+          # password: ${{env.SERVER_PASSWORD}}
+          password: Welkom123456!
           script: |
             sudo rm -rf FrontEnd
             
