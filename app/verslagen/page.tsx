@@ -22,7 +22,9 @@ const VerslagenPage = async () => {
                         {verslag.map(verslag => (
                             <li key={verslag.id}>
                                 {verslag.date}, {verslag.healthcomplaints}, {verslag.medicalhistory}, {verslag.diagnose}
-                                <button style={{color: 'grey'}}>&nbsp; &nbsp; aanpassen</button>
+                                <Link href={`../verslagen/updateverslag?id=${verslag.id}`}>
+                                    <button style={{color: 'grey'}}>&nbsp; aanpasssen</button>
+                                </Link>
                                 <Link href={`../verslagen/deleteverslag?id=${verslag.id}`}>
                                     <button style={{color: 'red'}}>&nbsp; verwijderen</button>
                                 </Link>
