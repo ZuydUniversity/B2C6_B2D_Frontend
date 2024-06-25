@@ -157,7 +157,7 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import api from "./api";
-import DateTimePicker from 'react-datetime-picker';
+//import DateTimePicker from 'react-datetime-picker';
 
 const useClient = (effect: () => void) => {
   useEffect(() => {
@@ -348,11 +348,11 @@ const Home = () => {
               />
               {isDateTimePickerOpen && (
                 <div className='absolute z-10'>
-                  <DateTimePicker
+                  {/* <DateTimePicker
                     onChange={handleDateChange}
                     value={formData.date}
                     className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                  />
+                  /> */}
                 </div>
               )}
             </div>
@@ -431,11 +431,11 @@ const Home = () => {
                 />
                 {isEditDateTimePickerOpen && (
                   <div className='absolute z-10'>
-                    <DateTimePicker
+                    {/* <DateTimePicker
                       onChange={handleEditDateChange}
                       value={editData.date}
                       className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                    />
+                    /> */}
                   </div>
                 )}
               </div>
