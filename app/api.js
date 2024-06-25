@@ -5,6 +5,3 @@ const api = axios.create({
 });
 
 export default api;
-
-
-//http://localhost:8000/patients
