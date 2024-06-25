@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { Patient } from '../Models/Patient';
 
+
+
+// const api = axios.create({
+//   baseURL: 'http://localhost:8000/patients',
+// });
 const BASE_URL = 'http://localhost:8000/patients';
 
 type NewPatient = Omit<Patient, 'id'>;
