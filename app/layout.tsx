@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Zorg App",
-  description: "Test Description",
+  title: "Patiënt Screen",
+  description: "Patiënt Overview",
 };
 
 export default function RootLayout({
