@@ -19,6 +19,8 @@ export default function AddZorgverlenerFrom() {
       <input name="password" type="text" />
       <p>profession:</p>
       <input name="profession" type="text" />
+      <p>is Active:</p> 
+      <input name="isActive" type="checkbox" />
       <button type="submit">Toevoegen</button>
     </form>
   );
