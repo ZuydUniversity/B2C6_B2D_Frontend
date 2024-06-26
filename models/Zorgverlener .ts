@@ -6,4 +6,5 @@ export interface Zorgverlener {
     phoneNumber: string
     password: string
     profession: string
+    isActive: boolean
   }

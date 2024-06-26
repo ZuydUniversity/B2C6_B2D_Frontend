@@ -1,22 +1,7 @@
 import { Zorgverlener } from "@/models/Zorgverlener ";
 import styles from "./ListZorgverleners.module.css";
-import { deleteZorgverlener } from "@/serverActions/actions";
+import { deleteZorgverlener, fetchZorgverleners } from "@/serverActions/actions";
 
-async function fetchZorgverleners(): Promise<Zorgverlener[]> {
-  try {
-    const response = await fetch("http://127.0.0.1:8000/zorgverleners", {
-      cache: "no-store", // Zorg ervoor dat fetch altijd de nieuwste data ophaalt
-    });
-    if (!response.ok) {
-      throw new Error("Failed to fetch zorgverleners");
-    }
-    const zorgverleners = await response.json();
-    return zorgverleners;
-  } catch (error) {
-    console.error("Error fetching zorgverleners:", error);
-    return [];
-  }
-}
 
 export default async function ListZorgverleners() {
   const zorgverleners: Zorgverlener[] = await fetchZorgverleners();
