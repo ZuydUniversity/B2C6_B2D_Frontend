@@ -115,14 +115,20 @@ const Home = () => {
   };
 
   const handleEventClick = (eventInfo: any) => {
-    // Handle event click here if needed
     console.log('Event clicked:', eventInfo);
   };
 
   return (
     <main className="flex min-h-screen flex-col lg:flex-row items-center justify-between p-24 bg-gray-50">
-      <div className="lg:w-2/5 h-full lg:min-h-screen bg-blue-100">
-        {/* Sidebar Content */}
+      <div className="w-1/2 h-full min-h-screen bg-blue-100">
+
+        {<h1>Dashboard
+        </h1>
+
+      
+        }<h1>
+          
+        </h1>
       </div>
       <div className="w-full max-w-5xl">
         <div className="flex justify-center mb-10">
