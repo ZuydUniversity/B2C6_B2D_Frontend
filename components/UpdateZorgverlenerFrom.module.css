@@ -1,0 +1,15 @@
+.updateZorgverlenerFrom {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 30%;
+    margin: 3rem;
+  }
+  
+  .updateZorgverlenerFrom button {
+    padding: 1rem;
+    background-color: grey;
+    align-self: center;
+  }
+  
