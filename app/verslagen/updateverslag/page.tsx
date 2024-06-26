@@ -176,4 +176,3 @@ const UpdateVerslagpage = () => {
 
 export default UpdateVerslagpage;
 
-// ok

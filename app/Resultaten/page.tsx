@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Resultaat } from '../Models/Resultaat';
 
-export default () => {
+const ResultPage = () => {
   const [data, setData] = useState<Resultaat[]>([]);
 
   useEffect(() => {
@@ -29,7 +29,9 @@ export default () => {
           {data.map((item, index) => (
             <tr key={index}>
               {Object.values(item).map((value, i) => (
-                    <td key={i}><a href={`http://localhost:3000/Resultaten/${item['id']}`}>{value}</a></td>
+                <td key={i}>
+                  <a href={`http://localhost:3000/Resultaten/${item['id']}`}>{value}</a>
+                </td>
               ))}
             </tr>
           ))}
@@ -38,3 +40,7 @@ export default () => {
     </div>
   );
 }
+
+ResultPage.displayName = 'ResultPage';
+
+export default ResultPage;
