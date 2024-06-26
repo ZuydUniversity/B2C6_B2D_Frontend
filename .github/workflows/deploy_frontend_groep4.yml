@@ -40,6 +40,15 @@ jobs:
           name: Frontend
           path: Frontend
 
+      - name: Clean Old Artefact
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{env.HOST}}
+          username: ${{env.SERVER_USER}}
+          password: ${{env.SERVER_PASSWORD}}
+          script: |
+            sudo rm -rf Frontend
+
       - name: Deploy to ubuntu server
         uses: garygrossgarten/github-action-scp@release
         with:
