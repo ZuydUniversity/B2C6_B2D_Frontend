@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Resultaat } from '../../Models/Resultaat';
+import Image from 'next/image';
 
 const ResultPageById = ({ params }: { params: { id: BigInteger } }) => {
   const [item, setData] = useState<Resultaat>();

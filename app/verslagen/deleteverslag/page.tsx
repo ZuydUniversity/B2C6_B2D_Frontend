@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { Verslag } from '../../Models/Verslag'; // Pas het pad aan naar waar je Verslag.ts bestand zich bevindt
 
 const DeleteVerslagPage = () => {
@@ -77,4 +77,10 @@ const DeleteVerslagPage = () => {
     );
 }
 
-export default DeleteVerslagPage;
+const WrappedDeleteVerslagPage = () => (
+    <Suspense fallback={<div>Loading...</div>}>
+        <DeleteVerslagPage />
+    </Suspense>
+);
+
+export default WrappedDeleteVerslagPage;
