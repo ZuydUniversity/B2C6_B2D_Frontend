@@ -3,7 +3,7 @@ name: Build and Deploy NEXT.js App
 on:
   push:
     branches:
-      - "geen"
+      - "Groep-3-Casus"
 
 env:
   HOST: 52.166.135.125

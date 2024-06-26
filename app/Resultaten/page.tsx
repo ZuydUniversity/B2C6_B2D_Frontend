@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Resultaat } from '../Models/Resultaat';
 
-export default () => {
+const ResultPage = () => {
   const [data, setData] = useState<Resultaat[]>([]);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default () => {
   return (
     <div>
       <h1>Data Table</h1>
-      <table border="1">
+      <table border={1}>
         <thead>
           <tr>
             {data.length > 0 && Object.keys(data[0]).map((key) => (
@@ -29,7 +29,9 @@ export default () => {
           {data.map((item, index) => (
             <tr key={index}>
               {Object.values(item).map((value, i) => (
-                    <td key={i}><a href={`http://localhost:3000/Resultaten/${item['id']}`}>{value}</a></td>
+                <td key={i}>
+                  <a href={`http://localhost:3000/Resultaten/${item['id']}`}>{value}</a>
+                </td>
               ))}
             </tr>
           ))}
@@ -38,3 +40,7 @@ export default () => {
     </div>
   );
 }
+
+ResultPage.displayName = 'ResultPage';
+
+export default ResultPage;
