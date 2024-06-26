@@ -43,10 +43,10 @@ jobs:
       - name: Clean Old Artefact
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{env.HOST}}
-          username: ${{env.SERVER_USER}}
-          password: ${{env.SERVER_PASSWORD}}
-          script: |
+           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
+           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
+           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+           script: |
             sudo rm -rf Frontend
 
       - name: Deploy to ubuntu server
