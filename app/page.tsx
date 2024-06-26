@@ -2,12 +2,9 @@
 import React, { useEffect, useState } from "react";
 import api from "./api";
 import DateTimePicker from 'react-datetime-picker';
-
-const useClient = (effect: () => void) => {
-  useEffect(() => {
-    effect();
-  }, [effect]);
-};
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import { format } from 'date-fns';
 
 const Home = () => {
   const [appointments, setAppointments] = useState<any[]>([]);
@@ -22,14 +19,18 @@ const Home = () => {
   const [isDateTimePickerOpen, setIsDateTimePickerOpen] = useState(false);
   const [isEditDateTimePickerOpen, setIsEditDateTimePickerOpen] = useState(false);
 
-  useClient(() => {
+  useEffect(() => {
     const fetchAppointments = async () => {
-      const response = await api.get("/appointments/");
-      setAppointments(response.data);
+      try {
+        const response = await api.get("/appointments/");
+        setAppointments(response.data);
+      } catch (error) {
+        console.error("Failed to fetch appointments:", error);
+      }
     };
 
     fetchAppointments();
-  });
+  }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -41,16 +42,20 @@ const Home = () => {
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await api.post("/appointments/", formData);
-    const response = await api.get("/appointments/");
-    setAppointments(response.data);
-    setFormData({
-      name: "",
-      description: "",
-      location: "",
-      department: "",
-      date: new Date()
-    });
+    try {
+      await api.post("/appointments/", formData);
+      const response = await api.get("/appointments/");
+      setAppointments(response.data);
+      setFormData({
+        name: "",
+        description: "",
+        location: "",
+        department: "",
+        date: new Date()
+      });
+    } catch (error) {
+      console.error("Failed to create appointment:", error);
+    }
   };
 
   const handleEditClick = (appointment: any) => {
@@ -60,7 +65,7 @@ const Home = () => {
       description: appointment.description,
       location: appointment.location,
       department: appointment.department,
-      date: new Date(appointment.date)  
+      date: new Date(appointment.date)
     });
   };
 
@@ -69,20 +74,11 @@ const Home = () => {
       await api.delete(`/appointments/${id}`);
       const updatedAppointments = appointments.filter((appointment) => appointment.id !== id);
       setAppointments(updatedAppointments);
-    } catch (error: any) {
-      console.error("Delete failed:", error);
-      if (error.response) {
-        console.error("Error response data:", error.response.data);
-        console.error("Error response status:", error.response.status);
-        console.error("Error response headers:", error.response.headers);
-      } else if (error.request) {
-        console.error("Request made but no response received:", error.request);
-      } else {
-        console.error("Error message:", error.message);
-      }
+    } catch (error) {
+      console.error("Failed to delete appointment:", error);
     }
   };
-  
+
   const handleUpdateInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     setEditData({
@@ -94,117 +90,142 @@ const Home = () => {
   const handleUpdateSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (editData) {
-      console.log("Submitting update with data:", editData); 
       try {
         const response = await api.put(`/appointments/${editData.id}`, editData);
         console.log("Update response:", response);
         const getResponse = await api.get("/appointments/");
         setAppointments(getResponse.data);
         setEditData(null);
-      } catch (error: any) {
-        console.error("Update failed:", error);
+      } catch (error) {
+        console.error("Failed to update appointment:", error);
       }
     }
   };
 
   const handleDateChange = (date: Date | null) => {
     setFormData({ ...formData, date: date || new Date() });
-    setIsDateTimePickerOpen(false); 
+    setIsDateTimePickerOpen(false);
   };
 
   const handleEditDateChange = (date: Date | null) => {
     if (editData) {
       setEditData({ ...editData, date: date || new Date() });
-      setIsEditDateTimePickerOpen(false); 
+      setIsEditDateTimePickerOpen(false);
     }
   };
 
+  const handleEventClick = (eventInfo: any) => {
+    // Handle event click here if needed
+    console.log('Event clicked:', eventInfo);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-50">
+    <main className="flex min-h-screen flex-col lg:flex-row items-center justify-between p-24 bg-gray-50">
+      <div className="lg:w-2/5 h-full lg:min-h-screen bg-blue-100">
+        {/* Sidebar Content */}
+      </div>
       <div className="w-full max-w-5xl">
         <div className="flex justify-center mb-10">
           <h1 className="text-4xl font-bold">Appointment</h1>
         </div>
-        <form onSubmit={handleFormSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <div className="mb-4">
-            <label htmlFor='name' className='block text-gray-700 text-sm font-bold mb-2'>
-              Name
-            </label>
-            <input
-              type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='name'
-              name='name'
-              onChange={handleInputChange}
-              value={formData.name}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor='description' className='block text-gray-700 text-sm font-bold mb-2'>
-              Description
-            </label>
-            <input
-              type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='description'
-              name='description'
-              onChange={handleInputChange}
-              value={formData.description}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor='location' className='block text-gray-700 text-sm font-bold mb-2'>
-              Location
-            </label>
-            <input
-              type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='location'
-              name='location'
-              onChange={handleInputChange}
-              value={formData.location}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor='department' className='block text-gray-700 text-sm font-bold mb-2'>
-              Department
-            </label>
-            <input
-              type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='department'
-              name='department'
-              onChange={handleInputChange}
-              value={formData.department}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor='date' className='block text-gray-700 text-sm font-bold mb-2'>
-              Date
-            </label>
-            <div className='relative'>
-              <input
-                type='text'
-                readOnly
-                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                value={formData.date.toLocaleString()}
-                onClick={() => setIsDateTimePickerOpen(true)}
-              />
-              {isDateTimePickerOpen && (
-                <div className='absolute z-10'>
-                  <DateTimePicker
-                    onChange={handleDateChange}
-                    value={formData.date}
+        <div className="grid grid-cols-2 gap-6 mb-8">
+          <div className="col-span-1">
+            <form onSubmit={handleFormSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+              <h3 className="text-lg font-bold mb-4">Create Appointment</h3>
+              <div className="mb-4">
+                <label htmlFor='name' className='block text-gray-700 text-sm font-bold mb-2'>
+                  Name
+                </label>
+                <input
+                  type='text'
+                  className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                  id='name'
+                  name='name'
+                  onChange={handleInputChange}
+                  value={formData.name}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor='description' className='block text-gray-700 text-sm font-bold mb-2'>
+                  Description
+                </label>
+                <input
+                  type='text'
+                  className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                  id='description'
+                  name='description'
+                  onChange={handleInputChange}
+                  value={formData.description}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor='location' className='block text-gray-700 text-sm font-bold mb-2'>
+                  Location
+                </label>
+                <input
+                  type='text'
+                  className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                  id='location'
+                  name='location'
+                  onChange={handleInputChange}
+                  value={formData.location}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor='department' className='block text-gray-700 text-sm font-bold mb-2'>
+                  Department
+                </label>
+                <input
+                  type='text'
+                  className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                  id='department'
+                  name='department'
+                  onChange={handleInputChange}
+                  value={formData.department}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor='date' className='block text-gray-700 text-sm font-bold mb-2'>
+                  Date
+                </label>
+                <div className='relative'>
+                  <input
+                    type='text'
+                    readOnly
                     className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                    value={formData.date.toLocaleString()}
+                    onClick={() => setIsDateTimePickerOpen(true)}
                   />
+                  {isDateTimePickerOpen && (
+                    <div className='absolute z-10'>
+                      <DateTimePicker
+                        onChange={handleDateChange}
+                        value={formData.date}
+                        className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </div>
+              <div className="flex justify-end">
+                <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Create</button>
+              </div>
+            </form>
           </div>
-          <div className="flex justify-end">
-            <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Create</button>
+
+          <div className="col-span-1">
+            <FullCalendar
+              plugins={[dayGridPlugin]}
+              initialView="dayGridMonth"
+              events={appointments.map(appointment => ({
+                title: appointment.name,
+                start: format(new Date(appointment.date), "yyyy-MM-dd"),
+                id: appointment.id
+              }))}
+              eventClick={handleEventClick}
+            />
           </div>
-        </form>
+        </div>
 
         {editData && (
           <form onSubmit={handleUpdateSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -288,7 +309,7 @@ const Home = () => {
           </form>
         )}
 
-        <div className="mt-10"> {/* Add margin to move the table down */}
+        <div className="mt-10"> {}
           <table className='min-w-full leading-normal shadow rounded-lg overflow-hidden'>
             <thead>
               <tr>
@@ -307,7 +328,7 @@ const Home = () => {
                   <td className='px-5 py-5 border-gray-200 text-sm'>{appointment.description}</td>
                   <td className='px-5 py-5 border-gray-200 text-sm'>{appointment.location}</td>
                   <td className='px-5 py-5 border-gray-200 text-sm'>{appointment.department}</td>
-                  <td className='px-5 py-5 border-gray-200 text-sm'>{appointment.date}</td>
+                  <td className='px-5 py-5 border-gray-200 text-sm'>{format(new Date(appointment.date), 'yyyy-MM-dd HH:mm')}</td>
                   <td className='px-5 py-5 border-gray-200 text-sm'>
                     <button onClick={() => handleEditClick(appointment)} className='bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2'>
                       Edit

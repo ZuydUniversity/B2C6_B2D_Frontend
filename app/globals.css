@@ -1,7 +1,9 @@
+/* Import Tailwind CSS first */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Then define your custom global styles */
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -26,8 +28,12 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+/* Custom utilities and other styles */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .bg-light-blue {
+    background-color: #6CB2EB; /* Light blue color */
   }
 }
+
+
+/* Other custom styles */
