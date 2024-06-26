@@ -1,7 +1,7 @@
 
 "use client"
 import { useState, useEffect, FC } from "react";
-import { Patient } from "../../../Models/Patient"; // Zorg ervoor dat het pad naar je model correct is
+import { Patient } from "@/models/Patient"; // Zorg ervoor dat het pad naar je model correct is
 
 interface PageProps {
   params: { id: number };
