@@ -12,7 +12,7 @@ export async function createZorgverlener(formData: FormData) {
       phoneNumber: formData.get("phoneNumber") as string,
       password: formData.get("password") as string,
       profession: formData.get("profession") as string,
-      isActive: true,
+      isActive: formData.get("isActive")?.valueOf() == 'on' ? true : false
     };
 
     console.log(zorgverlener);
@@ -97,7 +97,7 @@ export async function updateZorgverlener(formData: FormData) {
       phoneNumber: formData.get("phoneNumber") as string,
       password: formData.get("password") as string,
       profession: formData.get("profession") as string,
-      isActive: true,
+      isActive: formData.get("isActive")?.valueOf() == 'on' ? true : false,
     };
 
     const response = await fetch(
