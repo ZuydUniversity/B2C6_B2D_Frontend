@@ -119,17 +119,11 @@ const Home = () => {
   };
 
   return (
-    <main className="flex min-h-screen flex-col lg:flex-row items-center justify-between p-24 bg-gray-50">
-      <div className="w-1/2 h-full min-h-screen bg-blue-100">
-
-        {<h1>Dashboard
-        </h1>
-
-      
-        }<h1>
-          
-        </h1>
+    <main className="flex min-h-screen flex-row items-start justify-between p-100 bg-gray-50">
+      <div className="flex flex-col w-[300px] min-w-[300px] border-r min-h-screen p-4 bg-blue-100 p-80">
+        <h1>Dashboard</h1>
       </div>
+      
       <div className="w-full max-w-5xl">
         <div className="flex justify-center mb-10">
           <h1 className="text-4xl font-bold">Appointment</h1>
@@ -315,7 +309,7 @@ const Home = () => {
           </form>
         )}
 
-        <div className="mt-10"> {}
+        <div className="mt-10">
           <table className='min-w-full leading-normal shadow rounded-lg overflow-hidden'>
             <thead>
               <tr>
