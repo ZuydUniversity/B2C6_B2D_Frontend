@@ -1,4 +1,4 @@
-import { Patient } from "../../Models/Patient";
+import { Patient } from "@/models/Patient";
 
 async function fetchPatients(): Promise<Patient[]> {
   try {
