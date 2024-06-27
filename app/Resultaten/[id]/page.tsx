@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Resultaat } from '../../Models/Resultaat';
 
-export default ({ params }: { params: { id: BigInteger } }) => {
+export default function GetResultaatById({ params }: { params: { id: BigInteger } }) {
   const [item, setData] = useState<Resultaat>();
   const OBJ_ID = params["id"]
 
@@ -21,7 +21,7 @@ export default ({ params }: { params: { id: BigInteger } }) => {
   return (
     <div>
       <h1>Object {OBJ_ID}</h1>
-      <table border="1">
+      <table border={1}>
         <thead>
           <tr>
             {Object.keys(item).map((key) => (
