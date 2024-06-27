@@ -1,0 +1,38 @@
+.textHeader{
+    color: rgb(0,6,96);
+    font-size: xx-large;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 2px solid rgb(0,6,96);
+    margin-top: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.logo{
+    margin: 2rem;
+}
+
+.headerDashboard{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.dashboardMenu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 68%;
+    width: 100%;
+    position: absolute;
+    
+}
+
+.dashboardButton{
+    background-color: aliceblue;
+    color: rgb(71, 97, 158);
+}

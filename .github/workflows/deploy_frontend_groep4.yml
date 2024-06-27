@@ -1,0 +1,86 @@
+name: Frontend CI
+
+on:
+  push:
+    branches:
+      - groep_4_B2D
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with: 
+         ref: groep_4_B2D
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build app
+        run: npm run build
+
+      - name: Build artifacts
+        run: | 
+          mkdir Frontend
+          cp -r .next public package.json Frontend/
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Frontend
+          path: Frontend
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: Frontend
+          path: Frontend
+
+      - name: Deploy to ubuntu server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+           local: Frontend
+           remote: Frontend
+           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
+           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
+           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+
+      - name: Install dependencies on VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
+           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
+           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+           script: |
+            sudo apt update
+            sudo apt install curl -y
+            curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - 
+            sudo apt-get install -y nodejs
+            cd Frontend
+            sudo npm install
+            
+      - name: Start frontend
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
+           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
+           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+           script: |
+            ( cd Frontend ; nohup sudo npm run dev -- -p 80 >frontend.log 2>&1 </dev/null & )
+              
+      - name: Notify Slack on Success
+        if: success()
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Frontend build succeeded :tada:"}' ${{ secrets.SLACK_URL_GROEP4 }}
+          
+      - name: Notify Slack on Failure
+        if: failure()
+        run: |
+         curl -X POST -H 'Content-type: application/json' --data '{"text":"Frontend build failed :x:"}' ${{ secrets.SLACK_URL_GROEP4 }}
