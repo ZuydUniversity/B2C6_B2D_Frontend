@@ -8,7 +8,7 @@ async function fetchPatients(): Promise<Patient[]> {
     if (!response.ok) {
       throw new Error("Failed to fetch patients");
     }
-    const patients = await response.json();
+    const patients: Patient[] = await response.json();
     return patients;
   } catch (error) {
     console.error("Error fetching patients:", error);
