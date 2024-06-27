@@ -139,4 +139,4 @@ const CreateVerslagPage: React.FC = () => {
 
 export default CreateVerslagPage;
 
-// toch niet gefixed
+

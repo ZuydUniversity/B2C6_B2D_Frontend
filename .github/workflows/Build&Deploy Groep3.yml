@@ -1,6 +1,7 @@
 name: Build and Deploy NEXT.js App
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - "Groep-3-Casus"
