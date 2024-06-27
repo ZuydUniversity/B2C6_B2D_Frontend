@@ -3,12 +3,12 @@ name: Build and Deploy NEXT.js App
 on:
   push:
     branches:
-      - "geen"
+      - "Groep-3-Casus"
 
 env:
-  HOST: 52.166.135.125
-  SERVER_USER: groep1
-  SERVER_PASSWORD: Welkomwelkom123!
+  HOST: 13.93.11.167
+  SERVER_USER: groep3admin
+  SERVER_PASSWORD: groep3admin@
 
 jobs:
   build:
