@@ -1,6 +1,6 @@
 'use server'
 import { Patient } from "@/models/Patient";
-
+import { revalidatePath } from "next/cache";
 
 export async function createPatient(formData: FormData) {
     const patient: Patient = {
@@ -16,7 +16,7 @@ export async function createPatient(formData: FormData) {
       medication: formData.get('medication') as string,
       phonenumber: Number(formData.get('phonenumber')) 
     };
-  
+  console.log(patient)
     try {
       const resp = await fetch('http://127.0.0.1:8000/patients', {
         cache: "no-store",
@@ -31,7 +31,7 @@ export async function createPatient(formData: FormData) {
       if (!resp.ok) {
         throw new Error('Failed to create patient');
       }
-  
+      revalidatePath("/patients");
       const data = await resp.json();
       console.log(data);
       return { patient: data, error: null };
@@ -145,7 +145,6 @@ export async function updatePatient(formData: FormData) {
     if (!response.ok) {
       throw new Error('Failed to update patient');
     }
-
     const patientData = await response.json();
     console.log(patientData);
     return { patient: patientData, error: null };
