@@ -1,4 +1,4 @@
-.createZorgverlenerFrom {
+.createPatientFrom {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -7,9 +7,54 @@
     margin: 3rem;
   }
   
-  .createZorgverlenerFrom button {
+  .createPatientFrom button {
     padding: 1rem;
     background-color: grey;
     align-self: center;
+  }
+  
+
+  .dik {
+    font-weight: bold;
+  }
+
+  .dikgroot {
+    font-weight: bold;
+    font-size: 1.5em;
+  }
+  
+  .streep {
+    text-decoration: underline;
+  }
+  
+  .mb-15 {
+    margin-bottom: 15px;
+  }
+  
+  .ml-10 {
+    margin-left: 10px;
+  }
+
+  .buttonDelete{
+    font-style: italic;
+    font-weight: bold;
+    font-size: 0.9em;
+  }
+  
+  .mr-10 {
+    margin-right: 10px;
+  }
+  
+  .schevestreep {
+    text-decoration: underline;
+    font-style: italic;
+  }
+
+  .buttonPatient {
+    margin-left: 10px;
+    font-size: 1.em;
+    margin-top: 5px;
+    font-weight: bold;
+    text-decoration: underline;
   }
   
