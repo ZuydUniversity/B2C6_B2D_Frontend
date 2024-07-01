@@ -1,7 +1,5 @@
-import { UUID } from "crypto";
-
 export interface Resultaat {
-    id: UUID;
+    id: number;
     name: string;
     discription: string;
 }
