@@ -55,7 +55,7 @@ jobs:
             sudo reboot
             exit
 
-      - name: Wait for server to reboot
+      - name: Wait For server to reboot
         run: sleep 20
 
       - name: Clean Old Artefact
