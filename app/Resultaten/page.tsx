@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Resultaat } from '../Models/Resultaat';
+import { Resultaat } from '../models/Resultaat';
 
 export default function GetResultaten() {
   const [data, setData] = useState<Resultaat[]>([]);
