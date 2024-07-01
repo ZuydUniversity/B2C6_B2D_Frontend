@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Resultaat } from '../Models/Resultaat'; // Adjust the path as per your actual file structure
 
 
-export default function UpdateResultaatPage({ initialResultaat } : {initialResultaat : Resultaat | null }) {
+export default function UpdateResultaatPage({ initialResultaat } : {initialResultaat : Resultaat }) {
     const [resultaat, setResultaat] = useState<Resultaat | null>(initialResultaat);
     const [loading, setLoading] = useState(false);
     const [id, setId] = useState<string>('');
