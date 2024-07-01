@@ -6,6 +6,7 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { format } from 'date-fns';
 
+// State om formuliergegevens voor nieuwe afspraken op te slaan
 const Home = () => {
   const [appointments, setAppointments] = useState<any[]>([]);
   const [formData, setFormData] = useState({
@@ -15,10 +16,14 @@ const Home = () => {
     department: "",
     date: new Date()
   });
+
   const [editData, setEditData] = useState<any | null>(null);
   const [isDateTimePickerOpen, setIsDateTimePickerOpen] = useState(false);
   const [isEditDateTimePickerOpen, setIsEditDateTimePickerOpen] = useState(false);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+  const [nameFilter, setNameFilter] = useState<string>("");
 
+  // Haal afspraken op van de API wanneer de component wordt gemount
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
@@ -32,6 +37,7 @@ const Home = () => {
     fetchAppointments();
   }, []);
 
+  // Verwerk wijzigingen in de invoervelden van het formulier
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     setFormData({
@@ -40,6 +46,7 @@ const Home = () => {
     });
   };
 
+  // Verwerk de indiening van het formulier om een nieuwe afspraak te maken
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -58,6 +65,7 @@ const Home = () => {
     }
   };
 
+   // Verwerk de klikgebeurtenis voor het bewerken van een afspraak
   const handleEditClick = (appointment: any) => {
     setEditData({
       id: appointment.id,
@@ -69,6 +77,7 @@ const Home = () => {
     });
   };
 
+    // Verwerk de verwijdering van een afspraak
   const handleDelete = async (id: string) => {
     try {
       await api.delete(`/appointments/${id}`);
@@ -79,6 +88,7 @@ const Home = () => {
     }
   };
 
+   // Verwerk wijzigingen in de invoervelden van het bewerkingsformulier
   const handleUpdateInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     setEditData({
@@ -87,6 +97,7 @@ const Home = () => {
     });
   };
 
+   // Verwerk de indiening van het formulier om een bestaande afspraak bij te werken
   const handleUpdateSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (editData) {
@@ -102,11 +113,14 @@ const Home = () => {
     }
   };
 
+   // Verwerk de datumwijziging voor het nieuwe afspraakformulier
   const handleDateChange = (date: Date | null) => {
     setFormData({ ...formData, date: date || new Date() });
     setIsDateTimePickerOpen(false);
   };
 
+
+  // Verwerk de datumwijziging voor het bewerkingsformulier
   const handleEditDateChange = (date: Date | null) => {
     if (editData) {
       setEditData({ ...editData, date: date || new Date() });
@@ -114,94 +128,31 @@ const Home = () => {
     }
   };
 
+  // Verwerk klikgebeurtenissen op kalendergebeurtenissen
   const handleEventClick = (eventInfo: any) => {
-    console.log('Event clicked:', eventInfo);
+    console.log('Event clicked:', eventInfo.event);
+    const clickedAppointment = appointments.find(appointment => appointment.id === eventInfo.event.id);
+    if (clickedAppointment) {
+      handleEditClick(clickedAppointment);
+    }
   };
+
+  // Wissel de zichtbaarheid van de rechter zijbalk
+  const toggleRightSidebar = () => {
+    setIsRightSidebarOpen(!isRightSidebarOpen);
+  };
+
+    // Filter afspraken op basis van de naamfilter
+  const filteredAppointments = appointments.filter(appointment => 
+    appointment.name.toLowerCase().includes(nameFilter.toLowerCase())
+  );
 
   return (
     <main className="flex min-h-screen flex-row items-start justify-between p-100 bg-gray-50">
       <div className="flex flex-col w-[300px] min-w-[300px] border-r min-h-screen p-4 bg-blue-100 p-30">
-        <h1>Afspraak toevoegen</h1>
-        <form onSubmit={handleFormSubmit}>
-          <div className="mb-4">
-            <label htmlFor='name' className='block text-gray-700 text-sm font-bold mb-2'>
-              Name
-            </label>
-            <input
-              type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='name'
-              name='name'
-              onChange={handleInputChange}
-              value={formData.name}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor='description' className='block text-gray-700 text-sm font-bold mb-2'>
-              Description
-            </label>
-            <input
-              type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='description'
-              name='description'
-              onChange={handleInputChange}
-              value={formData.description}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor='location' className='block text-gray-700 text-sm font-bold mb-2'>
-              Location
-            </label>
-            <input
-              type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='location'
-              name='location'
-              onChange={handleInputChange}
-              value={formData.location}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor='department' className='block text-gray-700 text-sm font-bold mb-2'>
-              Department
-            </label>
-            <input
-              type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='department'
-              name='department'
-              onChange={handleInputChange}
-              value={formData.department}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor='date' className='block text-gray-700 text-sm font-bold mb-2'>
-              Date
-            </label>
-            <div className='relative'>
-              <input
-                type='text'
-                readOnly
-                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                value={formData.date.toLocaleString()}
-                onClick={() => setIsDateTimePickerOpen(true)}
-              />
-              {isDateTimePickerOpen && (
-                <div className='absolute z-10'>
-                  <DateTimePicker
-                    onChange={handleDateChange}
-                    value={formData.date}
-                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="flex justify-end">
-            <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Create</button>
-          </div>
-        </form>
+        <button onClick={toggleRightSidebar} className='bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4'>
+          Afspraak toevoegen
+        </button>
       </div>
       
       <div className="flex flex-col w-full max-w-5xl">
@@ -214,14 +165,24 @@ const Home = () => {
             plugins={[dayGridPlugin]}
             initialView="dayGridMonth"
             events={appointments.map(appointment => ({
-              title: appointment.name,
-              start: format(new Date(appointment.date), "yyyy-MM-dd"),
+              title: `${format(new Date(appointment.date), "HH:mm")} - ${appointment.name}`, // Display hours and minutes
+              start: format(new Date(appointment.date), "yyyy-MM-dd"), // Display date for event start
               id: appointment.id
             }))}
             eventClick={handleEventClick}
           />
         </div>
         
+        <div className="col-span-1 mb-4">
+          <input
+            type="text"
+            placeholder="Filter by name"
+            value={nameFilter}
+            onChange={(e) => setNameFilter(e.target.value)}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+
         <div className="col-span-1">
           <table className='min-w-full leading-normal shadow rounded-lg overflow-hidden'>
             <thead>
@@ -235,7 +196,7 @@ const Home = () => {
               </tr>
             </thead>
             <tbody>
-              {appointments.map((appointment) => (
+              {filteredAppointments.map((appointment) => (
                 <tr key={appointment.id} className='bg-white border-b'>
                   <td className='px-5 py-5 border-gray-200 text-sm'>{appointment.name}</td>
                   <td className='px-5 py-5 border-gray-200 text-sm'>{appointment.description}</td>
@@ -339,10 +300,91 @@ const Home = () => {
         )}
       </div>
       
-      <div className="flex flex-col w-[300px] min-w-[300px] border-l min-h-screen p-4 bg-blue-100 p-30">
-        <h1>Right Sidebar</h1>
-        {}
-      </div>
+      {isRightSidebarOpen && (
+        <div className="flex flex-col w-[300px] min-w-[300px] border-l min-h-screen p-4 bg-blue-100 p-30">
+          <h1>Maak hier een afspraak</h1>
+          <form onSubmit={handleFormSubmit}>
+            <div className="mb-4">
+              <label htmlFor='name' className='block text-gray-700 text-sm font-bold mb-2'>
+                Name
+              </label>
+              <input
+                type='text'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                id='name'
+                name='name'
+                onChange={handleInputChange}
+                value={formData.name}
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor='description' className='block text-gray-700 text-sm font-bold mb-2'>
+                Description
+              </label>
+              <input
+                type='text'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                id='description'
+                name='description'
+                onChange={handleInputChange}
+                value={formData.description}
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor='location' className='block text-gray-700 text-sm font-bold mb-2'>
+                Location
+              </label>
+              <input
+                type='text'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                id='location'
+                name='location'
+                onChange={handleInputChange}
+                value={formData.location}
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor='department' className='block text-gray-700 text-sm font-bold mb-2'>
+                Department
+              </label>
+              <input
+                type='text'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                id='department'
+                name='department'
+                onChange={handleInputChange}
+                value={formData.department}
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor='date' className='block text-gray-700 text-sm font-bold mb-2'>
+                Date
+              </label>
+              <div className='relative'>
+                <input
+                  type='text'
+                  readOnly
+                  className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                  value={formData.date.toLocaleString()}
+                  onClick={() => setIsDateTimePickerOpen(true)}
+                />
+                {isDateTimePickerOpen && (
+                  <div className='absolute z-10'>
+                    <DateTimePicker
+                      onChange={handleDateChange}
+                      value={formData.date}
+                      className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Opslaan</button>
+            </div>
+          </form>
+        </div>
+      )}
     </main>
   );
 }
