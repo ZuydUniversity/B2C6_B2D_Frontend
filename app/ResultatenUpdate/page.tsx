@@ -3,12 +3,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Resultaat } from '../Models/Resultaat'; // Adjust the path as per your actual file structure
 
-interface UpdateResultaatProps {
-    initialResultaat: Resultaat | null;
-}
 
-
-const UpdateResultaatPage: React.FC<UpdateResultaatProps> = ({ initialResultaat }) => {
+export default function UpdateResultaatPage({ initialResultaat } : {initialResultaat : Resultaat | null }) {
     const [resultaat, setResultaat] = useState<Resultaat | null>(initialResultaat);
     const [loading, setLoading] = useState(false);
     const [id, setId] = useState<string>('');
@@ -107,7 +103,5 @@ const UpdateResultaatPage: React.FC<UpdateResultaatProps> = ({ initialResultaat 
         </div>
     );
 };
-
-export default UpdateResultaatPage;
 
 
