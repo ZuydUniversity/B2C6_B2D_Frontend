@@ -59,7 +59,7 @@ const VerslagenPage = () => {
 
     return (
         <div style={{ padding: '50px', backgroundColor: 'rgb(216, 234, 255)', minHeight: '100vh' }}>
-            <h1 style={{ fontSize: 'xx-large', fontWeight: 'bold', borderBottom: '2px solid black', display: 'inline-block', marginBottom: '50px' }}>Verslagen</h1>
+            <h1 style={{ fontSize: 'xxx-large', fontWeight: 'bold', borderBottom: '2px solid black', display: 'inline-block', marginBottom: '50px' }}>Verslagen</h1>
             <div style={{ display: 'flex', marginBottom: '10px', width: '300px', border: '1px solid transparent', borderRadius: '4px', paddingLeft: '10px', alignItems: 'center' }}>
                 <img src="/searchiconVerslagen.png" alt="Search" style={{ width: '20px', height: '20px', marginRight: '10px' }} />
                 <Input
@@ -113,12 +113,8 @@ const VerslagenPage = () => {
                             style={{
                                 backgroundColor: '#000369', // Achtergrondkleur
                                 cursor: 'pointer',
-                                backgroundImage: `url("/addiconVerslagen.png")`, // Achtergrondafbeelding
-                                backgroundRepeat: 'no-repeat',
-                                backgroundPosition: 'left', // Positie van het icoon
-                                backgroundSize: '25px', // Grootte van het icoon
-                                paddingLeft: '20px', // Ruimte toevoegen voor het icoon
-                                paddingRight: '20px', // Ruimte rechts van de tekst
+                                paddingLeft: '20px', // Ruimte voor de tekst
+                                paddingRight: '25px', // Ruimte rechts van de tekst
                                 marginLeft: '10px',
                                 border: 'none',
                                 borderRadius: '4px',
@@ -126,10 +122,14 @@ const VerslagenPage = () => {
                                 fontSize: '16px',
                                 display: 'flex',
                                 alignItems: 'center',
-                                justifyContent: 'space-between', // Ruimte tussen icoon en tekst
                             }}
                         >
-                            <span style={{ marginLeft: '10px', color: "white" }}>Maak een nieuw verslag</span> {/* Extra ruimte voor tekst aan de linkerkant */}
+                            <span style={{ color: "white" }}>Maak een nieuw verslag</span>
+                            <img 
+                                src="/addiconVerslagen.png" 
+                                alt="Add" 
+                                style={{ width: '25px', height: '25px', marginLeft: '10px' }} 
+                            />
                         </Button>
                     </Link>
                 )}
