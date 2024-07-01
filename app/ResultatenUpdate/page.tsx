@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { Resultaat } from '../Models/Resultaat'; // Adjust the path as per your actual file structure
 
 interface UpdateResultaatProps {
@@ -110,23 +109,5 @@ const UpdateResultaatPage: React.FC<UpdateResultaatProps> = ({ initialResultaat 
 };
 
 export default UpdateResultaatPage;
-
-//export const getServerSideProps: GetServerSideProps<UpdateResultaatProps> = async (context: GetServerSidePropsContext) => {
-//    const { id } = context.params!;
-//    let initialResultaat = null;
-
-//    try {
-//        const response = await axios.get<Resultaat>(`http://localhost:8000/resultaten/${id}`);
-//        initialResultaat = response.data;
-//    } catch (error) {
-//        console.error('There was an error fetching the data!', error);
-//    }
-
-//    return {
-//        props: {
-//            initialResultaat
-//        }
-//    };
-//};
 
 
