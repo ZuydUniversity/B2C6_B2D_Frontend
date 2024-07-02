@@ -32,26 +32,31 @@ const NotesPage = async () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 text-center bg-opacity-75">
+
+            <div className="w-full max-w-xl bg-white rounded-lg shadow-lg p-1 text-center bg-opacity-75">
                 <img className={styles.logo} src="/icon_zorgverlener.png" height="100" width="100" alt="Logo" />
                 <h2 className="font-semibold mb-4 text-gray-600">tel: +3149731949</h2>
                 <h2 className="font-semibold mb-4 text-gray-600">mail: fysiobijgoedelen@gmail.com</h2>
                 <h2 className="font-semibold mb-4 text-gray-600">specialisatie: Munuele Therapie - Fysio</h2>
             </div>
+            <div className="w-full max-w-xl bg-white rounded-lg shadow-lg p-6 text-center bg-opacity-75">
+                <strong className="font-semibold mb-4 text-gray-600">Kies een notitie</strong>
+                <h1 className="font-semibold mb-4 text-gray-600">Toevoegen</h1>
+                <ul>
+                    {Array.isArray(notes) && notes.length > 0 ? (
+                        notes.map((note) => (
+                            <li key={note.id}>
+                                {note.date} {note.patient}
+                                <br />
+                            </li>
+                        ))
+                    ) : (
+                        <li>Geen notities gevonden</li>
+                    )}
+                </ul>
+            </div>
             
-            <h1>Notities</h1>
-            <ul>
-                {Array.isArray(notes) && notes.length > 0 ? (
-                    notes.map((note) => (
-                        <li key={note.id}>
-                            {note.date} {note.patient}
-                            <br />
-                        </li>
-                    ))
-                ) : (
-                    <li>Geen notities gevonden</li>
-                )}
-            </ul>
+            
         </div>
     );
 };
