@@ -13,7 +13,7 @@ const LoginPage = async () => {
           <input style={{ backgroundImage: "url(/icon_personeelsnummer.png)" }} className="" type="text" placeholder="Je personeelsnummer"/>
           <input style={{ backgroundImage: "url(/icon_login.png)" }} className="" type="text" placeholder="Je login of e-mailadres" />
           <input style={{ backgroundImage: "url(/icon_password.png)" }} className="" type="text" placeholder="Wachtwoord"/>
-          <a href="">Wachtwoord vergeven?</a>
+          <a href="">Wachtwoord vergeten?</a>
           <LoginButton/>
         </form>
         <p className={styles.sponsorTextHeader}>Mede mogelijk gemaakt door</p>
