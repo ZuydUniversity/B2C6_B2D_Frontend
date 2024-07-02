@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Verslag } from '../Models/Verslag';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, CircularProgress, Button } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, CircularProgress, Button, Tooltip } from "@nextui-org/react";
 
 const VerslagenPage = () => {
     const [verslagen, setVerslagen] = useState<Verslag[]>([]);
@@ -91,12 +91,22 @@ const VerslagenPage = () => {
                             <TableCell>{verslag.medicalhistory}</TableCell>
                             <TableCell>{verslag.diagnose}</TableCell>
                             <TableCell>
-                                <Link href={`../verslagen/updateverslag?id=${verslag.id}`}>
-                                    <button style={{ color: 'grey' }}>&nbsp; aanpassen</button>
-                                </Link>
-                                <Link href={`../verslagen/deleteverslag?id=${verslag.id}`}>
-                                    <button style={{ color: 'red' }}>&nbsp; verwijderen</button>
-                                </Link>
+                                <div style={{ display: 'flex', gap: '10px' }}>
+                                    <Tooltip content="Aanpassen">
+                                        <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                                            <Link href={`../verslagen/updateverslag?id=${verslag.id}`}>
+                                                <img src="/editiconVerslagen.png" alt="Edit" style={{ width: '20px', height: '20px' }} />
+                                            </Link>
+                                        </span>
+                                    </Tooltip>
+                                    <Tooltip  content="Verwijderen">
+                                        <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                                            <Link href={`../verslagen/deleteverslag?id=${verslag.id}`}>
+                                                <img src="/deleteiconVerslagen.png" alt="Delete" style={{ width: '20px', height: '20px' }} />
+                                            </Link>
+                                        </span>
+                                    </Tooltip>
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}
@@ -114,7 +124,7 @@ const VerslagenPage = () => {
                                 backgroundColor: '#000369', // Achtergrondkleur
                                 cursor: 'pointer',
                                 paddingLeft: '20px', // Ruimte voor de tekst
-                                paddingRight: '25px', // Ruimte rechts van de tekst
+                                paddingRight: '20px', // Ruimte rechts van de tekst
                                 marginLeft: '10px',
                                 border: 'none',
                                 borderRadius: '4px',
