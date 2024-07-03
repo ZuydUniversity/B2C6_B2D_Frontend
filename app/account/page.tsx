@@ -1,5 +1,6 @@
 import { Note } from "@/models/Note";
 import styles from "./page.module.css";
+import Link from "next/link";
 
 async function fetchNotes(): Promise<Note[]> {
     try {
@@ -25,7 +26,10 @@ const NotesPage = async () => {
             <div className="container">
                 <div className="header">
                     <div className="logo">
-                        <img className={styles.logo} src="/Logo_JDB_2.png" alt="Logo" />
+                        <Link className={styles.loginButton} href={'/dashboard'}>
+                            <button><img className={styles.logo} src="/Logo_JDB_2.png" alt="Logo" /></button>
+                        </Link>
+                        
                     </div>
                     <div className="title">
                         <strong>Hallo, Mr. Goedelen</strong>

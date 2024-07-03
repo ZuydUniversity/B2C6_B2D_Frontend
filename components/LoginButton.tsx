@@ -3,7 +3,7 @@ import styles from "./LoginButton.module.css";
 
 const LoginButton = () => {
   return (
-    <Link className={styles.loginButton} href={'/dashboard'}>
+    <Link className={styles.loginButton} href={'/account'}>
       <button>Login</button>
     </Link>
   );
