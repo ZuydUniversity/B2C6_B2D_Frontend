@@ -1,25 +1,21 @@
 "use client";
 import React, { useRef } from 'react';
 import Link from 'next/link';
-import { Button } from '@nextui-org/react';
-import { Textarea } from '@nextui-org/react';
-import { link } from 'fs';
+import { Button, Input } from '@nextui-org/react';
 
 const CreateVerslagPage: React.FC = () => {
   const dateRef = useRef<HTMLInputElement>(null);
-  const healthComplaintsRef = useRef<HTMLTextAreaElement>(null);
-  const medicalHistoryRef = useRef<HTMLTextAreaElement>(null);
-  const diagnoseRef = useRef<HTMLTextAreaElement>(null);
+  const healthComplaintsRef = useRef<HTMLInputElement>(null);
+  const medicalHistoryRef = useRef<HTMLInputElement>(null);
+  const diagnoseRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent default form submission behavior
+    event.preventDefault(); // Voorkom standaard formulierinzending
 
     const dateValue = dateRef.current!.value;
     const healthComplaintsValue = healthComplaintsRef.current!.value;
     const medicalHistoryValue = medicalHistoryRef.current!.value;
     const diagnoseValue = diagnoseRef.current!.value;
-    const zorgverlener_id = null;
-    const patient_id = null
 
     try {
       const response = await fetch('http://127.0.0.1:8000/verslag', {
@@ -53,9 +49,9 @@ const CreateVerslagPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div style={{ padding: '50px', backgroundColor: 'rgb(216, 234, 255)', minHeight: '100vh' }}>
       <div>
-        <h1>Create Verslag Page</h1>
+        <h1 style={{ fontSize: 'xxx-large', fontWeight: 'bold', borderBottom: '2px solid black', display: 'inline-block', marginBottom: '50px' }}>Nieuw Verslag</h1>
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -72,57 +68,53 @@ const CreateVerslagPage: React.FC = () => {
 
         <div>
           Gezondheidsklachten:
-          <Textarea
-            variant="bordered"
+          <Input
+            type="text"
             placeholder="Voer de gezondheidsklachten in"
-            disableAnimation
-            disableAutosize
             ref={healthComplaintsRef}
             required
             classNames={{
               base: 'max-w-xs',
-              input: 'resize-y min-h-[40px]',
+              input: 'border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500'
             }}
           />
         </div>
 
         <div>
           Medische geschiedenis:
-          <Textarea
-            variant="bordered"
+          <Input
+            type="text"
             placeholder="Voer de medische geschiedenis in"
-            disableAnimation
-            disableAutosize
             ref={medicalHistoryRef}
             required
             classNames={{
               base: 'max-w-xs',
-              input: 'resize-y min-h-[40px]',
+              input: 'border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500'
             }}
           />
         </div>
 
         <div>
           Diagnose:
-          <Textarea
-            variant="bordered"
+          <Input
+            type="text"
             placeholder="Voer de diagnose in"
-            disableAnimation
-            disableAutosize
             ref={diagnoseRef}
             required
             classNames={{
               base: 'max-w-xs',
-              input: 'resize-y min-h-[40px]',
+              input: 'border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500'
             }}
           />
         </div>
 
         <div>
           <br />
-            <Button type="submit" style={{ backgroundColor: 'lightgreen' }} >
-            Verslag aanmaken
-          </Button>
+          <Link  href="../verslagen" >
+            <Button type="submit" style={{ backgroundColor: 'lightgreen' }}>
+              Verslag aanmaken
+            </Button>
+          </Link>
         </div>
       </form>
 
@@ -138,5 +130,3 @@ const CreateVerslagPage: React.FC = () => {
 };
 
 export default CreateVerslagPage;
-
-
