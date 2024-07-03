@@ -137,29 +137,53 @@ const CreateVerslagPage: React.FC = () => {
         <div style={{ marginTop: '20px' }}>
           <Popover placement="top" offset={20} showArrow>
             <PopoverTrigger>
-              <Button type="submit" style={{ backgroundColor: 'lightgreen' }}>
+              <Button
+                type="submit"
+                style={{
+                  backgroundColor: 'lightgreen',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px', // Ruimte tussen tekst en icoon
+                  paddingLeft: '20px',
+                  paddingRight: '20px',
+                  border: 'none',
+                  borderRadius: '10px',
+                  padding: '10px',
+                  fontSize: '16px',
+                  cursor: 'pointer'
+                }}
+             
+              >
                 Verslag aanmaken
+                <img
+                  src="/addiconVerslagen.png"
+                  alt="Add"
+                  style={{ width: '25px', height: '25px' }}
+                />
               </Button>
             </PopoverTrigger>
             {popoverContent}
           </Popover>
         </div>
 
-        {/* <div style={{ marginTop: '20px' }}>
-          <Button type="submit" style={{ backgroundColor: 'lightgreen' }}>
-            Verslag aanmaken
-          </Button>
-        </div> */}
+       
       </form>
 
+    
       <br />
-      <br />
-      <div>
+      <div style={{ marginTop: '20px' }}>
         <Link href="../verslagen">
-          <Button style={{ backgroundColor: 'lightgreen' }}>Terug</Button>
+          <Button style={{ backgroundColor: 'lightgreen' }}>
+            <img
+              src="/backiconVerslagen.png"
+              alt="Add"
+              style={{ width: '25px', height: '25px' }}
+            />
+          </Button>
         </Link>
       </div>
     </div>
+    
   );
 };
 
