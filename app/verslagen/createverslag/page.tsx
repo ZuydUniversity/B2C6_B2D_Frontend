@@ -66,7 +66,7 @@ const CreateVerslagPage: React.FC = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <label style={{ display: 'block', marginBottom: '5px' }}>
-            Datum:
+            Datum
           </label>
           <input
             type="date"
@@ -87,7 +87,7 @@ const CreateVerslagPage: React.FC = () => {
 
         <div>
           <label style={{ display: 'block', marginBottom: '5px' }}>
-            Gezondheidsklachten:
+            Gezondheidsklachten
           </label>
           <Input
             type="text"
@@ -103,7 +103,7 @@ const CreateVerslagPage: React.FC = () => {
 
         <div>
           <label style={{ display: 'block', marginBottom: '5px' }}>
-            Medische geschiedenis:
+            Medische geschiedenis
           </label>
           <Input
             type="text"
@@ -119,7 +119,7 @@ const CreateVerslagPage: React.FC = () => {
 
         <div>
           <label style={{ display: 'block', marginBottom: '5px' }}>
-            Diagnose:
+            Diagnose
           </label>
           <Input
             type="text"
@@ -140,7 +140,8 @@ const CreateVerslagPage: React.FC = () => {
               <Button
                 type="submit"
                 style={{
-                  backgroundColor: 'lightgreen',
+                  backgroundColor: '#000369',
+                  color: 'white',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '10px', // Ruimte tussen tekst en icoon
@@ -170,10 +171,10 @@ const CreateVerslagPage: React.FC = () => {
       </form>
 
     
-      <br />
+      
       <div style={{ marginTop: '20px' }}>
         <Link href="../verslagen">
-          <Button style={{ backgroundColor: 'lightgreen' }}>
+          <Button style={{ backgroundColor: '#000369', }}>
             <img
               src="/backiconVerslagen.png"
               alt="Add"

@@ -1,25 +1,23 @@
 "use client";
-
 import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation'; // Importeer useRouter en useSearchParams
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Button, Input } from '@nextui-org/react';
 import { Verslag } from '../../Models/Verslag'; 
 
 const UpdateVerslagpage = () => {
-    const router = useRouter(); // Haal router object op
-    const searchParams = useSearchParams(); // Haal query parameters op
-    const id = searchParams.get('id'); // Haal 'id' parameter op uit query
-    const [verslag, setVerslag] = useState<Verslag | null>(null); // State voor het huidige verslag
-    const [loading, setLoading] = useState(true); // State om laadstatus weer te geven
-    const [error, setError] = useState<string | null>(null); // State om foutmeldingen weer te geven
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const id = searchParams.get('id');
+    const [verslag, setVerslag] = useState<Verslag | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    // Refs voor het ophalen van waarden uit formuliervelden
     const dateRef = useRef<HTMLInputElement>(null);
-    const healthComplaintsRef = useRef<HTMLTextAreaElement>(null);
-    const medicalHistoryRef = useRef<HTMLTextAreaElement>(null);
-    const diagnoseRef = useRef<HTMLTextAreaElement>(null);
+    const healthComplaintsRef = useRef<HTMLInputElement>(null);
+    const medicalHistoryRef = useRef<HTMLInputElement>(null);
+    const diagnoseRef = useRef<HTMLInputElement>(null);
 
-    // Effect om het verslag op te halen bij het laden van de pagina
     useEffect(() => {
         if (id) {
             fetch(`http://127.0.0.1:8000/verslag/${id}`)
@@ -30,132 +28,176 @@ const UpdateVerslagpage = () => {
                     return response.json();
                 })
                 .then(data => {
-                    setVerslag(data); // Zet het opgehaalde verslag in de state
-                    setLoading(false); // Zet laadstatus op false
+                    setVerslag(data);
+                    setLoading(false);
                 })
                 .catch(error => {
-                    setError(error.message); // Zet foutmelding als er een fout optreedt
-                    setLoading(false); // Zet laadstatus op false
+                    setError(error.message);
+                    setLoading(false);
                 });
         }
-    }, [id]); // Voer effect uit wanneer 'id' verandert
+    }, [id]);
 
-    // Functie om formulier te verwerken bij verzending
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Voorkom standaard formuliergedrag
+        event.preventDefault();
 
-        // Haal waarden op uit de referenties naar de formuliervelden
         const dateValue = dateRef.current!.value;
         const healthComplaintsValue = healthComplaintsRef.current!.value;
         const medicalHistoryValue = medicalHistoryRef.current!.value;
         const diagnoseValue = diagnoseRef.current!.value;
 
         try {
-            // Doe een PUT request naar de API om het verslag bij te werken
             const response = await fetch(`http://127.0.0.1:8000/verslag/${id}`, {
-                method: 'PUT', // Methode voor bijwerken van gegevens
+                method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json', // Type van de te verzenden data
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ // Zet de te verzenden data om in JSON formaat
+                body: JSON.stringify({
                     date: dateValue,
                     healthcomplaints: healthComplaintsValue,
                     medicalhistory: medicalHistoryValue,
                     diagnose: diagnoseValue,
-                    zorgverlener_id: verslag?.zorgverlener_id, // Optionele data vanuit de state
-                    patient_id: verslag?.patient_id, // Optionele data vanuit de state
+                    zorgverlener_id: verslag?.zorgverlener_id,
+                    patient_id: verslag?.patient_id,
                 }),
-                cache: "no-store", // Geen cache gebruiken voor het verzoek
+                cache: "no-store",
             });
 
-            if (!response.ok) { // Controleren of het verzoek gelukt is
+            if (!response.ok) {
                 throw new Error('Failed to update verslag');
             }
 
-            router.push('/verslagen'); // Ga terug naar de lijst met verslagen
+            router.push('/verslagen');
         } catch (error) {
-            setError((error as Error).message); // Vang foutmelding op en zet in de state
+            setError((error as Error).message);
         }
     };
 
-    // Functie om terug te gaan naar de lijst met verslagen
-    const handleBack = () => {
-        router.push('/verslagen');
-    };
-
-    // Toon een laadindicator als de data nog wordt geladen
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    // Toon foutmelding als er een fout optreedt bij het laden van data
     if (error) {
         return <div>Error: {error}</div>;
     }
 
-    // Render het formulier om het verslag bij te werken
     return (
-        <div>
+        <div style={{ padding: '50px', backgroundColor: 'rgb(216, 234, 255)', minHeight: '100vh' }}>
             <div>
-                <h1>Update Verslag Page</h1>
+                <h1 style={{ fontSize: 'xxx-large', fontWeight: 'bold', borderBottom: '2px solid black', display: 'inline-block', marginBottom: '50px' }}>Update Verslag</h1>
             </div>
 
-            <form onSubmit={handleSubmit}> {/* Formulier voor het bijwerken van het verslag */}
+            <form onSubmit={handleSubmit}>
                 <div>
-                    <label>
-                        Datum:
-                        <input
-                            type="date"
-                            ref={dateRef} // Verwijzing naar de input voor datum
-                            required
-                            defaultValue={verslag?.date} // Standaardwaarde instellen (optioneel)
-                        />
+                    <label style={{ display: 'block', marginBottom: '5px'}}>
+                        Datum
                     </label>
-                </div>
-
-                <div>
-                    Gezondheidsklachten:
-                    <textarea
-                        defaultValue={verslag?.healthcomplaints} // Standaardwaarde instellen (optioneel)
-                        ref={healthComplaintsRef} // Verwijzing naar textarea voor gezondheidsklachten
+                    <input
+                        type="date"
+                        ref={dateRef}
                         required
-                        className='max-w-xs resize-y min-h-[40px]'
+                        defaultValue={verslag?.date}
+                        style={{
+                            display: 'block',
+                            border: '1px solid #ccc',
+                            borderRadius: '4px',
+                            padding: '8px',
+                            maxWidth: '100%',
+                            boxSizing: 'border-box',
+                            fontSize: '16px',
+                            marginBottom: '10px'
+                        }}
                     />
                 </div>
 
                 <div>
-                    Medische geschiedenis:
-                    <textarea
-                        ref={medicalHistoryRef} // Verwijzing naar textarea voor medische geschiedenis
+                    <label style={{ display: 'block', marginBottom: '5px'}}>
+                        Gezondheidsklachten
+                    </label>
+                    <Input
+                        type="text"
+                        placeholder="Voer de gezondheidsklachten in"
+                        ref={healthComplaintsRef}
                         required
-                        defaultValue={verslag?.medicalhistory} // Standaardwaarde instellen (optioneel)
-                        className='max-w-xs resize-y min-h-[40px]'
+                        classNames={{
+                            base: 'max-w-xs',
+                            input: 'border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500'
+                        }}
+                        defaultValue={verslag?.healthcomplaints}
                     />
                 </div>
 
                 <div>
-                    Diagnose:
-                    <textarea
-                        ref={diagnoseRef} // Verwijzing naar textarea voor diagnose
+                    <label style={{ display: 'block', marginBottom: '5px'}}>
+                        Medische geschiedenis
+                    </label>
+                    <Input
+                        type="text"
+                        placeholder="Voer de medische geschiedenis in"
+                        ref={medicalHistoryRef}
                         required
-                        defaultValue={verslag?.diagnose} // Standaardwaarde instellen (optioneel)
-                        className='max-w-xs resize-y min-h-[40px]'
+                        classNames={{
+                            base: 'max-w-xs',
+                            input: 'border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500'
+                        }}
+                        defaultValue={verslag?.medicalhistory}
                     />
                 </div>
 
                 <div>
-                    <br />
-                    <button type="submit" style={{ backgroundColor: 'lightgreen' }}>
-                        Verslag aanpassen {/* Knop om het verslag bij te werken */}
-                    </button>
+                    <label style={{ display: 'block', marginBottom: '5px'}}>
+                        Diagnose
+                    </label>
+                    <Input
+                        type="text"
+                        placeholder="Voer de diagnose in"
+                        ref={diagnoseRef}
+                        required
+                        classNames={{
+                            base: 'max-w-xs',
+                            input: 'border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500'
+                        }}
+                        defaultValue={verslag?.diagnose}
+                    />
+                </div>
+
+                <div style={{ marginTop: '20px' }}>
+                    <Button
+                        type="submit"
+                        style={{
+                            backgroundColor: '#000369',
+                            color: 'white',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px',
+                            paddingLeft: '20px',
+                            paddingRight: '20px',
+                            border: 'none',
+                            borderRadius: '10px',
+                            padding: '10px',
+                            fontSize: '16px',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        Verslag bijwerken
+                        <img
+                            src="/editicon2Verslagen.png"
+                            alt="Add"
+                            style={{ width: '25px', height: '25px' }}
+                        />
+                    </Button>
                 </div>
             </form>
 
-            <br />
-            <br />
-            <div>
-                <Link href="../verslagen"> {/* Link terug naar de lijst met verslagen */}
-                    <button style={{ backgroundColor: 'lightgreen' }}>Terug</button>
+            <div style={{ marginTop: '20px' }}>
+                <Link href="/verslagen">
+                    <Button style={{ backgroundColor: '#000369' }}>
+                        <img
+                            src="/backiconVerslagen.png"
+                            alt="Add"
+                            style={{ width: '25px', height: '25px' }}
+                        />
+                    </Button>
                 </Link>
             </div>
         </div>
