@@ -22,6 +22,14 @@ export const getVerslag = async (id: string) => {
     return response.json();
 };
 
+export const getAllVerslagen = async () => {
+    const response = await fetch('http://127.0.0.1:8000/verslag');
+    if (!response.ok) {
+        throw new Error('Failed to fetch verslagen');
+    }
+    return response.json();
+};
+
 export const updateVerslag = async (id: string, verslag: any) => {
     const response = await fetch(`http://127.0.0.1:8000/verslag/${id}`, {
         method: 'PUT',

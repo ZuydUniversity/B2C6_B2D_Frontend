@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
-import { Verslag } from '../../Models/Verslag'; // Pas het pad aan naar waar je Verslag.ts bestand zich bevindt
+import { useEffect, useState } from 'react';
+import { Verslag } from '../../Models/Verslag'; // Controleer of dit het juiste pad is naar Verslag.ts
 
 const DeleteVerslagPage = () => {
     const router = useRouter();
@@ -33,19 +33,21 @@ const DeleteVerslagPage = () => {
     }, [id]);
 
     const handleDelete = () => {
-        fetch(`http://127.0.0.1:8000/verslag/${id}`, {
-            method: 'DELETE',
-            cache: "no-store",
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to delete verslag');
-            }
-            router.push('/verslagen'); // Terug naar de verslagen pagina
-        })
-        .catch(error => {
-            setError(error.message);
-        });
+        if (id) {
+            fetch(`http://127.0.0.1:8000/verslag/${id}`, {
+                method: 'DELETE',
+                cache: "no-store",
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to delete verslag');
+                }
+                router.push('/verslagen'); // Terug naar de verslagen pagina
+            })
+            .catch(error => {
+                setError(error.message);
+            });
+        }
     };
 
     const handleBack = () => {
@@ -75,12 +77,6 @@ const DeleteVerslagPage = () => {
             )}
         </div>
     );
-}
+};
 
-const WrappedDeleteVerslagPage = () => (
-    <Suspense fallback={<div>Loading...</div>}>
-        <DeleteVerslagPage />
-    </Suspense>
-);
-
-export default WrappedDeleteVerslagPage;
+export default DeleteVerslagPage;
