@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Verslag } from '../../Models/Verslag'; // Controleer of dit het juiste pad is naar Verslag.ts
+import { getVerslag, deleteVerslag } from '@/serverActions/verslagactions'; // Zorg ervoor dat dit pad correct is
 
 const DeleteVerslagPage = () => {
     const router = useRouter();
@@ -13,40 +14,30 @@ const DeleteVerslagPage = () => {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (id) {
-            fetch(`http://127.0.0.1:8000/verslag/${id}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch verslag');
-                    }
-                    return response.json();
-                })
-                .then(data => {
+        const fetchData = async () => {
+            if (id) {
+                try {
+                    const data = await getVerslag(id);
                     setVerslag(data);
+                } catch (error) {
+                    setError((error as Error).message);
+                } finally {
                     setLoading(false);
-                })
-                .catch(error => {
-                    setError(error.message);
-                    setLoading(false);
-                });
-        }
+                }
+            }
+        };
+
+        fetchData();
     }, [id]);
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (id) {
-            fetch(`http://127.0.0.1:8000/verslag/${id}`, {
-                method: 'DELETE',
-                cache: "no-store",
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to delete verslag');
-                }
+            try {
+                await deleteVerslag(id);
                 router.push('/verslagen'); // Terug naar de verslagen pagina
-            })
-            .catch(error => {
-                setError(error.message);
-            });
+            } catch (error) {
+                setError((error as Error).message);
+            }
         }
     };
 
@@ -63,8 +54,8 @@ const DeleteVerslagPage = () => {
     }
 
     return (
-        <div>
-            <h1>Verwijder Verslag</h1>
+        <div style={{ padding: '50px', backgroundColor: 'rgb(216, 234, 255)', minHeight: '100vh' }}>
+            <h1 style={{ fontSize: 'xxx-large', fontWeight: 'bold', borderBottom: '2px solid black', display: 'inline-block', marginBottom: '50px' }}>Verwijder Verslag</h1>
             {verslag && (
                 <div>
                     <p>Datum: {verslag.date}</p>

@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Verslag } from '../Models/Verslag';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, CircularProgress, Button, Tooltip } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Button, Tooltip } from "@nextui-org/react";
+import { getAllVerslagen } from '@/serverActions/verslagactions';
 
 const VerslagenPage = () => {
     const [verslagen, setVerslagen] = useState<Verslag[]>([]);
@@ -13,15 +14,7 @@ const VerslagenPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch('http://127.0.0.1:8000/verslag', {
-                    cache: "no-store"
-                });
-
-                if (!res.ok) {
-                    throw new Error(`Failed to fetch verslagen: ${res.statusText}`);
-                }
-
-                const data: Verslag[] = await res.json();
+                const data = await getAllVerslagen();
                 setVerslagen(data);
             } catch (error) {
                 setError((error as Error).message);
@@ -66,13 +59,13 @@ const VerslagenPage = () => {
                 <Link href='../verslagen/createverslag'>
                     <Button
                         style={{
-                            backgroundColor: '#000369', // Achtergrondkleur
+                            backgroundColor: '#000369',
                             cursor: 'pointer',
-                            paddingLeft: '20px', // Ruimte voor de tekst
-                            paddingRight: '20px', // Ruimte rechts van de tekst
+                            paddingLeft: '20px',
+                            paddingRight: '20px',
                             marginLeft: '20px',
                             border: 'none',
-                            borderRadius: '10px', // Aangepaste borderRadius voor meer ronde hoeken
+                            borderRadius: '10px',
                             padding: '10px',
                             fontSize: '16px',
                             display: 'flex',

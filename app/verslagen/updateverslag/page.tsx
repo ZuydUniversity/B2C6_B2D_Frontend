@@ -1,11 +1,12 @@
 "use client";
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, Input } from '@nextui-org/react';
-import { Verslag } from '../../Models/Verslag'; 
+import { Verslag } from '../../Models/Verslag';
+import { updateVerslag, getVerslag } from '@/serverActions/verslagactions';
 
-const UpdateVerslagpage = () => {
+const UpdateVerslagPage = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const id = searchParams.get('id');
@@ -13,22 +14,20 @@ const UpdateVerslagpage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const dateRef = useRef<HTMLInputElement>(null);
-    const healthComplaintsRef = useRef<HTMLInputElement>(null);
-    const medicalHistoryRef = useRef<HTMLInputElement>(null);
-    const diagnoseRef = useRef<HTMLInputElement>(null);
+    const [date, setDate] = useState('');
+    const [healthComplaints, setHealthComplaints] = useState('');
+    const [medicalHistory, setMedicalHistory] = useState('');
+    const [diagnose, setDiagnose] = useState('');
 
     useEffect(() => {
         if (id) {
-            fetch(`http://127.0.0.1:8000/verslag/${id}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch verslag');
-                    }
-                    return response.json();
-                })
+            getVerslag(id)
                 .then(data => {
                     setVerslag(data);
+                    setDate(data.date);
+                    setHealthComplaints(data.healthcomplaints);
+                    setMedicalHistory(data.medicalhistory);
+                    setDiagnose(data.diagnose);
                     setLoading(false);
                 })
                 .catch(error => {
@@ -41,32 +40,15 @@ const UpdateVerslagpage = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const dateValue = dateRef.current!.value;
-        const healthComplaintsValue = healthComplaintsRef.current!.value;
-        const medicalHistoryValue = medicalHistoryRef.current!.value;
-        const diagnoseValue = diagnoseRef.current!.value;
-
         try {
-            const response = await fetch(`http://127.0.0.1:8000/verslag/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    date: dateValue,
-                    healthcomplaints: healthComplaintsValue,
-                    medicalhistory: medicalHistoryValue,
-                    diagnose: diagnoseValue,
-                    zorgverlener_id: verslag?.zorgverlener_id,
-                    patient_id: verslag?.patient_id,
-                }),
-                cache: "no-store",
+            await updateVerslag(id!, {
+                date,
+                healthcomplaints: healthComplaints,
+                medicalhistory: medicalHistory,
+                diagnose,
+                zorgverlener_id: verslag?.zorgverlener_id,
+                patient_id: verslag?.patient_id,
             });
-
-            if (!response.ok) {
-                throw new Error('Failed to update verslag');
-            }
-
             router.push('/verslagen');
         } catch (error) {
             setError((error as Error).message);
@@ -94,9 +76,9 @@ const UpdateVerslagpage = () => {
                     </label>
                     <input
                         type="date"
-                        ref={dateRef}
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
                         required
-                        defaultValue={verslag?.date}
                         style={{
                             display: 'block',
                             border: '1px solid #ccc',
@@ -117,13 +99,13 @@ const UpdateVerslagpage = () => {
                     <Input
                         type="text"
                         placeholder="Voer de gezondheidsklachten in"
-                        ref={healthComplaintsRef}
+                        value={healthComplaints}
+                        onChange={(e) => setHealthComplaints(e.target.value)}
                         required
                         classNames={{
                             base: 'max-w-xs',
                             input: 'border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500'
                         }}
-                        defaultValue={verslag?.healthcomplaints}
                     />
                 </div>
 
@@ -134,13 +116,13 @@ const UpdateVerslagpage = () => {
                     <Input
                         type="text"
                         placeholder="Voer de medische geschiedenis in"
-                        ref={medicalHistoryRef}
+                        value={medicalHistory}
+                        onChange={(e) => setMedicalHistory(e.target.value)}
                         required
                         classNames={{
                             base: 'max-w-xs',
                             input: 'border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500'
                         }}
-                        defaultValue={verslag?.medicalhistory}
                     />
                 </div>
 
@@ -151,13 +133,13 @@ const UpdateVerslagpage = () => {
                     <Input
                         type="text"
                         placeholder="Voer de diagnose in"
-                        ref={diagnoseRef}
+                        value={diagnose}
+                        onChange={(e) => setDiagnose(e.target.value)}
                         required
                         classNames={{
                             base: 'max-w-xs',
                             input: 'border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500'
                         }}
-                        defaultValue={verslag?.diagnose}
                     />
                 </div>
 
@@ -204,4 +186,4 @@ const UpdateVerslagpage = () => {
     );
 };
 
-export default UpdateVerslagpage;
+export default UpdateVerslagPage;
