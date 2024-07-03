@@ -1,18 +1,14 @@
-// Ensure this directive is at the top of the file
 "use client";
-
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Verslag } from '../Models/Verslag';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, CircularProgress, Button, Tooltip } from "@nextui-org/react";
-import {useAsyncList} from "@react-stately/data";
 
 const VerslagenPage = () => {
     const [verslagen, setVerslagen] = useState<Verslag[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchDate, setSearchDate] = useState("");
-    const [creatingNewVerslag, setCreatingNewVerslag] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,15 +32,6 @@ const VerslagenPage = () => {
 
         fetchData();
     }, []);
-
-    const handleCreateNewVerslagClick = () => {
-        setCreatingNewVerslag(true);
-        // Simulate asynchronous creation process
-        setTimeout(() => {
-            // Reset state and perform any necessary actions after creating new verslag
-            setCreatingNewVerslag(false);
-        }, 4000); // Example: Simulate 2 seconds loading time
-    };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -78,8 +65,6 @@ const VerslagenPage = () => {
                 </div>
                 <Link href='../verslagen/createverslag'>
                     <Button
-                        onClick={handleCreateNewVerslagClick}
-                        
                         style={{
                             backgroundColor: '#000369', // Achtergrondkleur
                             cursor: 'pointer',
