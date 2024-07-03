@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Resultaat } from '../Models/Resultaat'; // Adjust the path as per your actual file structure
+import { Resultaat } from '../models/Resultaat'; // Adjust the path as per your actual file structure
 
 interface UpdateResultaatProps {
     initialResultaat: Resultaat | null;
