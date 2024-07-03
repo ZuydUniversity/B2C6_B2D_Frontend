@@ -1,4 +1,4 @@
-import { Resultaat } from "./Models/Resultaat";
+import { Resultaat } from "./models/Resultaat";
 
 async function updateResultaat(resultaat: Resultaat): Promise<Resultaat | null> {
     try {
