@@ -56,18 +56,30 @@ const CreateVerslagPage: React.FC = () => {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>
+          <label style={{ display: 'block', marginBottom: '5px' }}>
             Datum:
-            <input
-              type="date"
-              ref={dateRef}
-              required
-            />
           </label>
+          <input
+            type="date"
+            ref={dateRef}
+            required
+            style={{
+              display: 'block',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              padding: '8px',
+              maxWidth: '100%',
+              boxSizing: 'border-box',
+              fontSize: '16px',
+              marginBottom: '10px'
+            }}
+          />
         </div>
 
         <div>
-          Gezondheidsklachten:
+          <label style={{ display: 'block', marginBottom: '5px' }}>
+            Gezondheidsklachten:
+          </label>
           <Input
             type="text"
             placeholder="Voer de gezondheidsklachten in"
@@ -81,7 +93,9 @@ const CreateVerslagPage: React.FC = () => {
         </div>
 
         <div>
-          Medische geschiedenis:
+          <label style={{ display: 'block', marginBottom: '5px' }}>
+            Medische geschiedenis:
+          </label>
           <Input
             type="text"
             placeholder="Voer de medische geschiedenis in"
@@ -95,7 +109,9 @@ const CreateVerslagPage: React.FC = () => {
         </div>
 
         <div>
-          Diagnose:
+          <label style={{ display: 'block', marginBottom: '5px' }}>
+            Diagnose:
+          </label>
           <Input
             type="text"
             placeholder="Voer de diagnose in"
@@ -110,11 +126,9 @@ const CreateVerslagPage: React.FC = () => {
 
         <div>
           <br />
-          <Link  href="../verslagen" >
             <Button type="submit" style={{ backgroundColor: 'lightgreen' }}>
               Verslag aanmaken
-            </Button>
-          </Link>
+            </Button>         
         </div>
       </form>
 
