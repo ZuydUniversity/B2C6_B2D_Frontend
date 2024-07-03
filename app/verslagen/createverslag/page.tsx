@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef } from 'react';
 import Link from 'next/link';
-import { Button, Input } from '@nextui-org/react';
+import { Button, Input, Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react';
 
 const CreateVerslagPage: React.FC = () => {
   const dateRef = useRef<HTMLInputElement>(null);
@@ -47,6 +47,15 @@ const CreateVerslagPage: React.FC = () => {
       }
     }
   };
+
+  const popoverContent = (
+    <PopoverContent style={{ backgroundColor: 'lightgreen', color: 'black' }}>
+      <div className="px-1 py-2">
+        <div className="text-small font-bold">Succesvol aangemaakt</div>
+        <div className="text-tiny">Het nieuwe verslag is succesvol aangemaakt.</div>
+      </div>
+    </PopoverContent>
+  );
 
   return (
     <div style={{ padding: '50px', backgroundColor: 'rgb(216, 234, 255)', minHeight: '100vh' }}>
@@ -124,12 +133,23 @@ const CreateVerslagPage: React.FC = () => {
           />
         </div>
 
-        <div>
-          <br />
-            <Button type="submit" style={{ backgroundColor: 'lightgreen' }}>
-              Verslag aanmaken
-            </Button>         
+        {/* Popover boven de Verslag aanmaken knop */}
+        <div style={{ marginTop: '20px' }}>
+          <Popover placement="top" offset={20} showArrow>
+            <PopoverTrigger>
+              <Button type="submit" style={{ backgroundColor: 'lightgreen' }}>
+                Verslag aanmaken
+              </Button>
+            </PopoverTrigger>
+            {popoverContent}
+          </Popover>
         </div>
+
+        {/* <div style={{ marginTop: '20px' }}>
+          <Button type="submit" style={{ backgroundColor: 'lightgreen' }}>
+            Verslag aanmaken
+          </Button>
+        </div> */}
       </form>
 
       <br />
