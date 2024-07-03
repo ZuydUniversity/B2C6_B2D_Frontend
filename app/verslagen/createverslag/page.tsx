@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef } from 'react';
 import Link from 'next/link';
-import { Button, Input } from '@nextui-org/react';
+import { Button, Input, Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react';
 
 const CreateVerslagPage: React.FC = () => {
   const dateRef = useRef<HTMLInputElement>(null);
@@ -48,6 +48,15 @@ const CreateVerslagPage: React.FC = () => {
     }
   };
 
+  const popoverContent = (
+    <PopoverContent style={{ backgroundColor: 'lightgreen', color: 'black' }}>
+      <div className="px-1 py-2">
+        <div className="text-small font-bold">Succesvol aangemaakt</div>
+        <div className="text-tiny">Het nieuwe verslag is succesvol aangemaakt.</div>
+      </div>
+    </PopoverContent>
+  );
+
   return (
     <div style={{ padding: '50px', backgroundColor: 'rgb(216, 234, 255)', minHeight: '100vh' }}>
       <div>
@@ -56,18 +65,30 @@ const CreateVerslagPage: React.FC = () => {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>
+          <label style={{ display: 'block', marginBottom: '5px' }}>
             Datum:
-            <input
-              type="date"
-              ref={dateRef}
-              required
-            />
           </label>
+          <input
+            type="date"
+            ref={dateRef}
+            required
+            style={{
+              display: 'block',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              padding: '8px',
+              maxWidth: '100%',
+              boxSizing: 'border-box',
+              fontSize: '16px',
+              marginBottom: '10px'
+            }}
+          />
         </div>
 
         <div>
-          Gezondheidsklachten:
+          <label style={{ display: 'block', marginBottom: '5px' }}>
+            Gezondheidsklachten:
+          </label>
           <Input
             type="text"
             placeholder="Voer de gezondheidsklachten in"
@@ -81,7 +102,9 @@ const CreateVerslagPage: React.FC = () => {
         </div>
 
         <div>
-          Medische geschiedenis:
+          <label style={{ display: 'block', marginBottom: '5px' }}>
+            Medische geschiedenis:
+          </label>
           <Input
             type="text"
             placeholder="Voer de medische geschiedenis in"
@@ -95,7 +118,9 @@ const CreateVerslagPage: React.FC = () => {
         </div>
 
         <div>
-          Diagnose:
+          <label style={{ display: 'block', marginBottom: '5px' }}>
+            Diagnose:
+          </label>
           <Input
             type="text"
             placeholder="Voer de diagnose in"
@@ -108,24 +133,57 @@ const CreateVerslagPage: React.FC = () => {
           />
         </div>
 
-        <div>
-          <br />
-          <Link  href="../verslagen" >
-            <Button type="submit" style={{ backgroundColor: 'lightgreen' }}>
-              Verslag aanmaken
-            </Button>
-          </Link>
+        {/* Popover boven de Verslag aanmaken knop */}
+        <div style={{ marginTop: '20px' }}>
+          <Popover placement="top" offset={20} showArrow>
+            <PopoverTrigger>
+              <Button
+                type="submit"
+                style={{
+                  backgroundColor: 'lightgreen',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px', // Ruimte tussen tekst en icoon
+                  paddingLeft: '20px',
+                  paddingRight: '20px',
+                  border: 'none',
+                  borderRadius: '10px',
+                  padding: '10px',
+                  fontSize: '16px',
+                  cursor: 'pointer'
+                }}
+             
+              >
+                Verslag aanmaken
+                <img
+                  src="/addiconVerslagen.png"
+                  alt="Add"
+                  style={{ width: '25px', height: '25px' }}
+                />
+              </Button>
+            </PopoverTrigger>
+            {popoverContent}
+          </Popover>
         </div>
+
+       
       </form>
 
+    
       <br />
-      <br />
-      <div>
+      <div style={{ marginTop: '20px' }}>
         <Link href="../verslagen">
-          <Button style={{ backgroundColor: 'lightgreen' }}>Terug</Button>
+          <Button style={{ backgroundColor: 'lightgreen' }}>
+            <img
+              src="/backiconVerslagen.png"
+              alt="Add"
+              style={{ width: '25px', height: '25px' }}
+            />
+          </Button>
         </Link>
       </div>
     </div>
+    
   );
 };
 

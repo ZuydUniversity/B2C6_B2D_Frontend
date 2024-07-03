@@ -3,9 +3,8 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx},\r\n    ./components/**/*.{js,ts,jsx,tsx,mdx},\r\n    ./app/**/*.{js,ts,jsx,tsx,mdx},",
-    "./node_modules/@nextui-org/theme/dist/components/(table|checkbox|spacer).js"
-  ],
+    "./node_modules/@nextui-org/theme/dist/components/(popover|table|button|ripple|spinner|checkbox|spacer).js"
+],
   theme: {
     extend: {
       backgroundImage: {
