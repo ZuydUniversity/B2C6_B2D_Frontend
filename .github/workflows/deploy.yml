@@ -1,1 +1,9 @@
+name: deploy
 
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  run_docker_via_ssh:
+    uses: ZuydUniversity/B2C6_B2D_IAS/.github/workflows/run_docker_via_ssh.yml@groep-2
