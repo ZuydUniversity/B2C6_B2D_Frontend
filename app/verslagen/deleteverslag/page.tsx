@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, Input, Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react';
@@ -43,19 +43,19 @@ const DeleteVerslagPage = () => {
                     router.push('/verslagen'); // Navigate back to the verslagen page
                 }, 2000); // Delay for 2 seconds before navigating back
             } catch (error) {
-                console.error('Error creating verslag:', error);
+                console.error('Error deleting verslag:', error);
             }
-        };
-    }
+        }
+    };
+
     const popoverContent = (
         <PopoverContent style={{ backgroundColor: 'red' }}>
             <div className="px-1 py-2">
                 <div className="text-small font-bold">Succesvol Verwijderd</div>
-                <div className="text-tiny">Het verslag is succesvol erwijderd.</div>
+                <div className="text-tiny">Het verslag is succesvol verwijderd.</div>
             </div>
         </PopoverContent>
     );
-
 
     if (loading) {
         return <div>Loading...</div>;
@@ -83,7 +83,7 @@ const DeleteVerslagPage = () => {
             {verslag && (
                 <form>
                     <div>
-                        <label style={{ display: 'block', marginBottom: '5px'}}>
+                        <label style={{ display: 'block', marginBottom: '5px' }}>
                             Datum
                         </label>
                         <input
@@ -92,7 +92,7 @@ const DeleteVerslagPage = () => {
                             disabled
                             style={{
                                 display: 'block',
-                                background:"white",
+                                background: "white",
                                 border: '1px solid #ccc',
                                 borderRadius: '4px',
                                 padding: '8px',
@@ -105,7 +105,7 @@ const DeleteVerslagPage = () => {
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '5px'}}>
+                        <label style={{ display: 'block', marginBottom: '5px' }}>
                             Gezondheidsklachten
                         </label>
                         <Input
@@ -121,7 +121,7 @@ const DeleteVerslagPage = () => {
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '5px'}}>
+                        <label style={{ display: 'block', marginBottom: '5px' }}>
                             Medische geschiedenis
                         </label>
                         <Input
@@ -137,7 +137,7 @@ const DeleteVerslagPage = () => {
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '5px'}}>
+                        <label style={{ display: 'block', marginBottom: '5px' }}>
                             Diagnose
                         </label>
                         <Input
@@ -176,7 +176,7 @@ const DeleteVerslagPage = () => {
                                     <img
                                         src="/deleteicon2Verslagen.png"
                                         alt="Delete"
-                                        style={{ width: '25px', height: '25px', padding:'1px'}}
+                                        style={{ width: '25px', height: '25px', padding: '1px' }}
                                     />
                                 </Button>
                             </PopoverTrigger>
@@ -189,4 +189,10 @@ const DeleteVerslagPage = () => {
     );
 };
 
-export default DeleteVerslagPage;
+export default function WrappedDeleteVerslagPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <DeleteVerslagPage />
+        </Suspense>
+    );
+}

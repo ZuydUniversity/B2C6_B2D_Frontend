@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Verslag } from '../../Models/Verslag';
@@ -201,4 +201,10 @@ const UpdateVerslagPage = () => {
     );
 };
 
-export default UpdateVerslagPage;
+const SuspenseWrapper = () => (
+    <Suspense fallback={<div>Loading...</div>}>
+        <UpdateVerslagPage />
+    </Suspense>
+);
+
+export default SuspenseWrapper;
