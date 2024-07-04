@@ -55,18 +55,15 @@ jobs:
                sudo apt update
                sudo apt install -y ansible
           
-      - name: Reboot Server
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Reboot server
+        uses: dawidd6/action-ansible-playbook@v2.1.2
         with:
-          host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-          username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-          password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
-          script: |
-               sudo reboot
-               exit
-               
-      - name: Wait For server to reboot
-        run: sleep 20
+          playbook: Frontend/ansible/reboot_services.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: 'False'
+          ANSIBLE_INVENTORY: 'ansible/inventory'
+          ANSIBLE_REMOTE_USER: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}
+          ANSIBLE_REMOTE_PASS: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
 
       - name: Clean Old Artefact
         uses: appleboy/ssh-action@v1.0.3
