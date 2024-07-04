@@ -42,7 +42,7 @@ const CreateVerslagPage: React.FC = () => {
     };
 
     const popoverContent = (
-        <PopoverContent style={{ backgroundColor: 'lightgreen', color: 'black' }}>
+        <PopoverContent style={{ backgroundColor: 'red' }}>
             <div className="px-1 py-2">
                 <div className="text-small font-bold">Succesvol aangemaakt</div>
                 <div className="text-tiny">Het nieuwe verslag is succesvol aangemaakt.</div>
@@ -128,12 +128,13 @@ const CreateVerslagPage: React.FC = () => {
 
                 {/* Popover boven de Verslag aanmaken knop */}
                 <div style={{ marginTop: '20px' }}>
-                    <Popover placement="top" offset={20} showArrow>
+                    <Popover placement="top" offset={20} showArrow color='success'>
                         <PopoverTrigger>
                             <Button
                                 type="submit"
                                 style={{
-                                    backgroundColor: 'lightgreen',
+                                    backgroundColor: '#000369',
+                                    color: 'white',
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: '10px', // Ruimte tussen tekst en icoon
@@ -159,10 +160,10 @@ const CreateVerslagPage: React.FC = () => {
                 </div>
             </form>
 
-            <br />
+          
             <div style={{ marginTop: '20px' }}>
                 <Link href="../verslagen">
-                    <Button style={{ backgroundColor: 'lightgreen' }}>
+                    <Button style={{ backgroundColor: '#000369' }}>
                         <img
                             src="/backiconVerslagen.png"
                             alt="Add"

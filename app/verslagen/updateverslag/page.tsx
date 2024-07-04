@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Button, Input } from '@nextui-org/react';
 import { Verslag } from '../../Models/Verslag';
+import { Button, Input, Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react';
 import { updateVerslag, getVerslag } from '@/serverActions/verslagactions';
 
 const UpdateVerslagPage = () => {
@@ -13,11 +13,13 @@ const UpdateVerslagPage = () => {
     const [verslag, setVerslag] = useState<Verslag | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
+    const [popoverVisible, setPopoverVisible] = useState(false);
     const [date, setDate] = useState('');
     const [healthComplaints, setHealthComplaints] = useState('');
     const [medicalHistory, setMedicalHistory] = useState('');
     const [diagnose, setDiagnose] = useState('');
+
+    
 
     useEffect(() => {
         if (id) {
@@ -49,11 +51,24 @@ const UpdateVerslagPage = () => {
                 zorgverlener_id: verslag?.zorgverlener_id,
                 patient_id: verslag?.patient_id,
             });
-            router.push('/verslagen');
+            setPopoverVisible(true);
+            setTimeout(() => {
+                setPopoverVisible(false);
+                router.push('/verslagen'); // Navigate back to the verslagen page
+            }, 2000); // Delay for 2 seconds before navigating back
         } catch (error) {
-            setError((error as Error).message);
+            console.error('Error creating verslag:', error);
         }
     };
+
+    const popoverContent = (
+        <PopoverContent style={{ backgroundColor: 'red' }}>
+            <div className="px-1 py-2">
+                <div className="text-small font-bold">Succesvol aangepast</div>
+                <div className="text-tiny">Het verslag is succesvol aangepast.</div>
+            </div>
+        </PopoverContent>
+    );
 
     if (loading) {
         return <div>Loading...</div>;
@@ -144,22 +159,24 @@ const UpdateVerslagPage = () => {
                 </div>
 
                 <div style={{ marginTop: '20px' }}>
-                    <Button
-                        type="submit"
-                        style={{
-                            backgroundColor: '#000369',
-                            color: 'white',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '10px',
-                            paddingLeft: '20px',
-                            paddingRight: '20px',
-                            border: 'none',
-                            borderRadius: '10px',
-                            padding: '10px',
-                            fontSize: '16px',
-                            cursor: 'pointer'
-                        }}
+                <Popover placement="top" offset={20} showArrow color='success'>
+                    <PopoverTrigger>
+                        <Button
+                            type="submit"
+                            style={{
+                                backgroundColor: '#000369',
+                                color: 'white',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                                paddingLeft: '20px',
+                                paddingRight: '20px',
+                                border: 'none',
+                                borderRadius: '10px',
+                                padding: '10px',
+                                fontSize: '16px',
+                                cursor: 'pointer'
+                            }}
                     >
                         Verslag bijwerken
                         <img
@@ -167,7 +184,10 @@ const UpdateVerslagPage = () => {
                             alt="Add"
                             style={{ width: '25px', height: '25px' }}
                         />
-                    </Button>
+                        </Button>
+                    </PopoverTrigger>
+                    {popoverContent}
+                    </Popover>
                 </div>
             </form>
 

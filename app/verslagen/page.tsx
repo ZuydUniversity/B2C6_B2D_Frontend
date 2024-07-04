@@ -39,7 +39,19 @@ const VerslagenPage = () => {
     );
 
     return (
+        
         <div style={{ padding: '50px', backgroundColor: 'rgb(216, 234, 255)', minHeight: '100vh' }}>
+             <div style={{ marginTop: '0px', marginBottom:'40px' }}>
+                <Link href="../dashboard">
+                    <Button style={{ backgroundColor: '#000369' }}>
+                        <img
+                            src="/backiconVerslagen.png"
+                            alt="Back"
+                            style={{ width: '25px', height: '25px' }}
+                        />
+                    </Button>
+                </Link>
+            </div>
             <h1 style={{ fontSize: 'xxx-large', fontWeight: 'bold', borderBottom: '2px solid black', display: 'inline-block', marginBottom: '50px' }}>Verslagen</h1>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
                 <div style={{ display: 'flex', width: '300px', border: '1px solid transparent', borderRadius: '4px', paddingLeft: '10px', alignItems: 'center' }}>
