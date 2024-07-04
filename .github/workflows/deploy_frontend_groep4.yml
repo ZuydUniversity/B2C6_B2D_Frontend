@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
         
       - name: Set up Node.js
@@ -27,7 +27,7 @@ jobs:
       - name: Build artifacts
         run: | 
           mkdir Frontend
-          cp -r .next public package.json Frontend/
+          cp -r .next public package.json ansible Frontend/
           
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -44,19 +44,26 @@ jobs:
         with:
           name: Frontend
           path: Frontend
-      
-      - name: Reboot Server
+
+      - name: Install Ansible on VM
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
           script: |
-            sudo reboot
-            exit
-            
-      - name: Wait for server to reboot
-        run: sleep 80
+               sudo apt update
+               sudo apt install -y ansible
+          
+      - name: Reboot server
+        uses: dawidd6/action-ansible-playbook@v2.1.2
+        with:
+          playbook: Frontend/ansible/reboot_services.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: 'False'
+          ANSIBLE_INVENTORY: 'ansible/inventory'
+          ANSIBLE_REMOTE_USER: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}
+          ANSIBLE_REMOTE_PASS: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
 
       - name: Clean Old Artefact
         uses: appleboy/ssh-action@v1.0.3
@@ -76,29 +83,25 @@ jobs:
           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
 
-      - name: Install dependenties
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Run Ansible Playbook - Install Dependencies
+        uses: dawidd6/action-ansible-playbook@v2.1.2
         with:
-          host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-          username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-          password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
-          script: |
-            sudo apt update
-            sudo apt install curl -y
-            curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - 
-            sudo apt-get install -y nodejs
-            cd Frontend
-            sudo npm install
+          playbook: Frontend/ansible/install_dependencies.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: 'False'
+          ANSIBLE_INVENTORY: 'ansible/inventory'
+          ANSIBLE_REMOTE_USER: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}
+          ANSIBLE_REMOTE_PASS: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
   
-      - name: Restart Application
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Run Ansible Playbook - Start Services
+        uses: dawidd6/action-ansible-playbook@v2.1.2
         with:
-           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-           username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-           password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
-           script: |
-            ( cd Backend ; nohup sudo uvicorn main:app --host 0.0.0.0 --port 8000 >backend.log 2>&1 </dev/null & )
-            ( cd Frontend ; nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & )
+          playbook: Frontend/ansible/start_services.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: 'False'
+          ANSIBLE_INVENTORY: 'ansible/inventory'
+          ANSIBLE_REMOTE_USER: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}
+          ANSIBLE_REMOTE_PASS: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
               
       - name: Notify Slack on Success
         if: success()

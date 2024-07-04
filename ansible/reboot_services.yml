@@ -9,4 +9,4 @@
 
     - name: Wait for server to reboot
       pause:
-        seconds: 40
+        seconds: 20
