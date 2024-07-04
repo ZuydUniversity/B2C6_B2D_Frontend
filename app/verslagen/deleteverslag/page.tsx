@@ -67,8 +67,17 @@ const DeleteVerslagPage = () => {
 
     return (
         <div style={{ padding: '50px', backgroundColor: 'rgb(216, 234, 255)', minHeight: '100vh' }}>
-            <div>
-                <h1 style={{ fontSize: 'xxx-large', fontWeight: 'bold', borderBottom: '2px solid black', display: 'inline-block', marginBottom: '50px' }}>Verwijder Verslag</h1>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '50px' }}>
+                <Link href="/verslagen">
+                    <Button style={{ backgroundColor: '#000369', marginRight: '20px' }}>
+                        <img
+                            src="/backiconVerslagen.png"
+                            alt="Back"
+                            style={{ width: '25px', height: '25px' }}
+                        />
+                    </Button>
+                </Link>
+                <h1 style={{ fontSize: 'xxx-large', fontWeight: 'bold', borderBottom: '2px solid black', display: 'inline-block', marginTop: "-10px" }}>Verwijder Verslag</h1>
             </div>
 
             {verslag && (
@@ -144,50 +153,38 @@ const DeleteVerslagPage = () => {
                     </div>
 
                     <div style={{ marginTop: '20px' }}>
-                    <Popover placement="top" offset={20} showArrow color='success'>
-                    <PopoverTrigger>
-                        <Button
-                            onClick={handleDelete}
-                            style={{
-                                backgroundColor: '#000369',
-                                color: 'white',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '10px',
-                                paddingLeft: '20px',
-                                paddingRight: '20px',
-                                border: 'none',
-                                borderRadius: '10px',
-                                padding: '10px',
-                                fontSize: '16px',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            Verwijder Verslag
-                            <img
-                                src="/deleteicon2Verslagen.png"
-                                alt="Delete"
-                                style={{ width: '25px', height: '25px', padding:'1px'}}
-                            />
-                        </Button>
-                        </PopoverTrigger>
-                        {popoverContent}
-                    </Popover>
+                        <Popover placement="top" offset={20} showArrow color='success'>
+                            <PopoverTrigger>
+                                <Button
+                                    onClick={handleDelete}
+                                    style={{
+                                        backgroundColor: '#000369',
+                                        color: 'white',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '10px',
+                                        paddingLeft: '20px',
+                                        paddingRight: '20px',
+                                        border: 'none',
+                                        borderRadius: '10px',
+                                        padding: '10px',
+                                        fontSize: '16px',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    Verwijder Verslag
+                                    <img
+                                        src="/deleteicon2Verslagen.png"
+                                        alt="Delete"
+                                        style={{ width: '25px', height: '25px', padding:'1px'}}
+                                    />
+                                </Button>
+                            </PopoverTrigger>
+                            {popoverContent}
+                        </Popover>
                     </div>
                 </form>
             )}
-
-            <div style={{ marginTop: '20px' }}>
-                <Link href="/verslagen">
-                    <Button style={{ backgroundColor: '#000369' }}>
-                        <img
-                            src="/backiconVerslagen.png"
-                            alt="Back"
-                            style={{ width: '25px', height: '25px' }}
-                        />
-                    </Button>
-                </Link>
-            </div>
         </div>
     );
 };

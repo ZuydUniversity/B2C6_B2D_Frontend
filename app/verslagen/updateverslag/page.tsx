@@ -19,8 +19,6 @@ const UpdateVerslagPage = () => {
     const [medicalHistory, setMedicalHistory] = useState('');
     const [diagnose, setDiagnose] = useState('');
 
-    
-
     useEffect(() => {
         if (id) {
             getVerslag(id)
@@ -80,8 +78,17 @@ const UpdateVerslagPage = () => {
 
     return (
         <div style={{ padding: '50px', backgroundColor: 'rgb(216, 234, 255)', minHeight: '100vh' }}>
-            <div>
-                <h1 style={{ fontSize: 'xxx-large', fontWeight: 'bold', borderBottom: '2px solid black', display: 'inline-block', marginBottom: '50px' }}>Update Verslag</h1>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '50px' }}>
+                <Link href="/verslagen">
+                    <Button style={{ backgroundColor: '#000369', marginRight: '20px' }}>
+                        <img
+                            src="/backiconVerslagen.png"
+                            alt="Back"
+                            style={{ width: '25px', height: '25px' }}
+                        />
+                    </Button>
+                </Link>
+                <h1 style={{ fontSize: 'xxx-large', fontWeight: 'bold', borderBottom: '2px solid black', display: 'inline-block', marginTop: "-10px"  }}>Update Verslag</h1>
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -159,49 +166,37 @@ const UpdateVerslagPage = () => {
                 </div>
 
                 <div style={{ marginTop: '20px' }}>
-                <Popover placement="top" offset={20} showArrow color='success'>
-                    <PopoverTrigger>
-                        <Button
-                            type="submit"
-                            style={{
-                                backgroundColor: '#000369',
-                                color: 'white',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '10px',
-                                paddingLeft: '20px',
-                                paddingRight: '20px',
-                                border: 'none',
-                                borderRadius: '10px',
-                                padding: '10px',
-                                fontSize: '16px',
-                                cursor: 'pointer'
-                            }}
-                    >
-                        Verslag bijwerken
-                        <img
-                            src="/editicon2Verslagen.png"
-                            alt="Add"
-                            style={{ width: '25px', height: '25px' }}
-                        />
-                        </Button>
-                    </PopoverTrigger>
-                    {popoverContent}
+                    <Popover placement="top" offset={20} showArrow color='success'>
+                        <PopoverTrigger>
+                            <Button
+                                type="submit"
+                                style={{
+                                    backgroundColor: '#000369',
+                                    color: 'white',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '10px',
+                                    paddingLeft: '20px',
+                                    paddingRight: '20px',
+                                    border: 'none',
+                                    borderRadius: '10px',
+                                    padding: '10px',
+                                    fontSize: '16px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                Verslag bijwerken
+                                <img
+                                    src="/editicon2Verslagen.png"
+                                    alt="Add"
+                                    style={{ width: '25px', height: '25px' }}
+                                />
+                            </Button>
+                        </PopoverTrigger>
+                        {popoverContent}
                     </Popover>
                 </div>
             </form>
-
-            <div style={{ marginTop: '20px' }}>
-                <Link href="/verslagen">
-                    <Button style={{ backgroundColor: '#000369' }}>
-                        <img
-                            src="/backiconVerslagen.png"
-                            alt="Add"
-                            style={{ width: '25px', height: '25px' }}
-                        />
-                    </Button>
-                </Link>
-            </div>
         </div>
     );
 };
