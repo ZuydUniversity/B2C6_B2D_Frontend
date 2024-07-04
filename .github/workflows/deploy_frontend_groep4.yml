@@ -65,6 +65,9 @@ jobs:
           ANSIBLE_REMOTE_USER: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}
           ANSIBLE_REMOTE_PASS: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
 
+      - name: Wait For server to reboot
+        run: sleep 20
+
       - name: Clean Old Artefact
         uses: appleboy/ssh-action@v1.0.3
         with:

@@ -6,7 +6,3 @@
       shell: sudo reboot
       async: 1
       poll: 0
-
-    - name: Wait for server to reboot
-      pause:
-        seconds: 20
