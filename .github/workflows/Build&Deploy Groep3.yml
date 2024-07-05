@@ -85,11 +85,10 @@ jobs:
           username: ${{env.SERVER_USER}}
           password: ${{env.SERVER_PASSWORD}}
           script: |
-            sudo reboot
-            exit
+            sudo reboot &
 
       - name: Wait for server to reboot
-        run: sleep 20
+        run: sleep 60
 
       - name: Clean Old Artefact
         uses: appleboy/ssh-action@v1.0.3
