@@ -39,6 +39,7 @@ export async function createZorgverlener(formData: FormData) {
 }
 
 export async function fetchZorgverleners(): Promise<Zorgverlener[]> {
+  console.log("Fetching...")
   try {
     const response = await fetch("http://127.0.0.1:8000/zorgverleners", {
       headers: {
@@ -51,6 +52,7 @@ export async function fetchZorgverleners(): Promise<Zorgverlener[]> {
       throw new Error("Failed to fetch zorgverleners");
     }
     const zorgverleners = await response.json();
+    console.log(zorgverleners)
     revalidatePath("/zorgverleners");
     return zorgverleners;
   } catch (error) {
