@@ -1,0 +1,15 @@
+.deleteNote {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 30%;
+    margin: 3rem;
+  }
+  
+  .deleteNote button {
+    padding: 1rem;
+    background-color: grey;
+    align-self: center;
+  }
+  

@@ -1,6 +1,10 @@
 import { Note } from "@/models/Note";
 import styles from "./page.module.css";
 import Link from "next/link";
+import AddNote from "@/components/account/AddNote";
+import UpdateNote from "@/components/account/UpdateNote";
+import DeleteNote from "@/components/account/DeleteNote";
+import SearchButton from "@/components/account/SearchButton";
 
 async function fetchNotes(): Promise<Note[]> {
     try {
@@ -37,29 +41,35 @@ const NotesPage = async () => {
                 </div>
             </div>
 
-            <div className="w-full max-w-xl bg-white rounded-lg shadow-lg p-1 text-center bg-opacity-75">
-                <img className={styles.logo} src="/icon_zorgverlener.png" height="100" width="100" alt="Logo" />
-                <h2 className="font-semibold mb-4 text-gray-600">tel: +3149731949</h2>
-                <h2 className="font-semibold mb-4 text-gray-600">mail: fysiobijgoedelen@gmail.com</h2>
-                <h2 className="font-semibold mb-4 text-gray-600">specialisatie: Munuele Therapie - Fysio</h2>
+            <div className={styles.crudView}>
+                <div className="w-full max-w-xl bg-white rounded-lg shadow-lg p-1 text-center bg-opacity-75">
+                    <img className={styles.logo} src="/icon_zorgverlener.png" height="100" width="100" alt="Logo" />
+                    <h2 className="font-semibold mb-4 text-gray-600">tel: +3149731949</h2>
+                    <h2 className="font-semibold mb-4 text-gray-600">mail: fysiobijgoedelen@gmail.com</h2>
+                    <h2 className="font-semibold mb-4 text-gray-600">specialisatie: Munuele Therapie - Fysio</h2>
+                </div>
+                <div className="w-full max-w-xl bg-white rounded-lg shadow-lg p-6 text-center bg-opacity-75">
+                    <strong className="font-semibold mb-4 text-gray-600">Kies een notitie</strong>
+                    <SearchButton url="/" buttonText="Instellingen" />
+                    <ul>
+                        {Array.isArray(notes) && notes.length > 0 ? (
+                            notes.map((note) => (
+                                <li key={note.id}>
+                                    <p>(ID: {note.id}) </p>{note.date} {note.patient}
+                                    <br />
+                                    {note.data}
+                                    <br />
+                                </li>
+                            ))
+                        ) : (
+                            <li>Geen notities gevonden</li>
+                        )}
+                    </ul>
+                </div>
+                <AddNote />
+                <UpdateNote />
+                <DeleteNote />
             </div>
-            <div className="w-full max-w-xl bg-white rounded-lg shadow-lg p-6 text-center bg-opacity-75">
-                <strong className="font-semibold mb-4 text-gray-600">Kies een notitie</strong>
-                <h1 className="font-semibold mb-4 text-gray-600">Toevoegen</h1>
-                <ul>
-                    {Array.isArray(notes) && notes.length > 0 ? (
-                        notes.map((note) => (
-                            <li key={note.id}>
-                                {note.date} {note.patient}
-                                <br />
-                            </li>
-                        ))
-                    ) : (
-                        <li>Geen notities gevonden</li>
-                    )}
-                </ul>
-            </div>
-            
             
         </div>
     );
