@@ -5,7 +5,7 @@ import { deleteZorgverlener, fetchZorgverleners } from "@/serverActions/actions"
 
 export default async function ListZorgverleners() {
   const zorgverleners: Zorgverlener[] = await fetchZorgverleners();
-
+  console.log(zorgverleners)
   return (
     <div className={styles.list}>
       <h1>Zorgverleners</h1>

@@ -10,6 +10,7 @@ const ZorgverlenersPage = async () => {
         <ListZorgverleners/>
         <AddZorgverlenerFrom />
         <UpdateZorgverlenerFrom/>
+        
       </div>
   );
 };

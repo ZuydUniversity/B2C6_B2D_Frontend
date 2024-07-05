@@ -1,0 +1,160 @@
+name: Build and Deploy NEXT.js App
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "Groep-3-Casus"
+
+env:
+  HOST: 13.93.11.167
+  SERVER_USER: groep3admin
+  SERVER_PASSWORD: groep3admin@
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Next.js app
+        run: npm run build
+
+      - name: Build FrontEnd artifacts
+        run: |
+          mkdir FrontEnd
+          cp -r .next public package.json FrontEnd/
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: FrontEnd
+          path: FrontEnd
+
+      - name: Slack Notification on Success
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: good
+          SLACK_ICON: https://cdn.discordapp.com/attachments/1015233182209159201/1247122042848022538/7503aw.png
+          SLACK_MESSAGE: |
+            FRONTEND
+            Test Automation Report: https://github.com/ZuydUniversity/B2C6_B2D_Backend/actions/runs/${{github.run_id}}
+            Unit Test Result: Success
+          SLACK_TITLE: 'Build Success'
+          SLACK_WEBHOOK: ${{ secrets.GROEP_3_SLACK_WEBHOOK }}
+
+      - name: Slack Notification on Failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: danger
+          SLACK_ICON: https://cdn.discordapp.com/attachments/1015233182209159201/1247122042848022538/7503aw.png
+          SLACK_MESSAGE: |
+            FRONTEND
+            Test Automation Report: https://github.com/ZuydUniversity/B2C6_B2D_Backend/actions/runs/${{github.run_id}}
+            Unit Test Result: Failure
+          SLACK_TITLE: 'Build Failure'
+          SLACK_WEBHOOK: ${{ secrets.GROEP_3_SLACK_WEBHOOK }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: FrontEnd
+          path: FrontEnd
+
+      - name: Reboot Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{env.HOST}}
+          username: ${{env.SERVER_USER}}
+          password: ${{env.SERVER_PASSWORD}}
+          script: |
+            sudo reboot
+            exit
+
+      - name: Wait for server to reboot
+        run: sleep 20
+
+      - name: Clean Old Artefact
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{env.HOST}}
+          username: ${{env.SERVER_USER}}
+          password: ${{env.SERVER_PASSWORD}}
+          script: |
+            sudo rm -rf FrontEnd
+
+      - name: Deploy to Server
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          source: FrontEnd
+          target: .
+          host: ${{env.HOST}}
+          username: ${{env.SERVER_USER}}
+          password: ${{env.SERVER_PASSWORD}}
+
+      - name: Install dependencies
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{env.HOST}}
+          username: ${{env.SERVER_USER}}
+          password: ${{env.SERVER_PASSWORD}}
+          script: |
+            sudo apt update
+            sudo apt install curl -y
+            curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+            cd FrontEnd
+            sudo npm install
+
+      - name: Restart Application
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{env.HOST}}
+          username: ${{env.SERVER_USER}}
+          password: ${{env.SERVER_PASSWORD}}
+          script: |
+            ( cd API ; nohup sudo uvicorn main:app --host 0.0.0.0 --port 8000 >api.log 2>&1 </dev/null & )
+            ( cd FrontEnd ; nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & )
+
+      - name: Slack Notification on Success
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: good
+          SLACK_ICON: https://cdn.discordapp.com/attachments/1015233182209159201/1247122042848022538/7503aw.png
+          SLACK_MESSAGE: |
+            FRONTEND
+            Test Automation Report: https://github.com/ZuydUniversity/B2C6_B2D_Backend/actions/runs/${{github.run_id}}
+            Deployment Result: Success
+          SLACK_TITLE: 'Deployment Success'
+          SLACK_WEBHOOK: ${{ secrets.GROEP_3_SLACK_WEBHOOK }}
+
+      - name: Slack Notification on Failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: danger
+          SLACK_ICON: https://cdn.discordapp.com/attachments/1015233182209159201/1247122042848022538/7503aw.png
+          SLACK_MESSAGE: |
+            FRONTEND
+            Test Automation Report: https://github.com/ZuydUniversity/B2C6_B2D_Backend/actions/runs/${{github.run_id}}
+            Deployment Result: Failure
+          SLACK_TITLE: 'Deployment Failure'
+          SLACK_WEBHOOK: ${{ secrets.GROEP_3_SLACK_WEBHOOK }}
