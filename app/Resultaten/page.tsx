@@ -7,12 +7,15 @@ export default function GetResultaten() {
     const [data, setData] = useState<Resultaat[]>([]);
 
     useEffect(() => {
-        // Replace with your API endpoint
+        fetchData();
+    }, []);
+
+    const fetchData = () => {
         fetch('http://localhost:8000/resultaten')
             .then(response => response.json())
             .then((data: Resultaat[]) => setData(data))
             .catch(error => console.error('Error fetching data:', error));
-    }, []);
+    };
 
     const renderCellValue = (value: any) => {
         if (typeof value === 'object' && value !== null) {
@@ -20,6 +23,21 @@ export default function GetResultaten() {
             return JSON.stringify(value);
         }
         return value;
+    };
+
+    const handleDelete = (id: number) => {
+        fetch(`http://localhost:8000/resultaten/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    // If deletion is successful, fetch updated data
+                    fetchData();
+                } else {
+                    throw new Error('Failed to delete item');
+                }
+            })
+            .catch(error => console.error('Error deleting item:', error));
     };
 
     return (
@@ -31,6 +49,7 @@ export default function GetResultaten() {
                         {data.length > 0 && Object.keys(data[0]).map((key) => (
                             <th key={key}>{key}</th>
                         ))}
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +62,9 @@ export default function GetResultaten() {
                                     </a>
                                 </td>
                             ))}
+                            <td>
+                                <button onClick={() => handleDelete(item.id)}>Delete</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
