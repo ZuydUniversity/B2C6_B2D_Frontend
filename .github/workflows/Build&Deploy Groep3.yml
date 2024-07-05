@@ -89,6 +89,7 @@ jobs:
           password: ${{env.SERVER_PASSWORD}}
           script: |
             sudo apt update
+            sudo dpkg --configure -a
             sudo apt install curl -y
             curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - 
             sudo apt-get install -y nodejs
