@@ -27,18 +27,16 @@ export default function GetResultaten() {
     };
 
     const handleDelete = (id: number) => {
-        fetch(`http://localhost:8000/resultaten/${id}`, {
+        fetch(`/api/resultaten/${id}`, {
             method: 'DELETE'
-        })
-            .then(response => {
-                if (response.ok) {
-                    // If deletion is successful, fetch updated data
-                    fetchData();
-                } else {
-                    throw new Error('Failed to delete item');
-                }
-            })
-            .catch(error => console.error('Error deleting item:', error));
+        }).then(response => {
+            if (response.ok) {
+                // If deletion is successful, fetch updated data
+                fetchData();
+            } else {
+                throw new Error('Failed to delete item');
+            }
+        }).catch(error => console.error('Error deleting item:', error));
     };
 
     return (
@@ -58,7 +56,7 @@ export default function GetResultaten() {
                         <tr key={index}>
                             {Object.entries(item).map(([key, value], i) => (
                                 <td key={i}>
-                                    <a href={`http://localhost:3000/Resultaten/${item['id']}`}>
+                                    <a href={`/Resultaten/${item['id']}`}>
                                         {renderCellValue(value)}
                                     </a>
                                 </td>
