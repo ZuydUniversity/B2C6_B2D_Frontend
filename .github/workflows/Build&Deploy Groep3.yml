@@ -7,7 +7,7 @@ on:
       - "Groep-3-Casus"
 
 env:
-  HOST: 52.166.197.4
+  HOST: 13.93.11.167
   SERVER_USER: groep3admin
   SERVER_PASSWORD: groep3admin@
 
@@ -94,6 +94,15 @@ jobs:
         with:
           name: FrontEnd
           path: FrontEnd
+
+      - name: Fix broken package state
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{env.HOST}}
+          username: ${{env.SERVER_USER}}
+          password: ${{env.SERVER_PASSWORD}}
+          script: |
+            sudo dpkg --configure -a
 
       - name: Clean Old Artefact
         uses: appleboy/ssh-action@v1.0.3
