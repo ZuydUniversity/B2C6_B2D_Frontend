@@ -8,7 +8,20 @@ import SearchButton from "@/components/account/SearchButton";
 
 async function fetchNotes(): Promise<Note[]> {
     try {
-        const response = await fetch("http://127.0.0.1:8000/notes", {
+
+        const queryParams = new URLSearchParams(window.location.search);
+        const noteId = queryParams.get('id');
+        const lastName = queryParams.get('lastname');
+
+        const url = `http://127.0.0.1:8000/notes`;
+        if (noteId) {
+            const url = `http://127.0.0.1:8000/notes?id=${noteId}`;
+        }
+        if (lastName) {
+            const url = `http://127.0.0.1:8000/notes?lastname=${lastName}`;
+        }
+        
+        const response = await fetch(url, {
             cache: "no-store", // Zorg ervoor dat fetch altijd de nieuwste data ophaalt
         });
         if (!response.ok) {
