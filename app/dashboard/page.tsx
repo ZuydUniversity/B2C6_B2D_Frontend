@@ -11,7 +11,7 @@ const DashboardPage = async () => {
 
       <div className={styles.dashboardMenu}>
         <DashBoardButton imageURL="/icon_calender.png" url="/kalender" buttonText="Kalender"/>
-        <DashBoardButton imageURL="/icon_document.png" url="/resultaten" buttonText="Resultaten"/>
+        <DashBoardButton imageURL="/icon_document.png" url="/Resultaten" buttonText="Resultaten"/>
         <DashBoardButton imageURL="/icon_patienten.png" url="/patiëntenoverzicht" buttonText="Patiëntenoverzicht"/>
         <DashBoardButton imageURL="/icon_artsen.png" url="/zorgverleners" buttonText="Zorgverlenersoverzicht"/>
         <DashBoardButton imageURL="/icon_plus.png" url="/afspraak" buttonText="Afspraak toevoegen"/>
