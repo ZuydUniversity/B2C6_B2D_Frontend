@@ -1,6 +1,12 @@
 name: Build and Deploy NEXT.js App
 
 on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Groep1'
+        required: true
+        default: 'development'
   push:
     branches:
       - "geen"
