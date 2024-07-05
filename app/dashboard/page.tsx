@@ -5,7 +5,7 @@ const DashboardPage = async () => {
   return (
     <>
       <div className={styles.headerDashboard}>
-        <h1 className={styles.textHeader}>Dashboard "{process.env.BACKEND_BASE_URL}"</h1>
+        <h1 className={styles.textHeader}>Dashboard &quot;{process.env.BACKEND_BASE_URL}&quot;</h1>
       </div>
       <img className={styles.logo} src="/Logo_JDB_2.png" alt="Logo" />
 
