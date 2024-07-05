@@ -6,7 +6,7 @@ on:
       - "Groep-3-Casus"
 
 env:
-  HOST: 52.166.135.125
+  HOST: 52.166.197.4
   SERVER_USER: groep3admin
   SERVER_PASSWORD: groep3admin@
 
