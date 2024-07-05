@@ -73,8 +73,8 @@ jobs:
          host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
          username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
          password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
-         source: 'Frontend'
-         target: 'Frontend'
+         source: Frontend
+         target: Frontend
 
       - name: Install dependencies
         uses: appleboy/ssh-action@v1.0.3
