@@ -23,5 +23,6 @@ export default function AddZorgverlenerFrom() {
       <input name="isActive" type="checkbox" />
       <button type="submit">Toevoegen</button>
     </form>
+    
   );
 }

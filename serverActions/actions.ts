@@ -29,7 +29,7 @@ export async function createZorgverlener(formData: FormData) {
     if (!response.ok) {
       throw new Error("Failed to create zorgverleners");
     }
-    revalidatePath("/zorgverleners");
+    // revalidatePath("/zorgverleners");
     const data = await response.json();
     console.log(data);
   } catch (error) {
@@ -51,7 +51,7 @@ export async function fetchZorgverleners(): Promise<Zorgverlener[]> {
       throw new Error("Failed to fetch zorgverleners");
     }
     const zorgverleners = await response.json();
-    revalidatePath("/zorgverleners");
+    // revalidatePath("/zorgverleners");
     return zorgverleners;
   } catch (error) {
     console.error("Error fetching zorgverleners:", error);
@@ -76,7 +76,7 @@ export async function deleteZorgverlener(formData: FormData) {
     }
     const zorgverlenerData = await response.json();
     console.log(zorgverlenerData);
-    revalidatePath("/zorgverleners");
+    // revalidatePath("/zorgverleners");
     return { zorgverlener: zorgverlenerData, error: null };
   } catch (error) {
     console.error(`Error fetching zorgverlener with id ${0}:`, error);
@@ -116,7 +116,7 @@ export async function updateZorgverlener(formData: FormData) {
     }
     const zorgverlenerData = await response.json();
     console.log(zorgverlenerData);
-    revalidatePath("/zorgverleners");
+    // revalidatePath("/zorgverleners");
     return { zorgverlener: zorgverlenerData, error: null };
   } catch (error) {
     console.error(`Error fetching zorgverlener with id ${0}:`, error);
