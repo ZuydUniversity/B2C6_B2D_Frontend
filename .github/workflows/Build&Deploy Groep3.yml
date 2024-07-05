@@ -1,6 +1,12 @@
 name: Build and Deploy NEXT.js App
 
 on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Groep1'
+        required: true
+        default: 'development'
   push:
     branches:
       - "Groep-3-Casus"
@@ -9,6 +15,7 @@ env:
   HOST: 52.174.126.118
   SERVER_USER: groep3admin
   SERVER_PASSWORD: groep3admin@
+
 
 jobs:
   build:
@@ -89,7 +96,6 @@ jobs:
           password: ${{env.SERVER_PASSWORD}}
           script: |
             sudo apt update
-            sudo dpkg --configure -a
             sudo apt install curl -y
             curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - 
             sudo apt-get install -y nodejs
@@ -105,8 +111,6 @@ jobs:
           script: |
             ( cd API ; nohup sudo uvicorn main:app --host 0.0.0.0 --port 8000 >api.log 2>&1 </dev/null & )
             ( cd FrontEnd ; nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & )
-            
-          
 
       - name: Slack Notification on Success
         if: success()
