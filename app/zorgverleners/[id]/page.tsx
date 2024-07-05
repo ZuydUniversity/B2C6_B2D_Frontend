@@ -13,7 +13,7 @@ const ZorgverlenerPage: FC<PageProps> = ({ params }) => {
   useEffect(() => {
     const fetchZorgverlenerData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/zorgverleners/${params.id}`, {
+        const response = await fetch(`/api/zorgverleners/${params.id}`, {
           cache: "no-store",
         });
         if (!response.ok) {

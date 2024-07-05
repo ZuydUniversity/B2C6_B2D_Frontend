@@ -5,7 +5,7 @@ import { Resultaat } from '../../models/Resultaat';
 import { Spiersterkte } from '../../models/Spiersterkte';
 
 export default function GetResultaatById({ params }: { params: { id: BigInteger } }) {
-    const [item, setItem] = useState<Resultaat | undefined>(undefined);
+    const [resultaat, setResultaatData] = useState<Resultaat | undefined>(undefined);
     const [spiersterkte, setSpiersterkte] = useState<Spiersterkte | undefined>(undefined);
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateData, setUpdateData] = useState<Partial<Resultaat>>({});
@@ -13,16 +13,11 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
 
     useEffect(() => {
         // Fetch Resultaat data
-        fetch(`http://localhost:8000/resultaten/${OBJ_ID}`)
+        fetch(`/api/resultaten/${OBJ_ID}`)
             .then(response => response.json())
             .then((data: Resultaat) => {
-                setItem(data);
-                // Fetch Spiersterkte data using resultaatid
-                return fetch(`http://localhost:8000/spiersterkte/${data.resultaatid}`);
-            })
-            .then(response => response.json())
-            .then((data: Spiersterkte) => setSpiersterkte(data))
-            .catch(error => console.error('Error fetching data:', error));
+                setResultaatData(data);
+            });
     }, [OBJ_ID]);
 
     const handleUpdateClick = () => {
@@ -31,7 +26,7 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
     };
 
     const handleSaveClick = () => {
-        fetch(`http://localhost:8000/resultaten/${OBJ_ID}`, {
+        fetch(`/api/resultaten/${OBJ_ID}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
