@@ -67,16 +67,16 @@ jobs:
           script: |
             sudo rm -rf Frontend
             
-      - name: Deploy to Server
-        uses: garygrossgarten/github-action-scp@release
+      - name: Copy files via SCP
+        uses: appleboy/scp-action@v0.1.3
         with:
-          local: Frontend
-          remote: Frontend
-          host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
-          username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
-          password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+         host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
+         username: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}  
+         password: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+         source: 'Frontend'
+         target: 'Frontend'
 
-      - name: Install dependenties
+      - name: Install dependencies
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.AZURE_VM_HOST_GROEP4 }} 
