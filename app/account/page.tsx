@@ -50,7 +50,7 @@ const NotesPage = async () => {
                 </div>
                 <div className="w-full max-w-xl bg-white rounded-lg shadow-lg p-6 text-center bg-opacity-75">
                     <strong className="font-semibold mb-4 text-gray-600">Kies een notitie</strong>
-                    <SearchButton url="/" buttonText="Instellingen" />
+                    <SearchButton />
                     <ul>
                         {Array.isArray(notes) && notes.length > 0 ? (
                             notes.map((note) => (

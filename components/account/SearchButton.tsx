@@ -1,27 +1,52 @@
-import Link from "next/link";
-import styles from "./SearchButton.module.css";
-import { getSearch } from "@/serverActions/accountactions";
-interface Props {
-    url: string;
-    buttonText: string;
-}
+'use client'
+import React, { useState } from 'react';
 
-const SearchButton = async (props: Props) => {
+const SearchButton: React.FC = () => {
+    const [inputValue, setInputValue] = useState('');
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(event.target.value);
+    };
+
+    const handleButtonClick = () => {
+        const queryParams = new URLSearchParams();
+        queryParams.append('id', inputValue);
+
+        // Get current URL and append query params
+        let currentUrl = window.location.href.split('?')[0];
+        currentUrl += '?' + queryParams.toString();
+
+        // Navigate to the updated URL
+        window.location.href = currentUrl;
+    };
+
+    const handleButtonClickLastName = () => {
+        const queryParams = new URLSearchParams();
+        queryParams.append('lastname', inputValue);
+
+        // Get current URL and append query params
+        let currentUrl = window.location.href.split('?')[0];
+        currentUrl += '?' + queryParams.toString();
+
+        // Navigate to the updated URL
+        window.location.href = currentUrl;
+    };
+
     return (
-        <form className={styles.createNote} action={getSearch}>
-      <h1>Notitie Toevoegen</h1>
-      <p>Patient naam:</p>
-      <input name="patient" type="text" />
-      <p>Notitie:</p>
-      <input name="data" type="text" />
-      <button type="submit">
-        <Link href={props.url}>
-            <div className={styles.butt}>
-                <text className={styles.text}>{props.buttonText}</text>
-            </div>
-        </Link>
-            </button>
-      </form>
+        <div>
+            <input
+                type="text"
+                value={inputValue}
+                onChange={handleInputChange}
+                placeholder="Voer ID of Achternaam in"
+            />
+            <br />
+            <button onClick={handleButtonClick}>Zoek op ID</button>
+            <br />
+            <button onClick={handleButtonClickLastName}>Zoek op achternaam</button>
+            <br /><br />
+        </div>
+
     );
 };
 
