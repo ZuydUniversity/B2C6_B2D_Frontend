@@ -1,4 +1,4 @@
-
+"use server";
 export const createVerslag = async (verslag: any) => {
     try {
         const response = await fetch('http://127.0.0.1:8000/verslag', {
@@ -35,15 +35,15 @@ export const getVerslag = async (id: string) => {
     }
 };
 
-export const getAllVerslagen = async () => {
-    console.log("ik haal verslagen op")
+export async function getAllVerslagen(){
+
     try {
         const response = await fetch('http://127.0.0.1:8000/verslag');
 
         if (!response.ok) {
             throw new Error('Failed to fetch verslagen');
         }
-        console.log(response.json());
+
         return response.json();
     } catch (error) {
         console.error('Error fetching verslagen:', error);
