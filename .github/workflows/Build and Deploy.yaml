@@ -1,9 +1,10 @@
 name: Build and Deploy NEXT.js App
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - "groep_1_B2D"
+      - "groep_1_B2DD"
 
 env:
   HOST: 52.166.135.125
