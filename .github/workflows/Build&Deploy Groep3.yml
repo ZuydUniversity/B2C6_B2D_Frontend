@@ -89,20 +89,24 @@ jobs:
     needs: reboot
 
     steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: FrontEnd
-          path: FrontEnd
-
-      - name: Fix broken package state
+      - name: Retry SSH connection
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{env.HOST}}
           username: ${{env.SERVER_USER}}
           password: ${{env.SERVER_PASSWORD}}
           script: |
-            sudo dpkg --configure -a
+            for i in {1..5}; do
+              sudo dpkg --configure -a && break
+              echo "SSH connection attempt $i failed. Retrying in 10 seconds..."
+              sleep 10
+            done
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: FrontEnd
+          path: FrontEnd
 
       - name: Clean Old Artefact
         uses: appleboy/ssh-action@v1.0.3
@@ -171,5 +175,3 @@ jobs:
             Deployment Result: Failure
           SLACK_TITLE: 'Deployment Failure'
           SLACK_WEBHOOK: ${{ secrets.GROEP_3_SLACK_WEBHOOK }}
-
-          # kom op man
