@@ -105,6 +105,8 @@ jobs:
         with:
           local: FrontEnd
           remote: FrontEnd
+          dotfiles: true
+          verbose: true
           host: ${{env.HOST}}
           username: ${{env.SERVER_USER}}
           password: ${{env.SERVER_PASSWORD}}
