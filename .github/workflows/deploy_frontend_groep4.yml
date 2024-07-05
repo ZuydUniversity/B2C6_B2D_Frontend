@@ -24,7 +24,7 @@ jobs:
       - name: Build app
         run: npm run build
 
-      - name: Build artifacts
+      - name: Build Artifacts
         run: | 
           mkdir Frontend
           cp -r .next public package.json ansible Frontend/
@@ -64,6 +64,9 @@ jobs:
           ANSIBLE_INVENTORY: 'ansible/inventory'
           ANSIBLE_REMOTE_USER: ${{ secrets.AZURE_VM_USERNAME_GROEP4 }}
           ANSIBLE_REMOTE_PASS: ${{ secrets.AZURE_VM_PASSWORD_GROEP4 }}
+
+      - name: Wait For server to reboot
+        run: sleep 20
 
       - name: Clean Old Artefact
         uses: appleboy/ssh-action@v1.0.3
