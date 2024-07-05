@@ -3,19 +3,6 @@ import { createPatient } from '../serverActions/PatientAction';
 import styles from '@/components/AddPatientForm.module.css';
 
 const AddPatientForm = () => {
-  // const initialFormData = new FormData();
-
-  // const handleSubmit = async (formData: FormData) => {
-  //   console.log(formData)
-  //   try {
-  //     await createPatient(formData);
-  //     alert('Patiënt toegevoegd!');
-  //   } catch (error) {
-  //     console.error('Fout bij het toevoegen van patiënt:', error);
-  //     alert('Er is een fout opgetreden bij het toevoegen van de patiënt.');
-  //   }
-  // };
-
   return (
     <form action={createPatient}>
       <input type="text" name="name"  placeholder="Naam" required />
