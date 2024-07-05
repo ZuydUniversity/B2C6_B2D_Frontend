@@ -55,7 +55,7 @@ jobs:
                sudo apt update
                sudo apt install -y ansible
           
-      - name: Reboot server
+      - name: Reboot Server
         uses: dawidd6/action-ansible-playbook@v2.1.2
         with:
           playbook: Frontend/ansible/reboot_services.yml
