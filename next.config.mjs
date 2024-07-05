@@ -9,7 +9,7 @@ import dotenv from 'dotenv'
 if (!process.env.BACKEND_BASE_URL) {
     const envLocalPath = path.resolve(process.cwd(), '.env.local');
 
-    console.log("[*] loading env vars")
+    console.log(`[*] loading env vars from: ${process.env.BACKEND_BASE_URL}`)
 
     dotenv.config({ path: envLocalPath });
 
