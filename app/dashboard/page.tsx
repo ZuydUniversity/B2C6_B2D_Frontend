@@ -10,11 +10,13 @@ const DashboardPage = async () => {
       <img className={styles.logo} src="/Logo_JDB_2.png" alt="Logo" />
       <div className={styles.dashboardMenu}>
         <DashBoardButton imageURL="/icon_calender.png" url="/kalender" buttonText="Kalender"/>
+        <DashBoardButton imageURL="/icon_verslag.png" url="/verslagen" buttonText="Verslagen"/>
         <DashBoardButton imageURL="/icon_document.png" url="/resultaten" buttonText="Resultaten"/>
         <DashBoardButton imageURL="/icon_patienten.png" url="/patients" buttonText="Patiëntenoverzicht"/>
         <DashBoardButton imageURL="/icon_zorgverlener.png" url="/zorgverleners" buttonText="Zorgverlenersoverzicht"/>
         <DashBoardButton imageURL="/icon_plus.png" url="/afspraak" buttonText="Afspraak toevoegen"/>
         <DashBoardButton imageURL="/icon_settings.png" url="/instellingen" buttonText="Instellingen"/>
+        
       </div>
     </>
   );
