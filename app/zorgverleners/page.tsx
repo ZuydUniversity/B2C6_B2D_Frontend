@@ -2,7 +2,7 @@ import { Zorgverlener } from "@/models/Zorgverlener ";
 
 async function fetchZorgverleners(): Promise<Zorgverlener[]> {
   try {
-    const response = await fetch("http://127.0.0.1:8000/zorgverleners", {
+    const response = await fetch("/api/zorgverleners", {
       cache: "no-store", // Zorg ervoor dat fetch altijd de nieuwste data ophaalt
     });
     if (!response.ok) {

@@ -12,7 +12,7 @@ export default function UpdateResultaatPage() {
     const fetchResultaat = async (id: string) => {
         setLoading(true);
         try {
-            const response = await axios.get<Resultaat>(`http://localhost:8000/resultaten/${id}`);
+            const response = await axios.get<Resultaat>(`/api/resultaten/${id}`);
             setResultaat(response.data);
         } catch (error) {
             console.error('There was an error fetching the resultaat!', error);
@@ -46,7 +46,7 @@ export default function UpdateResultaatPage() {
 
         try {
             setLoading(true);
-            await axios.put(`http://localhost:8000/resultaten/${resultaat.id}`, updatedResultaat);
+            await axios.put(`/api/resultaten/${resultaat.id}`, updatedResultaat);
             alert('Resultaat updated successfully!');
         } catch (error) {
             console.error('There was an error updating the resultaat!', error);

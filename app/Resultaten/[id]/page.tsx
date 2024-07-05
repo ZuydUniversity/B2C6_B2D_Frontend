@@ -13,12 +13,12 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
 
     useEffect(() => {
         // Fetch Resultaat data
-        fetch(`http://localhost:8000/resultaten/${OBJ_ID}`)
+        fetch(`/api/resultaten/${OBJ_ID}`)
             .then(response => response.json())
             .then((data: Resultaat) => {
                 setItem(data);
                 // Fetch Spiersterkte data using resultaatid
-                return fetch(`http://localhost:8000/spiersterkte/${data.resultaatid}`);
+                return fetch(`/api/spiersterkte/${data.resultaatid}`);
             })
             .then(response => response.json())
             .then((data: Spiersterkte) => setSpiersterkte(data))
@@ -31,7 +31,7 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
     };
 
     const handleSaveClick = () => {
-        fetch(`http://localhost:8000/resultaten/${OBJ_ID}`, {
+        fetch(`/api/resultaten/${OBJ_ID}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
