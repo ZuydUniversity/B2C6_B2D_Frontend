@@ -2,19 +2,28 @@
 
 import { useEffect, useState } from 'react';
 import { Resultaat } from '../../models/Resultaat';
+import { Spiersterkte } from '../../models/Spiersterkte';
 
 export default function GetResultaatById({ params }: { params: { id: BigInteger } }) {
-  const [item, setData] = useState<Resultaat>();
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [updateData, setUpdateData] = useState<Partial<Resultaat>>({});
-  const OBJ_ID = params["id"]
+    const [item, setItem] = useState<Resultaat | undefined>(undefined);
+    const [spiersterkte, setSpiersterkte] = useState<Spiersterkte | undefined>(undefined);
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [updateData, setUpdateData] = useState<Partial<Resultaat>>({});
+    const OBJ_ID = params["id"];
 
-  useEffect(() => {
-    fetch(`http://localhost:8000/resultaten/${OBJ_ID}`)
-      .then(response => response.json())
-      .then((data: Resultaat) => setData(data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
+    useEffect(() => {
+        // Fetch Resultaat data
+        fetch(`http://localhost:8000/resultaten/${OBJ_ID}`)
+            .then(response => response.json())
+            .then((data: Resultaat) => {
+                setItem(data);
+                // Fetch Spiersterkte data using resultaatid
+                return fetch(`http://localhost:8000/spiersterkte/${data.resultaatid}`);
+            })
+            .then(response => response.json())
+            .then((data: Spiersterkte) => setSpiersterkte(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }, [OBJ_ID]);
 
     const handleUpdateClick = () => {
         setIsUpdating(true);
@@ -31,7 +40,7 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
         })
             .then(response => response.json())
             .then((data: Resultaat) => {
-                setData(data);
+                setItem(data);
                 setIsUpdating(false);
             })
             .catch(error => console.error('Error updating data:', error));
@@ -43,12 +52,11 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
             [key]: value,
         });
     };
-    
-  // wait for fetch to be completed
-  if (item == undefined)
-    return <p>loading...</p>;
 
-  return (
+    // Wait for fetch to be completed
+    if (item === undefined) return <p>Loading...</p>;
+
+    return (
         <div>
             <h1>Object {OBJ_ID}</h1>
             <table border={1}>
@@ -62,11 +70,32 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
                 <tbody>
                     <tr key={`${OBJ_ID}`}>
                         {Object.values(item).map((value, i) => (
-                            <td key={i}>{value}</td>
+                            <td key={i}>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
                         ))}
                     </tr>
                 </tbody>
             </table>
+            {spiersterkte && (
+                <>
+                    <h2>Spiersterkte</h2>
+                    <table border={1}>
+                        <thead>
+                            <tr>
+                                {Object.keys(spiersterkte).map((key) => (
+                                    <th key={key}>{key}</th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr key={spiersterkte.id}>
+                                {Object.values(spiersterkte).map((value, i) => (
+                                    <td key={i}>{value}</td>
+                                ))}
+                            </tr>
+                        </tbody>
+                    </table>
+                </>
+            )}
             <button onClick={handleUpdateClick}>Update</button>
             {isUpdating && (
                 <div>
