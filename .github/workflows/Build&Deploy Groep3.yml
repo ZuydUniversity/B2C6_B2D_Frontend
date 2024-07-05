@@ -171,3 +171,5 @@ jobs:
             Deployment Result: Failure
           SLACK_TITLE: 'Deployment Failure'
           SLACK_WEBHOOK: ${{ secrets.GROEP_3_SLACK_WEBHOOK }}
+
+          # kom op man
