@@ -36,17 +36,19 @@ export const getVerslag = async (id: string) => {
 };
 
 export const getAllVerslagen = async () => {
+    console.log("ik haal verslagen op")
     try {
         const response = await fetch('http://127.0.0.1:8000/verslag');
 
         if (!response.ok) {
             throw new Error('Failed to fetch verslagen');
         }
-
+        console.log(response.json());
         return response.json();
     } catch (error) {
         console.error('Error fetching verslagen:', error);
         throw error; // Rethrow de fout om deze door te geven aan de caller
+
     }
 };
 
