@@ -22,7 +22,7 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
 
     const handleUpdateClick = () => {
         setIsUpdating(true);
-        setUpdateData(item || {});
+        setUpdateData(resultaat || {});
     };
 
     const handleSaveClick = () => {
@@ -35,7 +35,7 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
         })
             .then(response => response.json())
             .then((data: Resultaat) => {
-                setItem(data);
+                setResultaatData(data);
                 setIsUpdating(false);
             })
             .catch(error => console.error('Error updating data:', error));
@@ -49,7 +49,7 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
     };
 
     // Wait for fetch to be completed
-    if (item === undefined) return <p>Loading...</p>;
+    if (resultaat === undefined) return <p>Loading...</p>;
 
     return (
         <div>
@@ -57,14 +57,14 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
             <table border={1}>
                 <thead>
                     <tr>
-                        {Object.keys(item).map((key) => (
+                        {Object.keys(resultaat).map((key) => (
                             <th key={key}>{key}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
                     <tr key={`${OBJ_ID}`}>
-                        {Object.values(item).map((value, i) => (
+                        {Object.values(resultaat).map((value, i) => (
                             <td key={i}>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
                         ))}
                     </tr>
@@ -97,7 +97,7 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
                     <h2>Update Object</h2>
                     <table border={1}>
                         <tbody>
-                            {Object.keys(item).map((key) => (
+                            {Object.keys(resultaat).map((key) => (
                                 <tr key={key}>
                                     <td>{key}</td>
                                     <td>

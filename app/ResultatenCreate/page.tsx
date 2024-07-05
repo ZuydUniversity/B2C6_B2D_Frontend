@@ -17,7 +17,7 @@ export default function CreateResultaatPage() {
         const discriptionValue = discriptionRef.current!.value;
 
         try {
-            const response = await fetch('/api/resultaten', {
+            const response = await fetch('/api/resultaten/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

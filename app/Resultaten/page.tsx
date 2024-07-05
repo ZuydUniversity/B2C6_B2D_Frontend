@@ -8,7 +8,7 @@ export default function GetResultaten() {
 
   useEffect(() => {
     // Replace with your API endpoint
-    fetch('/api/resultaten')
+    fetch('/api/resultaten/')
       .then(response => response.json())
       .then((data: Resultaat[]) => setData(data))
       .catch(error => console.error('Error fetching data:', error));
