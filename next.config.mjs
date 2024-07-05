@@ -12,10 +12,15 @@ if (!process.env.BACKEND_BASE_URL) {
     console.log("[*] loading env vars")
 
     dotenv.config({ path: envLocalPath });
+
+    console.log(`[*] BACKEND_BASE_URL: ${process.env.BACKEND_BASE_URL}`)
 }
 
 const nextConfig = {
-    output: 'standalone'  /* build executable next.js webserver (instead of only static files) */
+    output: 'standalone',  /* build executable next.js webserver (instead of only static files) */
+    env: {
+        BACKEND_BASE_URL: process.env.BACKEND_BASE_URL
+    }
 };
 
 
