@@ -53,7 +53,7 @@ export async function fetchZorgverleners(): Promise<Zorgverlener[]> {
     }
     const zorgverleners = await response.json();
     console.log(zorgverleners)
-    revalidatePath("/zorgverleners");
+    //revalidatePath("/zorgverleners");
     return zorgverleners;
   } catch (error) {
     console.error("Error fetching zorgverleners:", error);
