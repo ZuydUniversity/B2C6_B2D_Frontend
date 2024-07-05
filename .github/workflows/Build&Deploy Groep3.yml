@@ -82,7 +82,7 @@ jobs:
             sudo reboot &
 
       - name: Wait for server to reboot
-        run: sleep 20
+        run: sleep 60  # Increase wait time as necessary
 
   deploy:
     runs-on: ubuntu-latest
