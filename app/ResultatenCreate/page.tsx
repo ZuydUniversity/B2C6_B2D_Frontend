@@ -53,6 +53,7 @@ export default function CreateResultaatPage() {
 
             <form onSubmit={handleSubmit}>
                 <div>
+                    Name:
                     <label>
                         <input
                             type="text"
@@ -63,6 +64,7 @@ export default function CreateResultaatPage() {
                     </label>
                 </div>
                 <div>
+                    Date:
                     <label>
                         <input
                             type="text"
