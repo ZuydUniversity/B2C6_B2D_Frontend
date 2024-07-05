@@ -5,13 +5,13 @@ const DashboardPage = async () => {
   return (
     <>
       <div className={styles.headerDashboard}>
-        <h1 className={styles.textHeader}>Dashboard (Hallo IAS)</h1>
+        <h1 className={styles.textHeader}>Dashboard &quot;{process.env.NEXT_PUBLIC_BACKEND_BASE_URL}&quot;</h1>
       </div>
       <img className={styles.logo} src="/Logo_JDB_2.png" alt="Logo" />
 
       <div className={styles.dashboardMenu}>
         <DashBoardButton imageURL="/icon_calender.png" url="/kalender" buttonText="Kalender"/>
-        <DashBoardButton imageURL="/icon_document.png" url="/resultaten" buttonText="Resultaten"/>
+        <DashBoardButton imageURL="/icon_document.png" url="/Resultaten" buttonText="Resultaten"/>
         <DashBoardButton imageURL="/icon_patienten.png" url="/patiëntenoverzicht" buttonText="Patiëntenoverzicht"/>
         <DashBoardButton imageURL="/icon_artsen.png" url="/zorgverleners" buttonText="Zorgverlenersoverzicht"/>
         <DashBoardButton imageURL="/icon_plus.png" url="/afspraak" buttonText="Afspraak toevoegen"/>
