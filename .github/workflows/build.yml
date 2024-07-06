@@ -2,6 +2,13 @@ name: build
 
 on:
   workflow_call:
+    secrets:
+      GROEP_2_DOCKERHUB_USERNAME:
+        required: true
+      GROEP_2_DOCKERHUB_TOKEN:
+        required: true
+      GROEP_2_DOCKERHUB_FRONTEND_REPO_NAME:
+        required: true
 
 jobs:
   create_docker_image:
@@ -16,15 +23,15 @@ jobs:
           id: meta
           with:
             images: |
-              ${{GROEP_2_DOCKERHUB_USERNAME}}/${{GROEP_2_DOCKERHUB_FRONTEND_REPO_NAME}}
+              ${{secrets.GROEP_2_DOCKERHUB_USERNAME}}/${{secrets.GROEP_2_DOCKERHUB_FRONTEND_REPO_NAME}}
             tags: |
               type=semver,pattern={{version}}
 
         - name: Docker Login
           uses: docker/login-action@v3
           with:
-            username: ${{GROEP_2_DOCKERHUB_USERNAME}}
-            password: ${{GROEP_2_DOCKERHUB_TOKEN}}
+            username: ${{secrets.GROEP_2_DOCKERHUB_USERNAME}}
+            password: ${{secrets.GROEP_2_DOCKERHUB_TOKEN}}
     
         - name: Build And Push
           uses: docker/build-push-action@v5
