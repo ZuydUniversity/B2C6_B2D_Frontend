@@ -1,8 +1,7 @@
 name: deploy
 
 on:
-  push:
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   run_docker_via_ssh:
