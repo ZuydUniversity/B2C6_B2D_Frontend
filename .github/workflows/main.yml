@@ -2,6 +2,8 @@ name: main
 
 on:
   push:
+    tags:
+      - 'v*'
 
 jobs:
   #testing:
@@ -14,6 +16,8 @@ jobs:
       GROEP_2_DOCKERHUB_USERNAME: ${{ secrets.GROEP_2_DOCKERHUB_USERNAME }}
       GROEP_2_DOCKERHUB_TOKEN: ${{ secrets.GROEP_2_DOCKERHUB_TOKEN }}
       GROEP_2_DOCKERHUB_FRONTEND_REPO_NAME: ${{secrets.GROEP_2_DOCKERHUB_FRONTEND_REPO_NAME}}
+    with:
+      version: ${{version}}
 
   deploy:
     needs: build
