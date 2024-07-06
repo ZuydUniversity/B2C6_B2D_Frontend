@@ -5,6 +5,7 @@ on:
 
 env:
   GROEP_2_DOCKERHUB_USERNAME: ${{ secrets.GROEP_2_DOCKERHUB_USERNAME }}
+  GROEP_2_DOCKERHUB_TOKEN: ${{ secrets.GROEP_2_DOCKERHUB_TOKEN }}
 
 jobs:
   create_docker_image:
@@ -27,7 +28,7 @@ jobs:
           uses: docker/login-action@v3
           with:
             username: $GROEP_2_DOCKERHUB_USERNAME
-            password: 123
+            password: $GROEP_2_DOCKERHUB_TOKEN
     
         - name: Build And Push
           uses: docker/build-push-action@v5
