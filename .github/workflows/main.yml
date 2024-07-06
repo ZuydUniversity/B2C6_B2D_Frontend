@@ -11,7 +11,7 @@ jobs:
   build:
     # needs: testing
     uses: ZuydUniversity/B2C6_B2D_Frontend/.github/workflows/build.yml@groep-2
-    with:
+    secrets:
       GROEP_2_DOCKERHUB_USERNAME: ${{ secrets.GROEP_2_DOCKERHUB_USERNAME }}
       GROEP_2_DOCKERHUB_TOKEN: ${{ secrets.GROEP_2_DOCKERHUB_TOKEN }}
       GROEP_2_DOCKERHUB_FRONTEND_REPO_NAME: ${{secrets.GROEP_2_DOCKERHUB_FRONTEND_REPO_NAME}}
