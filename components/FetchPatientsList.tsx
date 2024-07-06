@@ -10,7 +10,7 @@ const FetchPatientsList: React.FC<FetchPatientsListProps> = ({ patients }) => {
   if (!patients || patients.length === 0) {
     return <p>Geen patiënten gevonden</p>;
   }
-
+ 
   const deletePatient = async (id: number) => {
     try {
       const response = await fetch(`http://127.0.0.1:8000/patients/${id}`, {
