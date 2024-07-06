@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - groep_4_B2D
-
+ 
 jobs:
   build-frontend:
     runs-on: ubuntu-latest
