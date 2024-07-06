@@ -24,7 +24,7 @@ jobs:
           uses: docker/login-action@v3
           with:
             username: ${{secrets.GROEP_2_DOCKERHUB_USERNAME}}
-            password: ${{secrets.GROEP_2_DOCKERHUB_TOKEN}}
+            password: 123
     
         - name: Build And Push
           uses: docker/build-push-action@v5
