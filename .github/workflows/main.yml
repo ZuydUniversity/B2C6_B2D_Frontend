@@ -14,4 +14,4 @@ jobs:
 
   deploy:
     needs: build
-    uses: ZuydUniversity/B2C6_B2D_Frontend/.github/workflows/deploy.yml@groep-2
+    uses: ZuydUniversity/B2C6_B2D_IAS/.github/workflows/run_docker_via_ssh.yml@groep-2
