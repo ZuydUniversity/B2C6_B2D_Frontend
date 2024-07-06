@@ -16,7 +16,7 @@ jobs:
           id: meta
           with:
             images: |
-              ${{secrets.GROEP_2_DOCKERHUB_USERNAME}}/${{secrets.GROEP_2_DOCKERHUB_REPO_NAME}}
+              ${{secrets.GROEP_2_DOCKERHUB_USERNAME}}/${{secrets.GROEP_2_DOCKERHUB_FRONTEND_REPO_NAME}}
             tags: |
               type=semver,pattern={{version}}
 
