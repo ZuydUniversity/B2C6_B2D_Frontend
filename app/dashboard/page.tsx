@@ -5,7 +5,7 @@ const DashboardPage = async () => {
   return (
     <>
       <div className={styles.headerDashboard}>
-        <h1 className={styles.textHeader}>Dashboard 456</h1>
+        <h1 className={styles.textHeader}>Dashboard 789</h1>
       </div>
       <img className={styles.logo} src="/Logo_JDB_2.png" alt="Logo" />
 
