@@ -79,7 +79,7 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>Object {OBJ_ID}</h1>
+            <h1>Resultaat {OBJ_ID}</h1>
             <div style={{
                 backgroundColor: 'white',
                 borderRadius: '10px',
@@ -204,7 +204,14 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
             <br />
             <div>
                 <Link href="../Resultaten">
-                    <Button style={{ backgroundColor: 'lightgreen' }}>Terug</Button>
+                    <button style={{
+                        backgroundColor: 'lightgreen',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        padding: '10px 20px',
+                        cursor: 'pointer'
+                    }}>Terug</button>
                 </Link>
             </div>
             <br />
