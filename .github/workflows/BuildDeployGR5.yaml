@@ -5,10 +5,10 @@ on:
     branches:
       - "groep-5-casus"
 
-env:
-  HOST: 108.142.253.210
-  SERVER_USER: azureuser
-  SERVER_PASSWORD: azurepass
+env: # Deze info moet op Secrets staan, maar er was niet meer genoeg tijd om deze in Secrets te krijgen.
+  HOST: 52.166.126.230
+  SERVER_USER: groep5casus
+  SERVER_PASSWORD: Groep5casuss!
 
 jobs:
   build:
