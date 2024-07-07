@@ -1,4 +1,4 @@
-name: Build and Deploy NEXT.js App
+name: Build Deploy Groep5
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - "groep-5-casus"
 
 env:
-  HOST: 51.144.151.174
+  HOST: 108.142.253.210
   SERVER_USER: azureuser
   SERVER_PASSWORD: azurepass
 
@@ -103,4 +103,25 @@ jobs:
           password: ${{env.SERVER_PASSWORD}} 
           script: |
             ( cd FrontEnd ; nohup sudo npm run start -- -p 80 >frontend.log 2>&1 </dev/null & )
+
+
+      - name: Slack message on success
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbqj9Ii13d6hx5a9kyLnC5A8A96LDSaSZv_w&s
+          SLACK_USERNAME: Github (Frontend)
+          SLACK_WEBHOOK: ${{ secrets.GROEP_5_SLACK_WEBHOOK }}
+          SLACK_MESSAGE: "Job completed with status: ${{ job.status }}"
+          
+      - name: Slack message on failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbqj9Ii13d6hx5a9kyLnC5A8A96LDSaSZv_w&s
+          SLACK_USERNAME: Github (Frontend)
+          SLACK_WEBHOOK: ${{ secrets.GROEP_5_SLACK_WEBHOOK }}
+          SLACK_MESSAGE: "Job completed with status: ${{ job.status }}"
             
