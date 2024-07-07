@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from 'react';
 import { Resultaat } from '../models/Resultaat';
@@ -59,17 +59,29 @@ export default function GetResultaten() {
                     }}>
                         {Object.entries(item).map(([key, value], i) => (
                             <div key={i} style={{ marginBottom: '10px' }}>
-                                <strong>{key}:</strong> <a href={`/Resultaten/${item['id']}`} style={{ textDecoration: 'none', color: 'black' }}>{renderCellValue(value)}</a>
+                                <strong>{key}:</strong> {renderCellValue(value)}
                             </div>
                         ))}
-                        <button onClick={() => handleDelete(item.id)} style={{
-                            backgroundColor: 'red',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '5px',
-                            padding: '10px 20px',
-                            cursor: 'pointer'
-                        }}>Delete</button>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <a href={`/Resultaten/${item['id']}`}>
+                                <button style={{
+                                    backgroundColor: 'blue',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '5px',
+                                    padding: '10px 20px',
+                                    cursor: 'pointer'
+                                }}>View</button>
+                            </a>
+                            <button onClick={() => handleDelete(item.id)} style={{
+                                backgroundColor: 'red',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '5px',
+                                padding: '10px 20px',
+                                cursor: 'pointer'
+                            }}>Delete</button>
+                        </div>
                     </div>
                 ))}
             </div>

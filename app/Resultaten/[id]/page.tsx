@@ -108,34 +108,39 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
                 <>
                     <h2>Spiersterkte</h2>
                     <div style={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        gap: '20px'
+                        backgroundColor: 'white',
+                        borderRadius: '10px',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                        padding: '20px',
+                        marginBottom: '20px'
                     }}>
-                        {spiersterkte.map((spier, index) => (
-                            <div key={index} style={{
-                                backgroundColor: 'white',
-                                borderRadius: '10px',
-                                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                                padding: '20px',
-                                width: '300px',
-                                boxSizing: 'border-box'
-                            }}>
-                                {Object.entries(spier).map(([key, value], i) => (
-                                    <div key={i} style={{ marginBottom: '10px' }}>
-                                        <strong>{key}:</strong> {typeof value === 'object' ? JSON.stringify(value) : value}
-                                    </div>
+                        <table border={1}>
+                            <thead>
+                                <tr>
+                                    <th>Spiernaam</th>
+                                    <th>Spiermyometrie</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {spiersterkte.map((spier, index) => (
+                                    <tr key={index}>
+                                        <td>{spier.spiernaam}</td>
+                                        <td>{spier.spiermyometrie}</td>
+                                        <td>
+                                            <button onClick={() => handleDeleteClick(spier.id)} style={{
+                                                backgroundColor: 'red',
+                                                color: 'white',
+                                                border: 'none',
+                                                borderRadius: '5px',
+                                                padding: '10px 20px',
+                                                cursor: 'pointer'
+                                            }}>Delete</button>
+                                        </td>
+                                    </tr>
                                 ))}
-                                <button onClick={() => handleDeleteClick(spier.id)} style={{
-                                    backgroundColor: 'red',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '5px',
-                                    padding: '10px 20px',
-                                    cursor: 'pointer'
-                                }}>Delete</button>
-                            </div>
-                        ))}
+                            </tbody>
+                        </table>
                     </div>
                 </>
             )}

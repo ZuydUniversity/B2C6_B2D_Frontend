@@ -1,7 +1,7 @@
 'use client';
 import React, { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Button, Textarea } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 
 export default function CreateSpiersterktePage() {
     const spiernaamRef = useRef<HTMLInputElement>(null);
@@ -123,7 +123,20 @@ export default function CreateSpiersterktePage() {
                     </label>
                 </div>
                 <div>
-                    <Button type="submit" style={{ backgroundColor: 'lightgreen' }} >
+                    <Button type="submit" css={{
+                        backgroundColor: 'lightgreen',
+                        color: 'white',
+                        borderRadius: '5px',
+                        padding: '10px 20px',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        cursor: 'pointer',
+                        transition: 'background-color 0.3s ease',
+                        '&:hover': {
+                            backgroundColor: '#32CD32',
+                        },
+                    }}>
                         Spiersterkte aanmaken
                     </Button>
                 </div>
@@ -131,11 +144,25 @@ export default function CreateSpiersterktePage() {
             <br />
             <div>
                 <Link href="../Resultaten">
-                    <Button style={{ backgroundColor: 'lightgreen' }}>Terug</Button>
+                    <Button css={{
+                        backgroundColor: 'lightgreen',
+                        color: 'white',
+                        borderRadius: '5px',
+                        padding: '10px 20px',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        cursor: 'pointer',
+                        transition: 'background-color 0.3s ease',
+                        '&:hover': {
+                            backgroundColor: '#32CD32',
+                        },
+                    }}>
+                        Terug
+                    </Button>
                 </Link>
             </div>
             <br />
         </div>
     );
 }
-
