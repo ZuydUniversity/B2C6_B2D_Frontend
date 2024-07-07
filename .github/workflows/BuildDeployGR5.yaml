@@ -40,9 +40,20 @@ jobs:
           name: FrontEnd
           path: FrontEnd
 
-  deploy:
+  start-vm:
     runs-on: ubuntu-latest
     needs: build
+    steps:
+      - name: Start Azure VM
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_GROEP5_CREDENTIALS }}
+      - run: |
+          az vm start --name Groep5B2D --resource-group B2C6D --no-wait
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: start-vm
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v4
