@@ -7,8 +7,8 @@ on:
 
 env: # Deze info moet op Secrets staan, maar er was niet meer genoeg tijd om deze in Secrets te krijgen.
   HOST: 52.166.126.230
-  SERVER_USER: Groep5B2D
-  SERVER_PASSWORD: Groep5casuss!
+  SERVER_USER: groep5casus
+  SERVER_PASSWORD: groep5casuss!
 
 jobs:
   build:
