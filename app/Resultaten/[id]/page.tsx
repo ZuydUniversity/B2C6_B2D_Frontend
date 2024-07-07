@@ -56,6 +56,23 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
         });
     };
 
+    const handleDeleteClick = (id: number) => {
+        fetch(`/api/spiersterkte/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    setSpiersterkte(spiersterkte.filter(spier => spier.id !== id));
+                } else {
+                    console.error('Failed to delete spiersterkte:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Error deleting spiersterkte:', error));
+    };
+
     // Wait for fetch to be completed
     if (resultaat === undefined) return <p>Loading...</p>;
 
@@ -95,6 +112,9 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
                                     {Object.values(spier).map((value, i) => (
                                         <td key={i}>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
                                     ))}
+                                    <td>
+                                        <button onClick={() => handleDeleteClick(spier.id)}>Delete</button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
