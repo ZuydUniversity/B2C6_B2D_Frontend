@@ -21,7 +21,7 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
             });
 
         // Fetch Spiersterkte data
-        fetch(`/api/spiersterkte?resultaatid=${OBJ_ID}`)
+        fetch(`/api/spiersterkte/?resultaatid=${OBJ_ID}`)
             .then(response => response.json())
             .then((data: Spiersterkte[]) => {
                 setSpiersterkte(data);
