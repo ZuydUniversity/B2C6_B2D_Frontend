@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Resultaat } from '../models/Resultaat'; // Adjust the path as per your actual file structure
-
+import { Button } from '@nextui-org/react';
 
 export default function UpdateResultaatPage() {
     const [resultaat, setResultaat] = useState<Resultaat>();
@@ -56,45 +56,85 @@ export default function UpdateResultaatPage() {
     };
 
     return (
-        <div>
+        <div style={{ padding: '20px' }}>
             <h2>Update Resultaat</h2>
-            <form onSubmit={handleFetch}>
-                <div>
+            <form onSubmit={handleFetch} style={{ marginBottom: '20px' }}>
+                <div style={{
+                    backgroundColor: 'white',
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    padding: '20px',
+                    marginBottom: '20px'
+                }}>
                     <label>
                         ID:
                         <input
                             type="text"
                             value={id}
                             onChange={(e) => setId(e.target.value)}
+                            style={{
+                                width: '100%',
+                                padding: '10px',
+                                borderRadius: '5px',
+                                border: '1px solid #ccc'
+                            }}
                         />
                     </label>
-                    <button type="submit" disabled={loading}>Fetch</button>
+                    <Button type="submit" disabled={loading} style={{ marginTop: '10px', backgroundColor: 'lightgreen' }}>
+                        Fetch
+                    </Button>
                 </div>
             </form>
 
             {resultaat && (
                 <form onSubmit={handleSubmit}>
-                    <div>
+                    <div style={{
+                        backgroundColor: 'white',
+                        borderRadius: '10px',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                        padding: '20px',
+                        marginBottom: '20px'
+                    }}>
                         <label>
                             Name:
                             <input
                                 type="text"
                                 value={resultaat.name || ''}
                                 onChange={(e) => setResultaat({ ...resultaat, name: e.target.value })}
+                                style={{
+                                    width: '100%',
+                                    padding: '10px',
+                                    borderRadius: '5px',
+                                    border: '1px solid #ccc'
+                                }}
                             />
                         </label>
                     </div>
-                    <div>
+                    <div style={{
+                        backgroundColor: 'white',
+                        borderRadius: '10px',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                        padding: '20px',
+                        marginBottom: '20px'
+                    }}>
                         <label>
                             Description:
                             <input
                                 type="text"
                                 value={resultaat.discription || ''}
                                 onChange={(e) => setResultaat({ ...resultaat, discription: e.target.value })}
+                                style={{
+                                    width: '100%',
+                                    padding: '10px',
+                                    borderRadius: '5px',
+                                    border: '1px solid #ccc'
+                                }}
                             />
                         </label>
                     </div>
-                    <button type="submit" disabled={loading}>Update</button>
+                    <Button type="submit" disabled={loading} style={{ backgroundColor: 'lightgreen' }}>
+                        Update
+                    </Button>
                 </form>
             )}
 
@@ -103,4 +143,3 @@ export default function UpdateResultaatPage() {
         </div>
     );
 };
-

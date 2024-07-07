@@ -78,53 +78,84 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
     if (resultaat === undefined) return <p>Loading...</p>;
 
     return (
-        <div>
+        <div style={{ padding: '20px' }}>
             <h1>Object {OBJ_ID}</h1>
-            <table border={1}>
-                <thead>
-                    <tr>
-                        {Object.keys(resultaat).map((key) => (
-                            <th key={key}>{key}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr key={`${OBJ_ID}`}>
-                        {Object.values(resultaat).map((value, i) => (
-                            <td key={i}>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
-                        ))}
-                    </tr>
-                </tbody>
-            </table>
+            <div style={{
+                backgroundColor: 'white',
+                borderRadius: '10px',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                padding: '20px',
+                marginBottom: '20px'
+            }}>
+                <table border={1}>
+                    <thead>
+                        <tr>
+                            {Object.keys(resultaat).map((key) => (
+                                <th key={key}>{key}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr key={`${OBJ_ID}`}>
+                            {Object.values(resultaat).map((value, i) => (
+                                <td key={i}>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
+                            ))}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             {spiersterkte.length > 0 && (
                 <>
                     <h2>Spiersterkte</h2>
-                    <table border={1}>
-                        <thead>
-                            <tr>
-                                {Object.keys(spiersterkte[0]).map((key) => (
-                                    <th key={key}>{key}</th>
+                    <div style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: '20px'
+                    }}>
+                        {spiersterkte.map((spier, index) => (
+                            <div key={index} style={{
+                                backgroundColor: 'white',
+                                borderRadius: '10px',
+                                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                                padding: '20px',
+                                width: '300px',
+                                boxSizing: 'border-box'
+                            }}>
+                                {Object.entries(spier).map(([key, value], i) => (
+                                    <div key={i} style={{ marginBottom: '10px' }}>
+                                        <strong>{key}:</strong> {typeof value === 'object' ? JSON.stringify(value) : value}
+                                    </div>
                                 ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {spiersterkte.map((spier, index) => (
-                                <tr key={index}>
-                                    {Object.values(spier).map((value, i) => (
-                                        <td key={i}>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
-                                    ))}
-                                    <td>
-                                        <button onClick={() => handleDeleteClick(spier.id)}>Delete</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                                <button onClick={() => handleDeleteClick(spier.id)} style={{
+                                    backgroundColor: 'red',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '5px',
+                                    padding: '10px 20px',
+                                    cursor: 'pointer'
+                                }}>Delete</button>
+                            </div>
+                        ))}
+                    </div>
                 </>
             )}
-            <button onClick={handleUpdateClick}>Update</button>
+            <button onClick={handleUpdateClick} style={{
+                backgroundColor: 'lightblue',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                padding: '10px 20px',
+                cursor: 'pointer',
+                margin: '20px 0'
+            }}>Update</button>
             {isUpdating && (
-                <div>
+                <div style={{
+                    backgroundColor: 'white',
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    padding: '20px',
+                    marginBottom: '20px'
+                }}>
                     <h2>Update Object</h2>
                     <table border={1}>
                         <tbody>
@@ -142,12 +173,27 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
                             ))}
                         </tbody>
                     </table>
-                    <button onClick={handleSaveClick}>Save</button>
+                    <button onClick={handleSaveClick} style={{
+                        backgroundColor: 'green',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        padding: '10px 20px',
+                        cursor: 'pointer',
+                        marginTop: '10px'
+                    }}>Save</button>
                 </div>
             )}
             <div>
                 <Link href={`/spiersterkteCreate?id=${OBJ_ID}`}>
-                    <button>Voeg Spiersterkte toe</button>
+                    <button style={{
+                        backgroundColor: 'lightblue',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        padding: '10px 20px',
+                        cursor: 'pointer'
+                    }}>Voeg Spiersterkte toe</button>
                 </Link>
             </div>
             <br />

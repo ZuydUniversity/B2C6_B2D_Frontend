@@ -4,19 +4,19 @@ import { useEffect, useState } from 'react';
 import { Resultaat } from '../models/Resultaat';
 
 export default function GetResultaten() {
-  const [data, setData] = useState<Resultaat[]>([]);
+    const [data, setData] = useState<Resultaat[]>([]);
 
-  function fetchData() {
-    // Replace with your API endpoint
-    fetch('/api/resultaten/')
-      .then(response => response.json())
-      .then((data: Resultaat[]) => setData(data))
-      .catch(error => console.error('Error fetching data:', error));
-  }
+    function fetchData() {
+        // Replace with your API endpoint
+        fetch('/api/resultaten/')
+            .then(response => response.json())
+            .then((data: Resultaat[]) => setData(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const renderCellValue = (value: any) => {
         if (typeof value === 'object' && value !== null) {
@@ -40,41 +40,39 @@ export default function GetResultaten() {
     };
 
     return (
-        <div>
+        <div style={{ padding: '20px' }}>
             <h1>Data Table</h1>
             <div>
                 <a href="/ResultatenCreate">
-                    <button style={{ backgroundColor: 'lightgreen' }}>Resultaat aanmaken</button>
+                    <button style={{ backgroundColor: 'lightgreen', marginBottom: '20px' }}>Resultaat aanmaken</button>
                 </a>
             </div>
-            <table border={1}>
-                <thead>
-                    <tr>
-                        {data.length > 0 && Object.keys(data[0]).map((key) => (
-                            <th key={key}>{key}</th>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+                {data.map((item, index) => (
+                    <div key={index} style={{
+                        backgroundColor: 'white',
+                        borderRadius: '10px',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                        padding: '20px',
+                        width: '300px',
+                        boxSizing: 'border-box'
+                    }}>
+                        {Object.entries(item).map(([key, value], i) => (
+                            <div key={i} style={{ marginBottom: '10px' }}>
+                                <strong>{key}:</strong> <a href={`/Resultaten/${item['id']}`} style={{ textDecoration: 'none', color: 'black' }}>{renderCellValue(value)}</a>
+                            </div>
                         ))}
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((item, index) => (
-                        <tr key={index}>
-                            {Object.entries(item).map(([key, value], i) => (
-                                <td key={i}>
-                                    <a href={`/Resultaten/${item['id']}`}>
-                                        {renderCellValue(value)}
-                                    </a>
-                                </td>
-                            ))}
-                            <td>
-                                <button onClick={() => handleDelete(item.id)}>Delete</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                        <button onClick={() => handleDelete(item.id)} style={{
+                            backgroundColor: 'red',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '5px',
+                            padding: '10px 20px',
+                            cursor: 'pointer'
+                        }}>Delete</button>
+                    </div>
+                ))}
+            </div>
         </div>
-
-
     );
 }

@@ -51,54 +51,83 @@ export default function CreateSpiersterktePage() {
     };
 
     return (
-        <div>
+        <div style={{ padding: '20px' }}>
             <div>
                 <h1>Create Spiersterkte Page</h1>
             </div>
             <form onSubmit={handleSubmit}>
-                <div>
-                    Spiernaam:
+                <div style={{
+                    backgroundColor: 'white',
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    padding: '20px',
+                    marginBottom: '20px'
+                }}>
                     <label>
+                        Spiernaam:
                         <input
                             type="text"
                             ref={spiernaamRef}
                             required
-                            className="max-w-xs"
+                            style={{
+                                width: '100%',
+                                padding: '10px',
+                                borderRadius: '5px',
+                                border: '1px solid #ccc'
+                            }}
                         />
                     </label>
                 </div>
-                <div>
-                    Spiermyometrie:
+                <div style={{
+                    backgroundColor: 'white',
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    padding: '20px',
+                    marginBottom: '20px'
+                }}>
                     <label>
+                        Spiermyometrie:
                         <input
                             type="text"
                             ref={spiermyometrieRef}
                             required
-                            className="max-w-xs"
+                            style={{
+                                width: '100%',
+                                padding: '10px',
+                                borderRadius: '5px',
+                                border: '1px solid #ccc'
+                            }}
                         />
                     </label>
                 </div>
-                <div>
-                    Resultaat ID:
+                <div style={{
+                    backgroundColor: 'white',
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    padding: '20px',
+                    marginBottom: '20px'
+                }}>
                     <label>
+                        Resultaat ID:
                         <input
                             type="number"
                             value={resultaatId || ''}
                             readOnly
-                            className="max-w-xs"
+                            style={{
+                                width: '100%',
+                                padding: '10px',
+                                borderRadius: '5px',
+                                border: '1px solid #ccc'
+                            }}
                         />
                     </label>
                 </div>
-
                 <div>
-                    <br />
                     <Button type="submit" style={{ backgroundColor: 'lightgreen' }} >
                         Spiersterkte aanmaken
                     </Button>
                 </div>
             </form>
-
-            <br />
             <br />
             <div>
                 <Link href="../Resultaten">
@@ -109,3 +138,4 @@ export default function CreateSpiersterktePage() {
         </div>
     );
 }
+
