@@ -7,7 +7,7 @@ import { Spiersterkte } from '../../models/Spiersterkte';
 
 export default function GetResultaatById({ params }: { params: { id: BigInteger } }) {
     const [resultaat, setResultaatData] = useState<Resultaat | undefined>(undefined);
-    const [spiersterkte, setSpiersterkte] = useState<Spiersterkte | undefined>(undefined);
+    const [spiersterkte, setSpiersterkte] = useState<Spiersterkte[]>([]);
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateData, setUpdateData] = useState<Partial<Resultaat>>({});
     const OBJ_ID = params["id"];
@@ -18,6 +18,13 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
             .then(response => response.json())
             .then((data: Resultaat) => {
                 setResultaatData(data);
+            });
+
+        // Fetch Spiersterkte data
+        fetch(`/api/spiersterkte?resultaatid=${OBJ_ID}`)
+            .then(response => response.json())
+            .then((data: Spiersterkte[]) => {
+                setSpiersterkte(data);
             });
     }, [OBJ_ID]);
 
@@ -71,23 +78,25 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
                     </tr>
                 </tbody>
             </table>
-            {spiersterkte && (
+            {spiersterkte.length > 0 && (
                 <>
                     <h2>Spiersterkte</h2>
                     <table border={1}>
                         <thead>
                             <tr>
-                                {Object.keys(spiersterkte).map((key) => (
+                                {Object.keys(spiersterkte[0]).map((key) => (
                                     <th key={key}>{key}</th>
                                 ))}
                             </tr>
                         </thead>
                         <tbody>
-                            <tr key={spiersterkte.id}>
-                                {Object.values(spiersterkte).map((value, i) => (
-                                    <td key={i}>{value}</td>
-                                ))}
-                            </tr>
+                            {spiersterkte.map((spier, index) => (
+                                <tr key={index}>
+                                    {Object.values(spier).map((value, i) => (
+                                        <td key={i}>{typeof value === 'object' ? JSON.stringify(value) : value}</td>
+                                    ))}
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </>
@@ -116,7 +125,7 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
                 </div>
             )}
             <div>
-                <Link href={`/AddSpiersterkte?id=${OBJ_ID}`}>
+                <Link href={`/spiersterkteCreate?id=${OBJ_ID}`}>
                     <button>Voeg Spiersterkte toe</button>
                 </Link>
             </div>
