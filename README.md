@@ -23,7 +23,7 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 #### Screenshots
 
-![Account Pagina]([http://url/to/img.png](https://i.imgur.com/C4H5EIg.png))
+![Account Pagina](https://i.imgur.com/C4H5EIg.png)
 
 
 #### Extra info
