@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Spiersterkte } from '../../models/Spiersterkte';
+import { Spiersterkte } from '../models/Spiersterkte';
 
 export default function AddSpiersterkte() {
     const router = useRouter();
