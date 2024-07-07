@@ -23,7 +23,7 @@ export default function CreateSpiersterktePage() {
         const spiermyometrieValue = spiermyometrieRef.current!.value;
 
         try {
-            const response = await fetch('/api/spiersterkten', {
+            const response = await fetch('/api/spiersterkten/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
