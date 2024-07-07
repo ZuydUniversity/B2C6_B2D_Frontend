@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Resultaat } from '../../models/Resultaat';
 import { Spiersterkte } from '../../models/Spiersterkte';
+import { Button } from '@nextui-org/react';
 
 export default function GetResultaatById({ params }: { params: { id: BigInteger } }) {
     const [resultaat, setResultaatData] = useState<Resultaat | undefined>(undefined);
@@ -149,6 +150,13 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
                     <button>Voeg Spiersterkte toe</button>
                 </Link>
             </div>
+            <br />
+            <div>
+                <Link href="../Resultaten">
+                    <Button style={{ backgroundColor: 'lightgreen' }}>Terug</Button>
+                </Link>
+            </div>
+            <br />
         </div>
     );
 }
