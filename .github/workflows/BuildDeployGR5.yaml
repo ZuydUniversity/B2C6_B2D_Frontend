@@ -49,7 +49,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_GROEP5_CREDENTIALS }}
       - run: |
-          az vm start --name Groep5B2D --resource-group B2C6D --no-wait
+          az vm restart --name Groep5B2D --resource-group B2C6D
 
   deploy:
     runs-on: ubuntu-latest
@@ -91,20 +91,6 @@ jobs:
           host: ${{env.HOST}}
           username: ${{env.SERVER_USER}}
           password: ${{env.SERVER_PASSWORD}}
-
-      - name: Install dependenties for the VM
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{env.HOST}}
-          username: ${{env.SERVER_USER}}
-          password: ${{env.SERVER_PASSWORD}}
-          script: |
-            sudo apt update
-            sudo apt install curl -y
-            curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - 
-            sudo apt-get install -y nodejs
-            cd FrontEnd
-            sudo npm install
   
       - name: Restart FrontEnd
         uses: appleboy/ssh-action@v1.0.3
