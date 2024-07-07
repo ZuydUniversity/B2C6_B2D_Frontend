@@ -11,14 +11,14 @@ async function fetchNotes(): Promise<Note[]> {
 
         const queryParams = new URLSearchParams(window.location.search);
         const noteId = queryParams.get('id');
-        const lastName = queryParams.get('lastname');
+        const name = queryParams.get('name');
 
         const url = `http://127.0.0.1:8000/notes`;
         if (noteId) {
             const url = `http://127.0.0.1:8000/notes?id=${noteId}`;
         }
-        if (lastName) {
-            const url = `http://127.0.0.1:8000/notes?lastname=${lastName}`;
+        if (name) {
+            const url = `http://127.0.0.1:8000/notes?name=${name}`;
         }
         
         const response = await fetch(url, {

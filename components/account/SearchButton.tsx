@@ -20,9 +20,9 @@ const SearchButton: React.FC = () => {
         window.location.href = currentUrl;
     };
 
-    const handleButtonClickLastName = () => {
+    const handleButtonClickName = () => {
         const queryParams = new URLSearchParams();
-        queryParams.append('lastname', inputValue);
+        queryParams.append('name', inputValue);
 
         // Get current URL and append query params
         let currentUrl = window.location.href.split('?')[0];
@@ -38,12 +38,12 @@ const SearchButton: React.FC = () => {
                 type="text"
                 value={inputValue}
                 onChange={handleInputChange}
-                placeholder="Voer ID of Achternaam in"
+                placeholder="Voer ID of naam in"
             />
             <br />
             <button onClick={handleButtonClick}>Zoek op ID</button>
             <br />
-            <button onClick={handleButtonClickLastName}>Zoek op achternaam</button>
+            <button onClick={handleButtonClickName}>Zoek op naam</button>
             <br /><br />
         </div>
 
