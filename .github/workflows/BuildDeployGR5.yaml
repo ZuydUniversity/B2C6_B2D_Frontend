@@ -1,4 +1,4 @@
-name: Build Deploy Groep5
+name: Build Deploy Groep 5
 
 on:
   push:
