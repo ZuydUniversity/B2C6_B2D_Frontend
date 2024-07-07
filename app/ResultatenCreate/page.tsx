@@ -47,7 +47,7 @@ export default function CreateResultaatPage() {
     return (
         <div>
             <div>
-                <h1>Create Verslag Page</h1>
+                <h1>Create Resultaat Page</h1>
             </div>
             <form onSubmit={handleSubmit}>
                 <div>
@@ -90,9 +90,16 @@ export default function CreateResultaatPage() {
 
                 <div>
                     <br />
-                    <Button type="submit" style={{ backgroundColor: 'lightgreen' }} >
+                    <button type="submit" style={{
+                        backgroundColor: 'lightgreen',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        padding: '10px 20px',
+                        cursor: 'pointer'
+                    }}>
                         Resultaat aanmaken
-                    </Button>
+                    </button>
                 </div>
             </form>
 
@@ -100,7 +107,16 @@ export default function CreateResultaatPage() {
             <br />
             <div>
                 <Link href="../Resultaten">
-                    <Button style={{ backgroundColor: 'lightgreen' }}>Terug</Button>
+                    <button style={{
+                        backgroundColor: 'lightgreen',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        padding: '10px 20px',
+                        cursor: 'pointer'
+                    }}>
+                        Terug
+                    </button>
                 </Link>
             </div>
             <br />
