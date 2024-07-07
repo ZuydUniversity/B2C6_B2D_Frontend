@@ -91,6 +91,16 @@ jobs:
           host: ${{env.HOST}}
           username: ${{env.SERVER_USER}}
           password: ${{env.SERVER_PASSWORD}}
+
+      - name: Install dependenties for the VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{env.HOST}}
+          username: ${{env.SERVER_USER}}
+          password: ${{env.SERVER_PASSWORD}}
+          script: |
+            cd FrontEnd
+            sudo npm install
   
       - name: Restart FrontEnd
         uses: appleboy/ssh-action@v1.0.3
