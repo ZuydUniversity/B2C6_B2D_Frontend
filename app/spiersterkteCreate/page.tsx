@@ -1,19 +1,29 @@
 "use client";
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation'; // Import this to get the path
 import { Button, Textarea } from '@nextui-org/react';
 
 export default function CreateSpiersterktePage() {
     const spiernaamRef = useRef<HTMLInputElement>(null);
     const spiermyometrieRef = useRef<HTMLInputElement>(null);
-    const resultaatIdRef = useRef<HTMLInputElement>(null);
+
+    const [resultaatId, setResultaatId] = useState<number | null>(null);
+
+    // Get the path to extract the id
+    const pathname = usePathname();
+
+    useEffect(() => {
+        const pathParts = pathname.split('/');
+        const id = pathParts[pathParts.length - 1];
+        setResultaatId(parseInt(id, 10));
+    }, [pathname]);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent default form submission behavior
 
         const spiernaamValue = spiernaamRef.current!.value;
         const spiermyometrieValue = spiermyometrieRef.current!.value;
-        const resultaatIdValue = resultaatIdRef.current!.value;
 
         try {
             const response = await fetch('/api/spiersterkte', {
@@ -24,7 +34,7 @@ export default function CreateSpiersterktePage() {
                 body: JSON.stringify({
                     spiernaam: spiernaamValue,
                     spiermyometrie: spiermyometrieValue,
-                    resultaatid: parseInt(resultaatIdValue, 10),
+                    resultaatid: resultaatId,
                 }),
             });
 
@@ -76,8 +86,8 @@ export default function CreateSpiersterktePage() {
                     <label>
                         <input
                             type="number"
-                            ref={resultaatIdRef}
-                            required
+                            value={resultaatId || ''}
+                            readOnly
                             className="max-w-xs"
                         />
                     </label>
@@ -94,7 +104,7 @@ export default function CreateSpiersterktePage() {
             <br />
             <br />
             <div>
-                <Link href="../Spiersterktes">
+                <Link href="../Resultaten">
                     <Button style={{ backgroundColor: 'lightgreen' }}>Terug</Button>
                 </Link>
             </div>

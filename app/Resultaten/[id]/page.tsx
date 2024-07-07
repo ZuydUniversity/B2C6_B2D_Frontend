@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { Resultaat } from '../../models/Resultaat';
 import { Spiersterkte } from '../../models/Spiersterkte';
 
@@ -11,8 +11,6 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateData, setUpdateData] = useState<Partial<Resultaat>>({});
     const OBJ_ID = params["id"];
-
-    const router = useRouter();
 
     useEffect(() => {
         // Fetch Resultaat data
@@ -118,9 +116,9 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
                 </div>
             )}
             <div>
-                <button onClick={() => router.push(`/AddSpiersterkte?id=${OBJ_ID}`)}>
-                    Voeg Spiersterkte toe
-                </button>
+                <Link href={`/AddSpiersterkte?id=${OBJ_ID}`}>
+                    <button>Voeg Spiersterkte toe</button>
+                </Link>
             </div>
         </div>
     );
