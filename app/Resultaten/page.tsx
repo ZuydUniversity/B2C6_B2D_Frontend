@@ -42,6 +42,11 @@ export default function GetResultaten() {
     return (
         <div>
             <h1>Data Table</h1>
+            <div>
+                <a href="/ResultatenCreate">
+                    <button style={{ backgroundColor: 'lightgreen' }}>Resultaat aanmaken</button>
+                </a>
+            </div>
             <table border={1}>
                 <thead>
                     <tr>
@@ -69,5 +74,7 @@ export default function GetResultaten() {
                 </tbody>
             </table>
         </div>
+
+
     );
 }

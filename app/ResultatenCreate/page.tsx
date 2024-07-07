@@ -8,7 +8,6 @@ export default function CreateResultaatPage() {
     const dateRef = useRef<HTMLInputElement>(null);
     const discriptionRef = useRef<HTMLTextAreaElement>(null);
 
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent default form submission behavior
 
@@ -26,7 +25,7 @@ export default function CreateResultaatPage() {
                     name: nameValue,
                     date: dateValue,
                     discription: discriptionValue,
-                    //patient_id: null
+                    // patient_id: null
                 }),
             });
 
@@ -50,7 +49,6 @@ export default function CreateResultaatPage() {
             <div>
                 <h1>Create Verslag Page</h1>
             </div>
-
             <form onSubmit={handleSubmit}>
                 <div>
                     Name:
@@ -105,6 +103,7 @@ export default function CreateResultaatPage() {
                     <Button style={{ backgroundColor: 'lightgreen' }}>Terug</Button>
                 </Link>
             </div>
+            <br />
         </div>
     );
-};
+}

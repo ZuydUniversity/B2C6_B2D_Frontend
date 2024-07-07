@@ -114,6 +114,11 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
                     <button onClick={handleSaveClick}>Save</button>
                 </div>
             )}
+            <div>
+                <button onClick={() => router.push(`/AddSpiersterkte?id=${OBJ_ID}`)}>
+                    Voeg Spiersterkte toe
+                </button>
+            </div>
         </div>
     );
 }
