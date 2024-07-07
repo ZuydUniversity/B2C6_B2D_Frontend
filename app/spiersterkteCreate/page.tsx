@@ -1,16 +1,20 @@
 'use client';
-import React, { useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
+import React, { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button, Textarea } from '@nextui-org/react';
 
 export default function CreateSpiersterktePage() {
     const spiernaamRef = useRef<HTMLInputElement>(null);
     const spiermyometrieRef = useRef<HTMLInputElement>(null);
+    const [resultaatId, setResultaatId] = useState<string | undefined>();
 
-    // Get the resultaatid from URL parameters
-    const searchParams = useSearchParams();
-    const resultaatId = searchParams.get('id');
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const id = queryParams.get('id');
+        if (id) {
+            setResultaatId(id);
+        }
+    }, []);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent default form submission behavior
@@ -97,7 +101,7 @@ export default function CreateSpiersterktePage() {
             <br />
             <br />
             <div>
-                <Link href="../Spiersterktes">
+                <Link href="../Resultaten">
                     <Button style={{ backgroundColor: 'lightgreen' }}>Terug</Button>
                 </Link>
             </div>
