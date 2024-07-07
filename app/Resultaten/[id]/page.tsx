@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { Resultaat } from '../../models/Resultaat';
 import { Spiersterkte } from '../../models/Spiersterkte';
 
@@ -10,6 +11,8 @@ export default function GetResultaatById({ params }: { params: { id: BigInteger 
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateData, setUpdateData] = useState<Partial<Resultaat>>({});
     const OBJ_ID = params["id"];
+
+    const router = useRouter();
 
     useEffect(() => {
         // Fetch Resultaat data
